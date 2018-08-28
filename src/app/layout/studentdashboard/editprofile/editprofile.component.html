@@ -1,0 +1,73 @@
+<div class="innermaincontent">
+  <div class="row">
+      <div class="col-sm-12">
+          <div class="subheadding">
+                <span class="fotntwt700">
+                  Edit Profile
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="divcontent">
+      <div class="editprofile">
+        <div class="row">
+          <div class="col-sm-12">
+            <table *ngIf="changediv">
+              <tr>
+                <th>Name</th>
+                <th>Anand Samuel</th>
+              </tr>
+              <tr>
+                <th>Password</th>
+                <th>**********</th>
+                <th><a (click)="changedivfn('password')" class="btn btntwo">Change Password</a></th>
+              </tr>
+              <tr>
+                <th>Mobile Number</th>
+                <th> 9885656589 </th>
+                <th><a (click)="changedivfn('mobile')" class="btn btntwo">Edit</a></th>
+              </tr>
+            </table>
+            <div class="row padlr15">
+              <div class="col-sm-6">
+                <div class="slowfoc" [style.width.%]="fadedisplay">
+                  <div *ngIf="password">
+                    <h4><a (click)="changedivfn('password')" class="btn" style="padding:0px"><span class="glyphicon glyphicon-arrow-left"></span><span class="mediumtext"> &emsp;&emsp;Back</span></a></h4>
+                    <div class="mediumtext font16">Change Password</div><br>
+                    <form *ngIf='cpchild' class="form" (ngSubmit)="changepassword(f)" #f="ngForm">
+                      <label>Enter New Password</label>
+                      <input class="form-control" type="password" ngModel name="password"><br>
+                      <label>Re-Enter New Password</label>
+                      <input class="form-control" type="text" ngModel name="repassword"><br>
+                      <button class="btn btnone" type="Submit">Change</button>
+                    </form>
+                    <form *ngIf="otp" class="form" (ngSubmit)="validotp(f)" #f="ngForm">
+                      <label>Enter OTP</label>
+                      <input class="form-control" type="number" ngModel name="otp"><br>
+                    <button  class="btn btnone" type="submit">Submit</button>
+                    </form>
+                  </div>
+                  <div *ngIf="mobile">
+                    <h4><a (click)="changedivfn('mobile')" class="btn" style="padding:0px"><span class="glyphicon glyphicon-arrow-left"></span><span class="mediumtext"> &emsp;&emsp;Back</span></a></h4>
+                    <form *ngIf='cnchild' class="form" (ngSubmit)="changenumber(f)" #f="ngForm">
+                      <div class="mediumtext font16">Change Mobile Number</div><br>
+                      <label>Enter New mobile</label>
+                      <input class="form-control" type="number" ngModel name="number"><br>
+                      <label>Re-Enter New Password</label>
+                      <input class="form-control" type="number"ngModel  name="renumber"><br>
+                      <button class="btn btnone">Change</button>
+                    </form>
+                    <form *ngIf="otp" class="form" (ngSubmit)="validotpnum(f)" #f="ngForm">
+                      <label>Enter OTP</label>
+                      <input class="form-control" type="number" ngModel name="otp"><br>
+                    <button  class="btn btnone" type="submit">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

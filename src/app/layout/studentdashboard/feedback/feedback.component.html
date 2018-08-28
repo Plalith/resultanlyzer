@@ -1,0 +1,46 @@
+<div class="innermaincontent">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="subheadding">
+                <span class="fotntwt700">FeedBack</span>
+            </div>
+        </div>
+    </div>
+    <div class="divcontent">
+      <div class="feedback">
+        <form class="form" (ngSubmit)="feedbacksubmit(f)" #f="ngForm">
+          <table class="table">
+            <tr>
+              <th>Subject Name</th>
+              <th>Characterstic 1</th>
+              <th>Characterstic 2</th>
+              <th>Characterstic 3</th>
+              <th>Characterstic 4</th>
+              <th>Characterstic 5</th>
+              <th>Characterstic 6</th>
+            </tr>
+            <tr *ngFor="let subject of subjects">
+              <th>{{subject}}</th>
+              <td *ngFor="let char of characterstics">
+                <div class="stars">
+                  <input Class="star star-5" id="{{subject+char+'star-5'}}" type="radio" value=5 ngModel [name]="subject+char" required/>
+                  <label class="star star-5" for="{{subject+char+'star-5'}}"></label>
+                  <input class="star star-4" id="{{subject+char+'star-4'}}" type="radio" value=4 ngModel [name]="subject+char" required/>
+                  <label class="star star-4" for="{{subject+char+'star-4'}}"></label>
+                  <input class="star star-3" id="{{subject+char+'star-3'}}" type="radio" value=3 ngModel [name]="subject+char" required/>
+                  <label class="star star-3" for="{{subject+char+'star-3'}}"></label>
+                  <input class="star star-2" id="{{subject+char+'star-2'}}" type="radio" value=2 ngModel [name]="subject+char" required/>
+                  <label class="star star-2" for="{{subject+char+'star-2'}}"></label>
+                  <input class="star star-1" id="{{subject+char+'star-1'}}" type="radio" value=1 ngModel [name]="subject+char" required/>
+                  <label class="star star-1" for="{{subject+char+'star-1'}}"></label>
+                </div>
+              </td>
+            </tr>
+          </table>
+          <div class="text-center">
+              <button class="btn btnone" [disabled]="!f.valid" type="Submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>

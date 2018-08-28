@@ -1,0 +1,65 @@
+<div class="innermaincontent">
+  <div class="row">
+      <div class="col-sm-12">
+          <div class="subheadding">
+              <span class="fotntwt700">Shopping Zone</span>
+          </div>
+      </div>
+  </div>
+  <div class="divcontent">
+    <div class="shopping">
+      <div class="row">
+        <div *ngIf="itemlist">
+        <div class="col-sm-2" *ngFor="let item of shoppingitems; let i = index;">
+          <div (click)="getdiscription(i)" class="item borderdiv">
+            <img [src]="item.path" align="middle">
+            <div class="itemdetails padd10px">
+                <div class="item_titel mediumtext">
+                  {{ (item.name.length>15)? (item.name | slice:0:15)+'..':(item.name) }}
+                  </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <span *ngIf="item.price!='Free'; else Free">Rs.{{item.price}}/-</span>
+                    <ng-template #Free><span class="Free">Free</span></ng-template>
+                  </div>
+                  <div class="col-sm-6">View</div>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="col-sm-12" *ngIf="!itemlist">
+            <h4><a (click)="getdiscription('dummy')" class="btn"><span class="glyphicon glyphicon-arrow-left"></span><span class="mediumtext"> &emsp;&emsp;Back To Items</span></a></h4>
+            <div class="row discription">
+              <div class="col-sm-6">
+                  <img [src]="discription.path" align="middle">
+              </div>
+              <div class="col-sm-6">
+                <table>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>: {{discription.name}}</th>
+                  </tr>
+                  <tr>
+                    <th>Price</th>
+                    <th>
+                      :  <span *ngIf="discription.price!='Free'; else Free">Rs.{{discription.price}}/-</span>
+                      <ng-template #Free><span class="Free">Free</span></ng-template>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>Description</th>
+                    <th>: {{discription.description}}</th>
+                  </tr>
+                  <tr>
+                    <th>Contact Information</th>
+                    <th class="mediumtext">: {{discription.contact_person}} ,&nbsp;&nbsp; {{discription.mobileno}}</th>
+                  </tr>
+                </table>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

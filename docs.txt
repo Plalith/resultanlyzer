@@ -1,0 +1,3 @@
+installed packeges 
+
+npm i angular-highcharts

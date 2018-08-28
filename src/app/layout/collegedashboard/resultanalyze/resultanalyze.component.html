@@ -1,0 +1,195 @@
+<div class="innermaincontent">
+    <div class="row hidden-print">
+        <div class="col-sm-12">
+            <div class="subheadding">
+                <span class="fotntwt700">Result Analysis</span>
+            </div>
+        </div>
+    </div>
+    <div class="divcontent">
+      <div class="row hidden-print">
+        <div class="col-sm-12">
+          <div class="searchstudent">
+            <form (ngSubmit)="analyze(f)" #f="ngForm">
+              <label for="">Select Result</label>
+              <select ngModel name='id' class="form-control">
+                <option> First year Second Seminster Result May 2015</option>
+                <option> First year Second Seminster Result May 2015</option>
+                <option> First year Second Seminster Result May 2015</option>
+                <option> First year Second Seminster Result May 2015</option>
+                <option> First year Second Seminster Result May 2015</option>
+              </select><br>
+              <a class="btn btnone" (click)="analyze(f)" type="Submit">Submit</a>
+            </form>
+          </div>
+        </div>
+      </div>
+        <div class="resulttable" *ngIf="resulttable==false">
+           <div class="row padd10px">
+              <div class="col-sm-12 text-center">
+                <span class="mediumtext">First year Second Seminster Result May 2015 <br>Analysis Report</span>
+              </div>
+            </div>
+           <div class="resulttablecontent pagebreak" *ngFor="let result of resultarray">
+            <h4 class="mediumtext fotntwt900">&nbsp; Result Of {{result}}</h4>
+            <table class="table" style="font-size:11px; border: 1px solid #b1c2aa;">
+                <tr class="mediumtext">
+                    <th>Student Id</th>
+                    <th>MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</th>
+                    <th>DATA STRUCTURES</th>
+                    <th>OBJECT ORIENTED PROGRAMMING THROUGH C++</th>
+                    <th>OBJECT ORIENTED PROGRAMMING THROUGH C++</th>
+                    <th>MATHEMATICAL FOUNDATIONS OF COMLUTER SCIENCE</th>
+                    <th>OBJECT ORIENTED PROGRAMMING LAB</th>
+                    <th>OBJECT ORIENTED PROGRAMMING LAB</th>
+                    <th>Total Marks Secured</th>
+                    <th>Percentage</th>
+                </tr>
+
+                <tr>
+                    <td>13541A0503</td>
+                    <td>12</td>
+                    <td>15</td>
+                    <td>25</td>
+                    <td>53</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>50%</td>
+                </tr>
+                <tr>
+                    <td>13541A0503</td>
+                    <td>12</td>
+                    <td>15</td>
+                    <td>25</td>
+                    <td>53</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>50%</td>
+                </tr>
+                <tr>
+                    <td>13541A0503</td>
+                    <td>12</td>
+                    <td>15</td>
+                    <td>25</td>
+                    <td>53</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>50%</td>
+                </tr>
+                <tr>
+                    <td>13541A0503</td>
+                    <td>12</td>
+                    <td>15</td>
+                    <td>25</td>
+                    <td>53</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>50%</td>
+                </tr>
+                <tr>
+                    <td>13541A0503</td>
+                    <td>12</td>
+                    <td>15</td>
+                    <td>25</td>
+                    <td>53</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>18</td>
+                    <td>50%</td>
+                </tr>
+                <tr class="mediumtext">
+                    <td>Candidates Appeared</td>
+                    <td>100</td>
+                    <td>100</td>
+                    <td>100</td>
+                    <td>100</td>
+                    <td>100</td>
+                    <td>100</td>
+                    <td>100</td>
+                    <td>100</td>
+                    <td></td>
+                </tr>
+                <tr class="mediumtext">
+                    <td>Passed Candidates	</td>
+                    <td>80</td>
+                    <td>80</td>
+                    <td>80</td>
+                    <td>80</td>
+                    <td>80</td>
+                    <td>80</td>
+                    <td>80</td>
+                    <td>80</td>
+                    <td></td>
+                </tr>
+                <tr class="mediumtext">
+                    <td>Pass Percentage	</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                </tr>
+            </table>
+
+           </div>
+           <button (click)="print('print')">print</button>
+           <h3 class="mediumtext">Graph Representation</h3>
+           <div class="graph" *ngFor="let result of resultarray">
+              <div class="row pagebreak">
+                <h4 class="mediumtext text-center">Result Of {{result}}</h4>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                  <h5 class="mediumtext text-center">Subject Wise Report</h5>
+                  <div class="padd10px">
+                  <div style="display: block">
+                    <canvas baseChart
+                            [datasets]="barChartData"
+                            [labels]="barChartLabels"
+                            [options]="barChartOptions"
+                            [legend]="barChartLegend"
+                            [chartType]="barChartType"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"></canvas>
+                  </div>
+                  <div class="col-sm-12 text-center">A = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
+                  <div class="col-sm-12 text-center">B = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
+                  <div class="col-sm-12 text-center">C = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
+                  <div class="col-sm-12 text-center">D = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
+                  <div class="col-sm-12 text-center">E = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
+                  <div class="col-sm-12 text-center">F = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
+                  </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                  <h5 class="mediumtext text-center">Total Branch Report</h5>
+                  <div class="padd10px">
+                  <div style="display: block">
+                    <canvas baseChart
+                        [data]="pieChartData"
+                        [labels]="pieChartLabels"
+                        [chartType]="pieChartType"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)">
+                    </canvas>
+                  </div>
+                  <div class="col-sm-12 text-center">Passed : 70% <br>Failed : 30%</div>
+                  </div>
+                </div>
+              </div> 
+              <br><br> 
+              <hr>
+            </div>
+        </div>
+    </div>
+    

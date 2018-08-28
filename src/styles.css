@@ -1,0 +1,336 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: mont light;
+    src: url(./assets/fonts/MONTSERRAT/Montserrat-Light.otf);
+}
+@font-face {
+    font-family: mont semibold;
+    src: url(./assets/fonts/MONTSERRAT/Montserrat-SemiBold.otf);
+}
+body {
+    background-color: #3d1841;
+    font-family: mont light;
+}
+/* common styles  */
+@media print {
+    table { page-break-after:auto }
+    tr    { page-break-inside:avoid; page-break-after:auto }
+    td    { page-break-inside:avoid; page-break-after:auto }
+    thead { display:table-header-group }
+    tfoot { display:table-footer-group }
+    .hidden-print {
+      display: none !important;
+    }
+  }
+/* BUttons */
+.mediumtext {
+font-family: mont semibold;
+}
+.backbutton {
+    border-radius: 7px;
+    color: #ffffff;
+    padding: 8px 20px;
+    background-color: #4d142a;
+    text-decoration: none;
+    margin: 0;
+    -webkit-transition: background-color 1s; /* Safari */
+    transition: background-color 1s;
+}
+.backbutton:hover {
+    color: #ffffff;
+    text-decoration: none;
+    
+}
+.btnone {
+    border-radius: 7px;
+    font-family: mont semibold;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 20px;
+    background-color: #3d1841;
+    text-decoration: none;
+    margin: 0;
+    -webkit-transition: background-color 1s; /* Safari */
+    transition: background-color 1s;
+}
+.btnone:hover {
+    background-color: #ffffff;
+    color: #00be9f;
+    border:solid 1px #00be9f;
+}
+.btntwo {
+    border-radius: 7px;
+    font-family: mont semibold;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 20px;
+    background-color: #029da8;
+    text-decoration: none;
+    margin: 0;
+    -webkit-transition: background-color 1s; /* Safari */
+    transition: background-color 1s;
+}
+.btntwo:hover {
+    background-color: #ffffff;
+    color: #029da8;
+    border:solid 1px #029da8;
+}
+.floatl{
+    float: left;
+}
+.floatr{
+    float: right;
+}
+.padd10px {
+    padding: 10px;
+}
+.padtb10 {
+    padding: 10px 0px;
+}
+.padtb15 {
+    padding: 15px 0px;
+}
+.padtb20 {
+    padding: 20px 0px;
+}
+.padlr15 {
+    padding: 0px 15px;
+}
+.marauto {
+    margin:auto;
+}
+.margin10 {
+    margin:10px;
+}
+.marbt25 {
+    margin-bottom: 25px;
+}
+.font16 {
+    font-size: 16px;
+}
+.fotntwt700{
+    font-weight: 700;
+}
+
+.whiteboxnoradius {
+    background-color: white;
+}
+.darkpinkbox {
+    background-color: #3d1841;
+}
+.graybox {
+background-color: #EEF0F2;
+border-radius: 15px;
+}
+.whitebox {
+    background-color:white;
+    border-radius: 15px;
+}
+.main-container {
+    margin:10px;
+}
+.min25 {
+    width:25%;
+}
+.min35 {
+    width:35%;
+}
+.small_subhead {
+    padding:10px 0px 20px 0px;
+}
+.subheadding {
+    font-size: 24px;
+    padding: 10px 0px 10px 0px;
+}
+/* header component styles */
+.header {
+    background-color:#EEF0F2;
+    max-height: 130px;
+}
+.header .header_content {
+    padding:15px;
+}
+.header .header_content .logo img {
+    width: 200px;
+}
+.header_right .buttons_div {
+    padding: 25px 75px;
+}
+.header_right .buttons_div .button_group {
+    display: inline;
+    padding: 0px 25px;
+}
+.header_buttons {
+    border-radius: 7px;
+    font-family: mont semibold;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 20px;
+    background-color: #3d1841;
+    text-decoration: none;
+    margin: 0;
+    -webkit-transition: background-color 1s; /* Safari */
+    transition: background-color 1s;
+}
+.header_buttons:hover {
+    background-color: #ffffff;
+    color: #3d1841;
+    border:solid 1px #3d1841;
+}
+/* Login Styles */
+.login {
+    margin: 50px auto;
+}
+.login_div {
+   padding: 25px 25px;
+}
+
+
+/* Student dashboard  */
+
+.sidebar {
+    margin : 10px;
+}
+.innerhead {
+    margin:15px;
+    padding :10px;
+}
+.getmembership {
+    margin-top:13px;
+    margin-bottom:16px;
+}
+.student_menuoptions ul {
+    display: -webkit-inline-box;
+    list-style-type:none;
+    margin:0px;
+    padding: 10px;
+}
+.student_menuoptions ul li{
+    padding: 10px;
+    cursor: pointer;
+    color:#3d1841;
+    border:1px solid  #EEF0F2;
+    font-family: mont semibold;
+}
+.student_menuoptions ul li:hover{
+   color:#3d1841;
+   background-color: white;
+   border:1px solid #3d1841;
+   border-radius: 10px;
+}
+.student_menuoptions ul li:focus{ 
+    outline:0;
+}
+.innermaincontent {
+    margin: 10px 0px 10px 0px;
+}
+.divcontent {
+    margin: 10px 0px 10px 0px;
+}
+.borderdiv {
+    border-color: #f3f3f3;
+    box-shadow:0px 3.9px 15px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+.myprofile .profilepic img {
+    width: 150px;
+    border-radius: 10px;
+}
+.profiledetails {
+    margin: 20px 0px 10px 0px;
+}
+.profiledetails table tr th {
+    padding: 5px 0px 5px 0px;
+}
+.top35 {
+    top :35px;
+}
+.dpmsg h1{
+    line-height: 55px;
+}
+.resulttable {
+    padding: 10px 0px 10px 0px;
+    /* border: 1px solid #b1c2aa; */
+}
+.resulttablecontent {
+    margin: 15px 0px 15px 0px;
+}
+.resulttablecontent {
+    font-size: 15px;
+}
+.resulttablecontent table {
+    width: 100%;
+}
+.shopping .item {
+    padding: 15px;
+    margin:8px;
+    cursor: pointer;
+}
+.shopping .item img {
+    width: 150px;
+    height: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.discription img {
+    width: 500px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.discription table tr th {
+    padding:10px;
+}
+.bgclasic {
+    background-color: red;
+}
+.item_titel {
+    font-size: 14px;
+}
+.Free {
+    font-weight: 900;
+    color: green;
+
+}
+.editprofile table tr th{
+    padding: 10px 40px;
+}
+.slowfoc {
+    /* display: none; */
+    -webkit-transition: width 0.5s; /* Safari */
+    transition: width 0.5s;
+}
+.quicklinks ul {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-left: 0px;
+}
+.quicklinks ul li {
+    margin: 5px;
+    padding: 5px;
+    text-decoration: none;
+    border-left: solid 5px #029da8;
+    list-style: none;
+}
+.quicklinks ul li:hover {
+    border-left: solid 5px #3d1841;
+}
+.quicklinks ul li a {
+
+    text-decoration: none;
+    cursor: pointer;
+
+}
+.searchstudent {
+    padding: 10px;
+}
+.graph {
+    padding: 15px
+}
+.pagebreak { page-break-before: always; }
+
