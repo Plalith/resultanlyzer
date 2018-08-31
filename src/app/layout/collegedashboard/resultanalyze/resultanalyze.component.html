@@ -8,6 +8,7 @@
     </div>
     <div class="divcontent">
       <div class="row hidden-print">
+          
         <div class="col-sm-12">
           <div class="searchstudent">
             <form (ngSubmit)="analyze(f)" #f="ngForm">
@@ -24,13 +25,13 @@
           </div>
         </div>
       </div>
-        <div class="resulttable" *ngIf="resulttable==false">
+        <div class="resulttable" *ngIf="resulttable==true">
            <div class="row padd10px">
               <div class="col-sm-12 text-center">
                 <span class="mediumtext">First year Second Seminster Result May 2015 <br>Analysis Report</span>
               </div>
             </div>
-           <div class="resulttablecontent pagebreak" *ngFor="let result of resultarray">
+           <div *ngFor="let result of resultarray; let i=index;" class="{{i==0 ? 'resulttablecontent': 'resulttablecontent pagebreak'}}" >
             <h4 class="mediumtext fotntwt900">&nbsp; Result Of {{result}}</h4>
             <table class="table" style="font-size:11px; border: 1px solid #b1c2aa;">
                 <tr class="mediumtext">
@@ -145,8 +146,7 @@
             </table>
 
            </div>
-           <button (click)="print('print')">print</button>
-           <h3 class="mediumtext">Graph Representation</h3>
+           <h3 class="mediumtext text-center hidden-print">Graph Representation</h3>
            <div class="graph" *ngFor="let result of resultarray">
               <div class="row pagebreak">
                 <h4 class="mediumtext text-center">Result Of {{result}}</h4>

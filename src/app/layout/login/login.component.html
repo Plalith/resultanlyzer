@@ -4,17 +4,17 @@
       <div class="small_subhead">
         <h3 class="fotntwt700">{{logintype}}</h3>
       </div>
-      <form action="">
+      <form (ngSubmit)="login(f)" #f="ngForm">
         <div class="padtb20">
           <label class="font16 padtb10">User Name</label>
-          <input type="text" class="form-control">
+          <input ngModal name="username" type="text" class="form-control">
           <label class="font16 padtb10">Password</label>
-          <input type="password" class="form-control">
+          <input ngModal name="password" type="password" class="form-control">
         </div>
         <div class="padtb20">
           <div class="row">
             <div class="col-sm-6">
-              <a routerLink="/studentdashboard/sdashboard" class="btn btnone floatl" type="Submit">Submit</a>
+              <a class="btn btnone floatl" type="Submit" (click)="login(f)">Submit</a>
             </div>
             <div class="col-sm-6">
               <a class="floatr" type="Submit">Forgot Password</a>
