@@ -1,0 +1,78 @@
+<div class="innermaincontent">
+  <div class="row hidden-print">
+      <div class="col-sm-12">
+        <div class="subheadding">
+          <span class="fotntwt700">Add Students</span>
+        </div>
+      </div>
+  </div>
+  <div class="divcontent">
+    <div class="addstudents text-center">
+      <form (ngSubmit)="uploadStudentscsv(f)" #f="ngForm" *ngIf="type=='csv'">
+        <div class="row" style="padding-left:50px;padding-right:50px;">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+          <label style="padding-top:10px; font-weight:600;">Select File[Only CSV(Comma Delimited)]</label>
+            <input type="file" ngModel name="file" class="form-control" required>
+          </div>
+        </div>
+        <div class="text-center" style="padding:20px;">       
+          <button class="btn btnone" type="submit" [disabled]="!f.valid">Add Students</button><br><br>
+          <h5><a (click)="changetype('manual')" style="cursor:pointer"> Add Students Manually</a> </h5>
+        </div>
+      </form>
+      <form (ngSubmit)="uploadStudentman(f)" #f="ngForm" *ngIf="type=='manual'">
+        <div class="row" style="padding-left:50px;padding-right:50px;">
+          <div class="col-sm-3">
+            <label>Roll No</label>
+            <input type="text" ngModel name="rollno" class="form-control" required="">
+            <label>Student Name</label>
+            <input type="text" ngModel name="sname" class="form-control" required="">
+          </div>
+          <div class="col-sm-3">
+            <label>Father Name</label>
+            <input type="text" ngModel name="fname" class="form-control" required="">
+            <label>Gender</label>
+            <select class="form-control" ngModel name="gender" required="">
+              <option></option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+          <div class="col-sm-3">
+            <label>Adhar No</label>
+            <input type="number" class="form-control" ngModel name="adhar" required="">
+            <label>Branch</label>
+            <select ngModel name="branch" class="form-control" required="">
+              <option></option>
+              <option>CSE</option>
+              <option>EEE</option>
+              <option>ECE</option>
+              <option>MECH</option>
+              <option>MBA</option>
+            </select>
+          </div>
+          <div class="col-sm-3">
+            <label>SSC Hallticket No</label>
+            <input type="text" ngModel name="sschtno" class="form-control" required="">
+            <div class="row">
+              <div class="col-sm-6">
+                <label>SSC Board</label>
+                <input type="text" ngModel name="sscboard" class="form-control" required="">
+              </div>
+              <div class="col-sm-6">
+                <label>SSC Grade</label>
+                <input type="text" ngModel name="sscgrade" class="form-control" required="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center" style="padding:20px;">       
+            <button class="btn btnone" type="submit" name="submit" [disabled]="!f.valid">Add Students</button><br><br>
+          <h5><a (click)="changetype('csv')" style="cursor:pointer"> Add Students By Exporting csv File</a> </h5>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+  

@@ -15,6 +15,7 @@ import { StudentresultComponent } from './layout/collegedashboard/studentresult/
 import { ResultanalyzeComponent } from './layout/collegedashboard/resultanalyze/resultanalyze.component';
 import { UploadresultComponent } from './layout/collegedashboard/uploadresult/uploadresult.component';
 import { ResultlistComponent } from './layout/collegedashboard/resultlist/resultlist.component';
+import { AddstudentsComponent } from './layout/collegedashboard/addstudents/addstudents.component';
 
 const routes: Routes = [
     { path: 'index', component: HomeComponent},
@@ -36,6 +37,7 @@ const routes: Routes = [
             {path: 'resultanalyze', component:ResultanalyzeComponent},
             {path: 'uploadresult', component:UploadresultComponent},
             {path: 'resultlist', component:ResultlistComponent},
+            {path: 'addstudents', component:AddstudentsComponent},
         ]
     }
     // { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },

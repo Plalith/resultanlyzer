@@ -23,6 +23,7 @@ import { StudentresultComponent } from './layout/collegedashboard/studentresult/
 import { ResultanalyzeComponent } from './layout/collegedashboard/resultanalyze/resultanalyze.component';
 import { UploadresultComponent } from './layout/collegedashboard/uploadresult/uploadresult.component';
 import { ResultlistComponent } from './layout/collegedashboard/resultlist/resultlist.component';
+import { AddstudentsComponent } from './layout/collegedashboard/addstudents/addstudents.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ResultlistComponent } from './layout/collegedashboard/resultlist/result
     ResultanalyzeComponent,
     UploadresultComponent,
     ResultlistComponent,
+    AddstudentsComponent
   ],
   imports: [
     BrowserModule,
