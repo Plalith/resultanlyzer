@@ -13,6 +13,7 @@ import { CollegedashboardComponent } from './layout/collegedashboard/collegedash
 import { CdashboardComponent } from './layout/collegedashboard/cdashboard/cdashboard.component';
 import { StudentresultComponent } from './layout/collegedashboard/studentresult/studentresult.component';
 import { ResultanalyzeComponent } from './layout/collegedashboard/resultanalyze/resultanalyze.component';
+import { UploadresultComponent } from './layout/collegedashboard/uploadresult/uploadresult.component';
 
 const routes: Routes = [
     { path: 'index', component: HomeComponent},
@@ -31,7 +32,8 @@ const routes: Routes = [
         [
             {path: 'cdashboard', component:CdashboardComponent},
             {path: 'studentresult', component:StudentresultComponent},
-            {path: 'resultanalyze', component:ResultanalyzeComponent}
+            {path: 'resultanalyze', component:ResultanalyzeComponent},
+            {path: 'uploadresult', component:UploadresultComponent},
         ]
     }
     // { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
