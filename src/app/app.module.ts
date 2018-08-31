@@ -22,6 +22,7 @@ import { CdashboardComponent } from './layout/collegedashboard/cdashboard/cdashb
 import { StudentresultComponent } from './layout/collegedashboard/studentresult/studentresult.component';
 import { ResultanalyzeComponent } from './layout/collegedashboard/resultanalyze/resultanalyze.component';
 import { UploadresultComponent } from './layout/collegedashboard/uploadresult/uploadresult.component';
+import { ResultlistComponent } from './layout/collegedashboard/resultlist/resultlist.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { UploadresultComponent } from './layout/collegedashboard/uploadresult/up
     CdashboardComponent,
     StudentresultComponent,
     ResultanalyzeComponent,
-    UploadresultComponent
+    UploadresultComponent,
+    ResultlistComponent
   ],
   imports: [
     BrowserModule,

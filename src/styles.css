@@ -7,6 +7,7 @@
     font-family: mont semibold;
     src: url(./assets/fonts/MONTSERRAT/Montserrat-SemiBold.otf);
 }
+.pagebreak { page-break-before: always; }
 body {
     background-color: #3d1841;
     font-family: mont light;
@@ -332,5 +333,65 @@ border-radius: 15px;
 .graph {
     padding: 15px
 }
-.pagebreak { page-break-before: always; }
 
+.resultlist ul{
+    padding: 5px;
+}
+.resultlist ul li {
+    padding: 10px;
+    text-decoration: none;
+    list-style: none;
+    border-color: #f3f3f3;
+    box-shadow: 0px -0.1px 7px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: padding 1s;
+}
+.resultlist ul li:hover{
+    padding: 11px;
+    font-weight: 900;
+}
+.result-li-icons {
+    text-align: right;
+    float: right;
+    padding-right: 25px;
+}
+.result-li-icons i{
+    color:#3d1841;
+    font-weight: 900;
+    font-size: 16px;
+    padding: 0px 25px;
+    top: 0px;
+    transition: top 200ms;
+}
+.result-li-icons i:hover{
+    top: 5px
+}
+/* tool tip */
+
+.toltip {
+    position: relative;
+    display: inline-block;
+}
+
+.toltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgba(0, 0, 0, 0.411);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.toltip:hover .tooltiptext {
+    visibility: visible;
+}
