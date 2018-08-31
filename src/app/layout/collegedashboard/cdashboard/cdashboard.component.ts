@@ -19,6 +19,10 @@ export class CdashboardComponent implements OnInit {
   public lineChartLabels:Array<any> = ['Pass Percentage', 2013,2014,2015,2016,2017,2018];
 
 //  Student Usage
+public lineChartOptions:any = {
+  scaleShowVerticalLines: false,
+  responsive: true
+};
 public barChartOptions:any = {
   scaleShowVerticalLines: false,
   responsive: true
