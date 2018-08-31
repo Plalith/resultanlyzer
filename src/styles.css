@@ -54,11 +54,17 @@ font-family: mont semibold;
     margin: 0;
     -webkit-transition: background-color 1s; /* Safari */
     transition: background-color 1s;
+    
 }
 .btnone:hover {
     background-color: #ffffff;
-    color: #00be9f;
-    border:solid 1px #00be9f;
+    color: #3d1841;
+    border:solid 1px #3d1841;
+}
+.btnone:focus {
+    background-color: #ffffff;
+    color: #3d1841;
+    border:solid 1px #3d1841;
 }
 .btntwo {
     border-radius: 7px;
@@ -168,7 +174,7 @@ border-radius: 15px;
     font-family: mont semibold;
     color: #ffffff;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 800;
     padding: 8px 20px;
     background-color: #3d1841;
     text-decoration: none;

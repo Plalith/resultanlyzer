@@ -45,7 +45,7 @@ import { ResultlistComponent } from './layout/collegedashboard/resultlist/result
     StudentresultComponent,
     ResultanalyzeComponent,
     UploadresultComponent,
-    ResultlistComponent
+    ResultlistComponent,
   ],
   imports: [
     BrowserModule,
