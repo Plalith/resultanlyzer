@@ -3,6 +3,7 @@ import { ChartsModule } from 'ng2-charts';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
 import { HeaderComponent } from './layout/header/header.component';
@@ -24,6 +25,8 @@ import { ResultanalyzeComponent } from './layout/collegedashboard/resultanalyze/
 import { UploadresultComponent } from './layout/collegedashboard/uploadresult/uploadresult.component';
 import { ResultlistComponent } from './layout/collegedashboard/resultlist/resultlist.component';
 import { AddstudentsComponent } from './layout/collegedashboard/addstudents/addstudents.component';
+import { AdminfeedbackComponent } from './layout/collegedashboard/adminfeedback/adminfeedback.component';
+
 
 @NgModule({
   declarations: [
@@ -47,13 +50,15 @@ import { AddstudentsComponent } from './layout/collegedashboard/addstudents/adds
     ResultanalyzeComponent,
     UploadresultComponent,
     ResultlistComponent,
-    AddstudentsComponent
+    AddstudentsComponent,
+    AdminfeedbackComponent
   ],
   imports: [
     BrowserModule,
     ChartsModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
