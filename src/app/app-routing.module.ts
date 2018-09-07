@@ -40,6 +40,7 @@ const routes: Routes = [
             {path: 'resultlist', component:ResultlistComponent},
             {path: 'addstudents', component:AddstudentsComponent},
             {path: 'feedback', component:AdminfeedbackComponent},
+            {path: 'gfg', component:AdminfeedbackComponent},
         ]
     }
     // { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
