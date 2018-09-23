@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resultlist',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultlistComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
+    this.showview=true;
+  }
+  showview:boolean;;
+  changediv(value){
+    this.showview=!this.showview;
   }
   resultlist:Array<any>=[
     'Results For III B.TECH I Semester Recounting/Revaluation Examinations May-2018(Marks)',

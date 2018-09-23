@@ -1,4 +1,4 @@
-<div class="innermaincontent">
+<div class="innermaincontent" *ngIf="showview">
     <div class="row hidden-print">
         <div class="col-sm-12">
           <div class="subheadding">
@@ -13,7 +13,7 @@
             <div class="row">
               <div class="col-sm-8">{{result}}</div>
               <div class="col-sm-4 result-li-icons">
-                  <div class="toltip"><i class="glyphicon glyphicon-eye-open"></i><span class="tooltiptext">View</span></div>
+                  <div class="toltip"><i  (click)="changediv();" class="glyphicon glyphicon-eye-open"></i><span class="tooltiptext"> View</span></div>
                   <div class="toltip"><i class="glyphicon glyphicon-import"></i><span class="tooltiptext">Export To Excel</span></div>
                   <div class="toltip"><i class="glyphicon glyphicon-equalizer"></i><span class="tooltiptext">Result Analysis</span></div>
                   <div class="toltip"><i class="glyphicon glyphicon-trash"></i><span class="tooltiptext">Delete</span></div>
@@ -24,4 +24,44 @@
       </div>
   </div>
 </div>
+<div class="innermaincontent" *ngIf="!showview">
+    <div class="row hidden-print">
+        <div class="col-sm-12">
+          <div class="subheadding">
+            <span class="fotntwt700">View Result</span>&nbsp; &nbsp; &nbsp; <span (click)="changediv();" style="cursor:pointer; color:blueviolet">Go Back</span>
+          </div>
+        </div>
+    </div>
+    <div class="divcontent">
+      <div class="viewresult">
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <h4 class="mediumtext">First year Second Seminster Result May 2015 </h4>
+          </div>
+          <div class="col-sm-12">
+            <table style="width:100%"> 
+              <tr>
+                <th>Roll No</th>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+                <th>Grade</th>
+                <th>Credits</th>
+              </tr>
+              <tr>
+                <td>13541A0503</td>
+                <td>RT13CO7</td>
+                <td>B</td>
+                <td>3</td>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
     

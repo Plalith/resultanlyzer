@@ -17,6 +17,7 @@ import { UploadresultComponent } from './layout/collegedashboard/uploadresult/up
 import { ResultlistComponent } from './layout/collegedashboard/resultlist/resultlist.component';
 import { AddstudentsComponent } from './layout/collegedashboard/addstudents/addstudents.component';
 import { AdminfeedbackComponent } from './layout/collegedashboard/adminfeedback/adminfeedback.component';
+import { ViewresultlComponent } from './layout/collegedashboard/resultlist/viewresultl/viewresultl.component';
 
 const routes: Routes = [
     { path: 'index', component: HomeComponent},
@@ -37,7 +38,7 @@ const routes: Routes = [
             {path: 'studentresult', component:StudentresultComponent},
             {path: 'resultanalyze', component:ResultanalyzeComponent},
             {path: 'uploadresult', component:UploadresultComponent},
-            {path: 'resultlist', component:ResultlistComponent},
+            {path: 'resultlist', component:ResultlistComponent, children:[ {path: 'viewresult', component:ViewresultlComponent}]},
             {path: 'addstudents', component:AddstudentsComponent},
             {path: 'feedback', component:AdminfeedbackComponent},
             {path: 'gfg', component:AdminfeedbackComponent},
