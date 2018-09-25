@@ -3,11 +3,116 @@
         <div class="col-sm-12">
             <div class="subheadding">
                 <span class="fotntwt700">FeedBack</span>
+                <a  routerLink='/collegedashboard/fdreports' class="btn btntwo floatr">FeedBack Reports</a>
             </div>
         </div>
     </div>
     <div class="divcontent">
-      
+      <div class="row">
+          <div class="col-sm-6">
+              <div class="feedback_form">
+                  <h4 class="mediumtext" style="margin-bottom: 20px;">Create New Form</h4><br>
+                  <form (ngSubmit)="Createform(f)" #f="ngForm" class="widgetheight1">
+                      <div class="row" style="margin: 0px;">
+                          <div class="col-sm-3">
+                              <label>select Year</label>
+                                <select name='year' ngModel class="form-control" required>
+                                    <option></option>
+                                    <option>I Year</option>
+                                    <option>II Year</option>
+                                    <option>III year</option>
+                                    <option>IV year</option>
+                                </select>
+                          </div>
+                          <div class="col-sm-3">
+                              <label>select Branch</label>
+                                <select name='Branch' ngModel class="form-control" required>
+                                    <option>CSE</option>
+                                    <option>CSE</option>
+                                    <option>CSE</option>
+                                    <option>CSE</option>
+                                </select>
+                          </div>
+                          <div class="col-sm-3">
+                              <label>select Batch</label>
+                                <select name='Batch' ngModel class="form-control" required>
+                                    <option>2013</option>
+                                    <option>2014</option>
+                                    <option>2015</option>
+                                    <option>2016</option>
+                                    <option>2017</option>
+                                    <option>2018</option>
+                                    <option>2019</option>
+                                    <option>2020</option>
+                                    <option>2021</option>
+                                </select>
+                          </div>
+                          <div class="col-sm-3">
+                              <label>select Section</label>
+                                <select name='Section' ngModel class="form-control" required>
+                                    <option>Section-I</option>
+                                    <option>Section-II</option>
+                                    <option>Section-III</option>
+                                </select>
+                          </div>
+                      </div><br>
+                      <div class="row">
+                          <div class="col-sm-12">
+                            <label>Add Subjects</label>
+                            <div id="subjects">
+                                <div class="eachsubject" style="display: flex;" *ngFor='let sub of subjects; let i=index;' id="{{sub+i}}">
+                                    <input type="text" class="form-control" ngModel name="{{sub+i}}" style="width:80%" placeholder="{{sub+' '}}{{i+1}}" required>&nbsp;
+                                    <span *ngIf='i==totalsubjects-1;'(click)="delet_subject(i)"class="navicon glyphicon glyphicon-trash"></span>
+                                </div>
+                            </div>
+                            <a (click)="addsubject()" class="btn btntwo">Add New Subject</a>
+                          </div>
+                      </div>
+                      <div class="row" style="margin: 0px;">
+                          <div class="col-sm-12 ">
+                            <button class="floatr btn btnone" [disabled]="!f.valid" type="Submit">Create</button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="feedback_form">
+                <h4 class="mediumtext">Active Forms</h4><br>
+                <div class="resultlist">
+                    <ul class="widgetheight1">
+                        <li *ngFor='let result of dummyarray;'>
+                            <div class="row">
+                            <div class="col-sm-8">I Year CSE Section -I 2019<sup>TH</sup> Batch started at 29/08/2018 , 12:45PM</div>
+                            <div class="col-sm-4 result-li-icons">
+                                <i class="glyphicon glyphicon-stop"></i>
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+          </div>
+      </div>
+      <div class="row" style="padding:15px;">
+          <div class="feedback_form col-sm-12">
+                <h4 class="mediumtext">Submited Forms</h4>
+                <div class="resultlist">
+                    <ul class="widgetheight1">
+                        <li *ngFor='let result of dummyarray;'>
+                            <div class="row">
+                            <div class="col-sm-8">I Year CSE Section -I 2019<sup>TH</sup> Batch started at 29/08/2018 , 12:45PM</div>
+                            <div class="col-sm-4 result-li-icons">
+                                <i class="glyphicon glyphicon-equalizer"></i>
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+          </div>
+      </div>
     </div>
 </div>
     
