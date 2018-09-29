@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const http = require('http');
 const app = express();
-
+const api = require('./backend/api');
 
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(express.static(path.join(__dirname, 'dist/result')));
 
 // API location
+app.use('/api', api);
 
 // Send all other requests to the Angular app
 app.get('*', (req, res) => {

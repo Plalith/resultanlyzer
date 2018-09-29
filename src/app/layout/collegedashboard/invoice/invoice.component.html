@@ -1,0 +1,24 @@
+<div class="innermaincontent">
+  <div class="row hidden-print">
+      <div class="col-sm-12">
+        <div class="subheadding">
+          <span class="fotntwt700">Invoice's</span>
+        </div>
+      </div>
+  </div>
+  <div class="divcontent">
+    <div class="resultlist">
+      <ul>
+        <li *ngFor='let result of Invoice'>
+          <div class="row">
+            <div class="col-sm-8">{{result}}</div>
+            <div class="col-sm-4 result-li-icons">
+                <div class="toltip"><i  (click)="changediv();" class="glyphicon glyphicon-eye-open"></i><span class="tooltiptext"> View</span></div>
+                <div class="toltip"><i class="glyphicon glyphicon-import"></i><span class="tooltiptext">Export To Excel</span></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+</div>
+</div>

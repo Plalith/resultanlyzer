@@ -8,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class FeedbackreportsComponent implements OnInit {
 
   constructor() { }
-
+  hide=false;
+  hidediv()  {
+    this.hide=true;
+  }
   ngOnInit() {
   }
   dummyarray=['','','','','','','','',''];

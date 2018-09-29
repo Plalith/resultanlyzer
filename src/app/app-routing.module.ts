@@ -19,6 +19,7 @@ import { AddstudentsComponent } from './layout/collegedashboard/addstudents/adds
 import { AdminfeedbackComponent } from './layout/collegedashboard/adminfeedback/adminfeedback.component';
 import { ViewresultlComponent } from './layout/collegedashboard/resultlist/viewresultl/viewresultl.component';
 import { FeedbackreportsComponent } from './layout/collegedashboard/adminfeedback/feedbackreports/feedbackreports.component';
+import { InvoiceComponent } from './layout/collegedashboard/invoice/invoice.component';
 
 const routes: Routes = [
     { path: 'index', component: HomeComponent},
@@ -43,6 +44,7 @@ const routes: Routes = [
             {path: 'addstudents', component:AddstudentsComponent},
             {path: 'feedback', component:AdminfeedbackComponent},
             {path: 'fdreports', component:FeedbackreportsComponent},
+            {path: 'invoice', component:InvoiceComponent},
         ]
     }
     // { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },

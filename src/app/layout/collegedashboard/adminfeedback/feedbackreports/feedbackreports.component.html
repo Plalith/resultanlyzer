@@ -9,13 +9,13 @@
     </div>
     <div class="divcontent">
       <div class="row" style="padding:15px;">
-          <div class="feedback_form col-sm-12">
+          <div class="feedback_form col-sm-12" *ngIf='!hide'>
                 <h4 class="mediumtext">Submited Forms List</h4>
                 <div class="resultlist">
                     <ul class="widgetheight1">
                         <li *ngFor='let result of dummyarray;'>
                             <div class="row">
-                            <div class="col-sm-8">I Year CSE Section -I 2019<sup>TH</sup> Batch started at 29/08/2018 , 12:45PM</div>
+                            <div class="col-sm-8"><span (click)="hidediv();">I Year CSE Section -I 2019<sup>TH</sup> Batch started at 29/08/2018 , 12:45PM</span></div>
                             <div class="col-sm-4 result-li-icons">
                                 <i class="glyphicon glyphicon-equalizer"></i>
                                 <i class="glyphicon glyphicon-trash"></i>
@@ -25,6 +25,14 @@
                     </ul>
                 </div>
           </div>
+        <div class="feedback_form col-sm-12" *ngIf='hide'>
+                <h4 class="mediumtext">I Year CSE Section -I 2019<sup>TH</sup> Batch started at 29/08/2018 , 12:45PM</h4>
+                <div class="resultlist">
+                    <table>
+                        <tr></tr>
+                    </table>
+                </div>
+        </div>
       </div>
     </div>
 </div>
