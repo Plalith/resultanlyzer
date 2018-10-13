@@ -26,4 +26,11 @@ export class LoginComponent implements OnInit, DoCheck{
       this.router.navigateByUrl("/collegedashboard/cdashboard");
     }
   }
+  signup(){
+    if(this.logintype=='Student Login') {
+      this.router.navigateByUrl("/signupStudent");
+    } else if(this.logintype=='College Area') {
+      this.router.navigateByUrl("/signupcollege");
+    }
+  }
 }

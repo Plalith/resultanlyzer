@@ -29,6 +29,8 @@ import { AdminfeedbackComponent } from './layout/collegedashboard/adminfeedback/
 import { ViewresultlComponent } from './layout/collegedashboard/resultlist/viewresultl/viewresultl.component';
 import { FeedbackreportsComponent } from './layout/collegedashboard/adminfeedback/feedbackreports/feedbackreports.component';
 import { InvoiceComponent } from './layout/collegedashboard/invoice/invoice.component';
+import { NewcollegeComponent } from './layout/login/newcollege/newcollege.component';
+import { NewstudentComponent } from './layout/login/newstudent/newstudent.component';
 
 
 @NgModule({
@@ -57,7 +59,9 @@ import { InvoiceComponent } from './layout/collegedashboard/invoice/invoice.comp
     AdminfeedbackComponent,
     ViewresultlComponent,
     FeedbackreportsComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    NewcollegeComponent,
+    NewstudentComponent
   ],
   imports: [
     BrowserModule,

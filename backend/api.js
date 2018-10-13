@@ -1,17 +1,33 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://lalith:Lalith123@cluster0-shard-00-00-kpxwj.gcp.mongodb.net:27017,cluster0-shard-00-01-kpxwj.gcp.mongodb.net:27017,cluster0-shard-00-02-kpxwj.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true');
+mongoose.connect('mongodb://lalith:Lalith123@cluster0-shard-00-00-kpxwj.gcp.mongodb.net:27017,cluster0-shard-00-01-kpxwj.gcp.mongodb.net:27017,cluster0-shard-00-02-kpxwj.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true', { useNewUrlParser: true });
 
 var users_students = require('./mongo_models/user_students');
 var user_colleges = require('./mongo_models/user_colleges');
+var college_list = require('./mongo_models/college_list');
 
 
-router.get('/get_college', (req,res)=>{
+router.get('/get_college_users', (req,res)=>{
     user_colleges.find().then((result)=>{
         res.send(result);
     })
-})
+});
+
+
+router.get('/get_students', (req,res)=>{
+    user_colleges.find().then((result)=>{
+        res.send(result);
+    })
+});
+router.get('/get_coleges_names', (req,res)=>{
+    college_list.find().select('_id'&&'Collge_Name').then((result)=>{
+        res.send(result);
+    });
+    // college_list.remove((result)=>{
+    //     res.send('all collections removed');
+    // })
+});
 
 router.post('/insert_user_college', (req,res)=>{
     user = new user_colleges({
@@ -28,7 +44,6 @@ router.post('/insert_user_college', (req,res)=>{
         mobile:'9704620705',
         email:'ssiet54@gmail.com'
     });
-    
         user.save().then((result)=>{
             res.send({Status:'DOne'});
         });
@@ -36,7 +51,7 @@ router.post('/insert_user_college', (req,res)=>{
 
 router.post('/insert_user_student', (req,res)=>{
     user = new users_students({ 
-        id:'13541A0503'+i,
+        id:'13541A0503',
         Name:'Lalith Kumar',
         college:{
             branch:'CSE',
@@ -48,7 +63,6 @@ router.post('/insert_user_student', (req,res)=>{
         email:'lalith889@gmail.com',
         password:'Lalith@123'
     });
-    
         user.save().then((result)=>{
             res.send({Status:'DOne'});
         });

@@ -145,8 +145,11 @@ border-radius: 15px;
 .min35 {
     width:35%;
 }
+.min50 {
+    width:50%;
+}
 .small_subhead {
-    padding:10px 0px 20px 0px;
+    padding:10px 0px 0px 0px;
 }
 .subheadding {
     font-size: 24px;
@@ -190,12 +193,17 @@ border-radius: 15px;
 }
 /* Login Styles */
 .login {
-    margin: 50px auto;
+    margin: 25px auto;
 }
 .login_div {
-   padding: 25px 25px;
+   padding: 0px 25px 25px 25px;
 }
-
+.signup {
+    margin: 25px auto;
+}
+.signup_div {
+   padding: 0px 25px 25px 25px;
+}
 
 /* Student dashboard  */
 

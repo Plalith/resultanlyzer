@@ -20,10 +20,14 @@ import { AdminfeedbackComponent } from './layout/collegedashboard/adminfeedback/
 import { ViewresultlComponent } from './layout/collegedashboard/resultlist/viewresultl/viewresultl.component';
 import { FeedbackreportsComponent } from './layout/collegedashboard/adminfeedback/feedbackreports/feedbackreports.component';
 import { InvoiceComponent } from './layout/collegedashboard/invoice/invoice.component';
+import { NewcollegeComponent } from './layout/login/newcollege/newcollege.component';
+import { NewstudentComponent } from './layout/login/newstudent/newstudent.component';
 
 const routes: Routes = [
     { path: 'index', component: HomeComponent},
     { path: 'login', component: LoginComponent},
+    { path:'signupcollege', component:NewcollegeComponent},
+    { path:'signupStudent', component:NewstudentComponent},
     { path: 'studentdashboard', component: StudentdashboardComponent , children: 
         [
             {path: 'sdashboard', component:SdashboardComponent},

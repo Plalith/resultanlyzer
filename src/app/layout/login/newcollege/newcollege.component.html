@@ -1,0 +1,38 @@
+<div class="signup min50">
+  <div class="whitebox">
+    <div class="signup_div">
+      <div class="small_subhead">
+        <h3 class="fotntwt700">Sign Up</h3>
+      </div>
+      <form (ngSubmit)="signup(f)" #f="ngForm">
+          <label>Select College</label>
+          <select name="collegename" class="form-control" required ngModel>
+              <option *ngFor='let option of colleges'>{{option.Collge_Name}}</option>
+          </select>
+          <label for="username">Username</label>
+          <input ngModel name="username" class="form-control"  required>
+          <label for="password">Password</label>
+          <input type="password" ngModel name="password1" class="form-control"  required>
+          <label>Re-Enter Password</label>
+          <input type="password" ngModel name="password2" class="form-control"  required>
+          <label>College Code</label>
+          <input type="text" ngModel name="collegecode" class="form-control"  required>
+          <label>Contact No</label>
+          <input type="text" ngModel name="contactno" class="form-control"  pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$" required>
+          <label>E-mail</label>
+          <input type="text" ngModel name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control"  required>
+          <label for="regid">Enter 2015 Batch Student Roll No  </label>
+          <input type="text" class="form-control" ngModel name="regid"  placeholder="15541A0503" required>
+          <label>Enter 2015 Batch LE Student Roll No</label>
+          <input type="text" class="form-control" ngModel  name="leid"  placeholder="15545A0501" required>
+          <label for="name">Exam-cell Incharge Name</label>
+          <input type="text" ngModel name="ecname" class="form-control"  required>
+          <br>
+          <input type="checkbox" ngModel name='acceptnce' required> &nbsp;<label> <a href="terms.php" target="_blank">Accept terms and conditions</a></label>
+          <br>
+          <button type="submit" [disabled]='!f.valid' class="btn btn-success">Submit</button>
+        <div class="marbt25"></div>
+      </form>
+    </div>
+  </div>
+</div>
