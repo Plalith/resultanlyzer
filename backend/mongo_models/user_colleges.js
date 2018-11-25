@@ -42,6 +42,32 @@ var users_colleges = mongoose.model('users_colleges', {
     email:{
         type:String,
         trim:true
+    },
+    opt_ver:{
+        type:Boolean,
+        trim:true
+    },
+    payment:{
+        status:{
+            type:Boolean,
+        },
+        payment_History:[
+            {
+                paid_on:{
+                    type:String,
+                    trim:true
+                },
+                expiery_date:{
+                    type:String,
+                    trim:true
+                },
+                amount_paid:{
+                    type:String,
+                    trim:true
+                }
+            }
+        ],
+    
     }
 }); 
 

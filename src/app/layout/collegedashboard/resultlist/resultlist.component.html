@@ -11,9 +11,9 @@
         <ul>
           <li *ngFor='let result of resultlist'>
             <div class="row">
-              <div class="col-sm-8">{{result}}</div>
+              <div class="col-sm-8">{{result.Description}}</div>
               <div class="col-sm-4 result-li-icons">
-                  <div class="toltip"><i  (click)="changediv();" class="glyphicon glyphicon-eye-open"></i><span class="tooltiptext"> View</span></div>
+                  <div class="toltip"><i  (click)="get_result_data(result._id);" class="glyphicon glyphicon-eye-open"></i><span class="tooltiptext"> View</span></div>
                   <div class="toltip"><i class="glyphicon glyphicon-import"></i><span class="tooltiptext">Export To Excel</span></div>
                   <div class="toltip"><i class="glyphicon glyphicon-equalizer"></i><span class="tooltiptext">Result Analysis</span></div>
                   <div class="toltip"><i class="glyphicon glyphicon-trash"></i><span class="tooltiptext">Delete</span></div>
@@ -26,9 +26,12 @@
 </div>
 <div class="innermaincontent" *ngIf="!showview">
     <div class="row hidden-print">
+        <div class="col-sm-2 hidden-print">
+          <h4 (click)="changediv()" style="cursor:pointer"><span class="glyphicon glyphicon-arrow-left"></span><span class="mediumtext"> &emsp;&emsp;Back</span></h4>
+        </div>
         <div class="col-sm-12">
           <div class="subheadding">
-            <span class="fotntwt700">View Result</span>&nbsp; &nbsp; &nbsp; <span (click)="changediv();" style="cursor:pointer; color:blueviolet">Go Back</span>
+            <span class="fotntwt700">View Result</span>
           </div>
         </div>
     </div>
@@ -36,23 +39,45 @@
       <div class="viewresult">
         <div class="row">
           <div class="col-sm-12 text-center">
-            <h4 class="mediumtext">First year Second Seminster Result May 2015 </h4>
+            <h4 class="mediumtext">{{result_data.Description}}</h4>
           </div>
           <div class="col-sm-12">
-            <table style="width:100%"> 
-              <tr>
+            <table class="table" style="font-size:11px; border: 1px solid #b1c2aa;" *ngIf="result_data.grade; else nongarade"> 
+              <tr class="mediumtext">
                 <th>Roll No</th>
                 <th>Subject Code</th>
                 <th>Subject Name</th>
                 <th>Grade</th>
                 <th>Credits</th>
               </tr>
-              <tr>
-                <td>13541A0503</td>
-                <td>RT13CO7</td>
-                <td>B</td>
-                <td>3</td>
+              <tr *ngFor='let result of result_data.data'>
+                <td>{{result.rollno}}</td>
+                <td>{{result.subcode}}</td>
+                <td>{{result.subname}}</td>
+                <td>{{result.grade}}</td>
+                <td>{{result.credits}}</td>
+              </tr>
             </table>
+            <ng-template #nongarade>
+              <table class="table" style="font-size:11px; border: 1px solid #b1c2aa;"> 
+              <tr class="mediumtext">
+                <th>Roll No</th>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+                <th>Internals</th>
+                <th>Externals</th>
+                <th>Credits</th>
+              </tr>
+              <tr *ngFor='let result of result_data.data'>
+                <td>{{result.rollno}}</td>
+                <td>{{result.subcode}}</td>
+                <td>{{result.subname}}</td>
+                <td>{{result.internals}}</td>
+                <td>{{result.externals}}</td>
+                <td>{{result.credits}}</td>
+              </tr>
+            </table>
+            </ng-template>
           </div>
         </div>
         <div class="row">

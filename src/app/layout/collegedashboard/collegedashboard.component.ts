@@ -10,6 +10,7 @@ export class CollegedashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.collegename=localStorage.getItem('collegename');
   }
-
+  collegename;
 }

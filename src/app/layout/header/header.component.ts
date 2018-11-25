@@ -12,9 +12,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
   student_login() {
-    this.commomservice.logintype="Student Login";
+    this.commomservice.logintype="Student";
   }
   college_login() {
-    this.commomservice.logintype="College Area";
+    this.commomservice.logintype="College";
   }
 }

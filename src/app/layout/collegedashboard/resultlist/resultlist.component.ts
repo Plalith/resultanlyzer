@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonService } from '../../common.service';
+import { HttpClient } from '@angular/common/http';
+import { Promise } from 'es6-promise';
 
 @Component({
   selector: 'app-resultlist',
@@ -8,26 +11,44 @@ import { Router } from '@angular/router';
 })
 export class ResultlistComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private coms:CommonService,private http:HttpClient,private ngZone:NgZone) { }
 
   ngOnInit() {
+    this.get_all_reults_list();
     this.showview=true;
   }
-  showview:boolean;;
-  changediv(value){
-    this.showview=!this.showview;
+  showview:Boolean;
+  resultlist:Array<any>=[];
+  result_data:any;
+  
+  //Change Div
+  changediv(){
+    this.ngZone.run(()=> this.showview=true);
+  }  
+
+
+  // get list of all results
+  get_all_reults_list(){
+    this.http.get(`${this.coms.apiurl}/get_all_reults_list`).subscribe((result:any)=>{
+      this.resultlist=result;
+    })
   }
-  resultlist:Array<any>=[
-    'Results For III B.TECH I Semester Recounting/Revaluation Examinations May-2018(Marks)',
-    'Results For IV B.TECH II Semester Supplementary Examinations Jul-2018(Marks)',
-    'Results For II B.TECH II Semester Recounting/Revaluation Examinations Apr-2018(Grade)',
-    'Results For II B.TECH II Semester Recounting/Revaluation Examinations Apr-2018(Marks)',
-    'Results For I B.TECH II Semester Regular/Supplementary Examinations May-2018(Grade)',
-    'Results For III B.TECH II Semester Recounting/Revaluation Examinations Apr-2018(Marks)',
-    'Results For I B.TECH I Semester Supplementary Examinations May-2018(Marks)',
-    'Results For I B.TECH I Semester Supplementary Examinations May-2018(Grade)',
-    'Results For I B.TECH II Semester Supplementary Examinations May-2018(Marks)',
-    'Results For II B.TECH I Semester Supplementary Examinations May-2018(Marks)',
-    'Results For II B.TECH I Semester Supplementary Examinations May-2018(Grade)'
-  ];
+
+  // get result data
+  get_result_data(id){
+    console.log(this.showview)
+    return new Promise((resolve,reject)=>{
+      this.http.post(`${this.coms.apiurl}/get_result_data`,{id:id}).subscribe((result:any)=>{
+        console.log(result);
+        this.result_data=result;
+        console.log(this.result_data);
+        resolve();
+      });
+    }).then((result)=>{
+      console.log('yes');
+      this.ngZone.run(()=> this.showview=false);
+      console.log(this.showview)
+      
+    });
+  }
 }

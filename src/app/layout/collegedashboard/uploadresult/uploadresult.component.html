@@ -11,12 +11,12 @@
       <div class="row" style="padding-left:50px;padding-right:50px;">
         <div class="col-sm-4">
           <label style="padding-top:10px; font-weight:600;">Select Year</label>
-            <select class="form-control" ngModel name="ryear" required="">
+            <select class="form-control" ngModel name="result_year" required="">
               <option></option>
-              <option>I </option>
-              <option>II </option>
-              <option>III </option>
-              <option>IV </option>
+              <option value=1>I </option>
+              <option value=2>II </option>
+              <option value=3>III </option>
+              <option value=4>IV </option>
             </select>
           <label style="padding-top:10px; font-weight:600;">Select Course</label>
             <select class="form-control" ngModel name="course" required="">
@@ -32,17 +32,18 @@
           <label style="padding-top:10px; font-weight:600;">Select Semester</label>
             <select class="form-control" ngModel name="sem" required="">
               <option></option>
-              <option>I Semester</option>
-              <option>II Semester</option>
+              <option value=1>I Semester</option>
+              <option value=2>II Semester</option>
             </select>
           <label style="padding-top:10px; font-weight:600;">Result Type</label>
-            <select class="form-control" [(ngModel)]='rtype' name="rtype" required="">
+            <select class="form-control" [(ngModel)]='result_type' name="rtype" required="">
               <option></option>
               <option>Regular/Supplementary</option>
               <option>Supplementary</option>
               <option>Recounting/Revaluation</option>
             </select>                                  
         </div>
+        
         <div class="col-sm-4">
             <div class="row">
                 <div class="col-sm-6">
@@ -88,7 +89,7 @@
                 </div>
             </div> 
             <div class="row">
-              <div class="col-sm-6">
+              <div class="col-sm-12">
                 <label style="padding-top:10px; font-weight:600;">Batch (If Regular)</label>
                   <select class="form-control" ngModel name="batch" required [disabled]="getbatch()">
                       <option></option>
@@ -111,29 +112,6 @@
                       <option>2029</option>
                   </select>
               </div>
-              <div class="col-sm-6">
-                <label style="padding-top:10px; font-weight:600;">Year</label>
-                  <select class="form-control" ngModel name="year2" required="">
-                    <option></option>
-                    <option>2013</option>
-                    <option>2014</option>
-                    <option>2015</option>
-                    <option>2016</option>
-                    <option>2017</option>
-                    <option>2018</option>
-                    <option>2019</option>
-                    <option>2020</option>
-                    <option>2021</option>
-                    <option>2022</option>
-                    <option>2023</option>
-                    <option>2024</option>
-                    <option>2025</option>
-                    <option>2026</option>
-                    <option>2027</option>
-                    <option>2028</option>
-                    <option>2029</option>
-                  </select>
-              </div>
           </div>
         </div>
       </div>
@@ -141,16 +119,47 @@
         <div class="col-sm-4"></div>
           <div class="col-sm-4">
             <label style="padding-top:10px; font-weight:600;">Select File[Only CSV(Comma Delimited)]</label>
-              <input type="file" ngModel name="file" id="file" class="form-control" required="">
+              <input type="file" ngModel name="file" id="file" class="form-control" required (change)="csv2Array($event)">
             <label>
-              <input type="checkbox" name="grade" value="1"> result in Grading format
+              <input  type="checkbox" ngModel name="grade" value="1"> result in Grading format
             </label>
           </div>
         </div>
       <div class="text-center" style="padding:20px;">       
           <button class="btn btnone" [disabled]="!f.valid" type="Submit">Submit</button>
       </div>
+      <p id="uplode_error" class="error text-center"></p>
+      <p id="uplode_success" class="success text-center"></p>
     </form>
   </div>
 </div>
   
+
+<!-- The Modal -->
+<div id="data_val_re" class="modal_popup">
+  <!-- Modal content -->
+  <div class="modal-content text-center">
+    <div class="row">
+      <div class="col-sm-12 ">
+        <h1>Validating Data</h1>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-12 font18">
+        <p class="">Please wait</p>
+        <div class="loader text-center"></div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped active" role="progressbar" id="progress_bar"
+           aria-valuemin="0" aria-valuemax="100" [style.width.%]='progress_bar' style="background-color: #029da8">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

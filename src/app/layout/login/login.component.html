@@ -1,31 +1,41 @@
 <div class="login min25">
   <div class="whitebox">
     <div class="login_div">
-      <div class="small_subhead">
-        <h3 class="fotntwt700">{{logintype}}</h3>
-      </div>
-      <form (ngSubmit)="login(f)" #f="ngForm">
-        <div class="padtb20">
-          <label class="font16 padtb10">User Name</label>
-          <input ngModal name="username" type="text" class="form-control">
-          <label class="font16 padtb10">Password</label>
-          <input ngModal name="password" type="password" class="form-control">
-        </div>
-        <div class="padtb20">
-          <div class="row">
-            <div class="col-sm-6">
-              <a class="btn btnone floatl" type="Submit" (click)="login(f)">Submit</a>
-            </div>
-            <div class="col-sm-6">
-              <a class="floatr" type="Submit">Forgot Password</a>
-            </div>
+      <div class="login-type-dyn">
+        <div class="row" style="margin:0px">
+          <div id="one" (click)="change_login_type('one','two','College')" class="col-sm-6 login-type active" style="border-top-left-radius:15px;">
+            College
+          </div>
+          <div id="two" (click)="change_login_type('two','one','Student')" class="col-sm-6 login-type " style="border-top-right-radius:15px;">
+            Student
           </div>
         </div>
-        <div class="padtb25">
-          <a class="btn btntwo" (click)='signup()'>Create New Account</a>
-        </div>
-        <div class="marbt25"></div>
-      </form>
+      </div>
+      <div class="form-class">
+        <form (ngSubmit)="login(f)" #f="ngForm">
+          <div class="padtb20">
+            <label class="font16 padtb10">{{logintype}} ID</label>
+            <input ngModel name="username" type="text" class="form-control">
+            <label class="font16 padtb10">Password</label>
+            <input ngModel name="password" type="password" class="form-control">
+            <p style="color:red">{{loginerror}}</p>
+          </div>
+          <div class="padtb20">
+            <div class="row">
+              <div class="col-sm-6">
+                <a class="btn btnone floatl" (click)="login(f)">Submit</a>
+              </div>
+              <div class="col-sm-6">
+                <a class="floatr" type="Submit">Forgot Password</a>
+              </div>
+            </div>
+          </div>
+          <div class="padtb25">
+            <a class="btn btntwo" (click)='signup()'>Create New Account</a>
+          </div>
+          <div class="marbt25"></div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

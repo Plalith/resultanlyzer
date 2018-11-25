@@ -6,6 +6,11 @@ import { Injectable } from '@angular/core';
 export class CommonService {
 
   constructor() { }
-  logintype:String="Student Login";
+  
+  apiurl='http://localhost:3000/api/';
+  
+  logintype:String="Student";
+
+  usermessage:String='';
   
 }

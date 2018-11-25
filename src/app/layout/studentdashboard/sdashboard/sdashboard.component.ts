@@ -10,6 +10,7 @@ export class SdashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
-
+  Name='Suny';
 }

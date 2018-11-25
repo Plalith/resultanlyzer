@@ -24,6 +24,11 @@ body {
       display: none !important;
     }
   }
+
+
+
+  /* ;loader */
+  
 /* BUttons */
 .mediumtext {
 font-family: mont semibold;
@@ -118,6 +123,16 @@ font-family: mont semibold;
 .font16 {
     font-size: 16px;
 }
+.font18 {
+    font-size: 18px;
+}
+.font20 {
+    font-size: 20px;
+}
+.font22 {
+    font-size: 22px;
+}
+
 .fotntwt700{
     font-weight: 700;
 }
@@ -195,14 +210,32 @@ border-radius: 15px;
 .login {
     margin: 25px auto;
 }
-.login_div {
+.form-class {
    padding: 0px 25px 25px 25px;
+}
+.login-type-dyn .login-type {
+    color:white;
+    background-color: #029da8;
+    padding: 10px
+}
+.login-type-dyn .active{
+    color:black;
+    background-color: white;
 }
 .signup {
     margin: 25px auto;
 }
 .signup_div {
    padding: 0px 25px 25px 25px;
+}
+
+.login-type-dyn .row {
+    margin: 0px;
+    cursor: pointer;
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+    font-family: mont semibold;
+    font-size: 18px;
 }
 
 /* Student dashboard  */
@@ -456,4 +489,11 @@ border-radius: 15px;
 /* Handle on hover */
 .widgetheight1::-webkit-scrollbar-thumb:hover {
     background: #b30000; 
+}
+
+
+.usermessage {
+    font-weight: 900;
+    font-size: 15px;
+    color: green;
 }
