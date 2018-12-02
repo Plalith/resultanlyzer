@@ -16,9 +16,12 @@
                   <div class="toltip"><i  (click)="get_result_data(result._id);" class="glyphicon glyphicon-eye-open"></i><span class="tooltiptext"> View</span></div>
                   <div class="toltip"><i class="glyphicon glyphicon-import"></i><span class="tooltiptext">Export To Excel</span></div>
                   <div class="toltip"><i class="glyphicon glyphicon-equalizer"></i><span class="tooltiptext">Result Analysis</span></div>
-                  <div class="toltip"><i class="glyphicon glyphicon-trash"></i><span class="tooltiptext">Delete</span></div>
+                  <div class="toltip"><i (click)="remove_result_data(result._id);" class="glyphicon glyphicon-trash"></i><span class="tooltiptext">Delete</span></div>
               </div>
             </div>
+          </li>
+          <li *ngIf="resultlist.length==0"class="text-center">
+            <h5>No results Found</h5>
           </li>
         </ul>
       </div>

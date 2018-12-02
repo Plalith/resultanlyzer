@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const request = require('request');
+var _ = require('lodash');
 mongoose.connect('mongodb://lalith:Lalith123@cluster0-shard-00-00-kpxwj.gcp.mongodb.net:27017,cluster0-shard-00-01-kpxwj.gcp.mongodb.net:27017,cluster0-shard-00-02-kpxwj.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true', { useNewUrlParser: true });
 
 var users_students = require('./mongo_models/user_students');
@@ -114,7 +116,7 @@ router.post('/insert_user_student', (req,res)=>{
         });
 });
 
-
+// API for uploading result data
 router.post('/upload_result_data', (req,res)=>{
     result_data.find({college:req.body.data.college,Description:req.body.data.Description,grade:req.body.data.grade}).then((result)=>{
         if(result.length==0){
@@ -131,17 +133,78 @@ router.post('/upload_result_data', (req,res)=>{
         res.send({msg:'Server Bussy',status:false});
     })
 });
+// list of all results
 router.get('/get_all_reults_list', (req,res)=>{
     result_data.find().select('Description grade').sort({date: -1}).then((reuslt)=>{
         res.send(reuslt);
     })
 });
 
-
 router.post('/get_result_data', (req,res)=>{
-    result_data.findById(req.body.id).sort({date: -1}).then((reuslt)=>{
-        res.send(reuslt);
+    result_data.findById(req.body.id).sort({date: -1}).then((result)=>{
+        var output = result.data.filter((dataa)=>dataa.rollno.length>=10)
+        result.data=output;
+        res.send(result);
+    },(e)=>{
+        res.send({status:false,data:e})
     })
 })
-// API for uploading result data
+router.post('/remove_result_data', (req,res)=>{
+    result_data.findOneAndDelete({'_id':req.body.id}).then((main_result)=>{
+        result_data.find().select('Description grade').sort({date: -1}).then((reuslt)=>{
+            res.send(reuslt);
+        })
+    },(e)=>{
+        res.send({status:false,data:e})
+    })
+})
+
+// list of result has only possible to analyse
+router.get('/get_all_reults_list_for_analysis', (req,res)=>{
+    result_data.find({analysis:true}).select('Description grade').sort({date: -1}).then((reuslt)=>{
+        res.send(reuslt);
+    })
+});
+// analysing result
+
+router.post('/do_resultanlyz',(req,res)=>{
+    result_data.findById(req.body.id).then((result)=>{
+        var result_data = result;
+        // For data Grouping
+        function groupdata(pm1,pm2){
+            return new Promise((resolve,reject)=>{
+                var data= _.chain(pm1).groupBy(pm2).map(function(v, i) {
+                    return {
+                    value: i
+                    }
+                }).value()
+                resolve(data);
+            })
+        }
+        // Function for getting indudual branch data 
+        function get_each_branch_data(i) {
+            return result_data.data.filter((data)=>data.rollno.indexOf(`${result_data.batch.substring(2,4)}541A0${i}`)>-1 || data.rollno.indexOf(`${parseInt(result_data.batch.substring(2,4))+1}545A0${i}`)>-1);
+        }
+        var output = result_data.data.filter((data)=>data.rollno.indexOf(`${result_data.batch.substring(2,4)}541A02`)>-1 || data.rollno.indexOf(`${parseInt(result_data.batch.substring(2,4))+1}545A0`)>-1);
+        var result1;
+        var result2;
+        for (let index = 0; index < 6; index++) {
+           groupdata(get_each_branch_data(index),'rollno').then((result)=>{
+               console.log(result);
+            //    Stopped Here getting rollno order wise
+           });
+        }
+        groupdata(output,"rollno").then((data)=>{
+            result1=data;
+            return groupdata(output,"subcode");
+        }).then((Result)=>{
+            result2=Result;
+            res.send({data1:result1,data2:result2});
+            // res.send(output);
+        },(e)=>{
+            res.send(e);
+        })
+    })
+})
+
 module.exports = router;

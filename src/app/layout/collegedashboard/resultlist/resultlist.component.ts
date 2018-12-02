@@ -51,4 +51,9 @@ export class ResultlistComponent implements OnInit {
       
     });
   }
+  remove_result_data(id){
+      this.http.post(`${this.coms.apiurl}remove_result_data`,{id:id}).subscribe((result:any)=>{
+        this.resultlist=result;
+      });
+  }
 }

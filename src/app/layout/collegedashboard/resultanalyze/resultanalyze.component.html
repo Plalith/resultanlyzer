@@ -13,14 +13,11 @@
           <div class="searchstudent">
             <form (ngSubmit)="analyze(f)" #f="ngForm">
               <label for="">Select Result</label>
-              <select ngModel name='id' class="form-control">
-                <option> First year Second Seminster Result May 2015</option>
-                <option> First year Second Seminster Result May 2015</option>
-                <option> First year Second Seminster Result May 2015</option>
-                <option> First year Second Seminster Result May 2015</option>
-                <option> First year Second Seminster Result May 2015</option>
+              <select ngModel name='id' class="form-control" required>
+                <option></option>
+                <option *ngFor="let result of resultlist" value={{result._id}}>{{result.Description}}</option>
               </select><br>
-              <a class="btn btnone" (click)="analyze(f)" type="Submit">Submit</a>
+              <button [disabled]="!f.valid" class="btn btnone" type="Submit">Submit</button>
             </form>
           </div>
         </div>

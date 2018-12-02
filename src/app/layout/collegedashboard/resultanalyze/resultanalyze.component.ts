@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { CommonService } from '../../common.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-resultanalyze',
@@ -8,15 +10,24 @@ import { NgForm } from '@angular/forms';
 })
 export class ResultanalyzeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private coms:CommonService,private http:HttpClient) { }
   resulttable=false;
-  resultarray=['CSE','ECE','EEE','MECH','CIVIL']
+  resultarray=['CSE','ECE','EEE','MECH','CIVIL'];
+  resultlist=[];
   ngOnInit() {
+    this.get_all_reults_list();
+  }
+
+    // get list of all results
+  get_all_reults_list(){
+    this.http.get(`${this.coms.apiurl}/get_all_reults_list_for_analysis`).subscribe((result:any)=>{
+      this.resultlist=result;
+    })
   }
   analyze(form:NgForm) {
-    console.log(form);
-    console.log(form.value.id);
-    this.resulttable=true;
+    this.http.post(`${this.coms.apiurl}/do_resultanlyz`,{id:form.value.id}).subscribe((result:any)=>{
+      this.resulttable=true;
+    })
   }
   public pieChartLabels:string[] = ['Passed', 'Failed'];
   public pieChartData:number[] = [80, 30];
