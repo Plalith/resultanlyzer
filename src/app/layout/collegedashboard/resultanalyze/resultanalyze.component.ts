@@ -14,8 +14,12 @@ export class ResultanalyzeComponent implements OnInit {
   resulttable=false;
   resultarray=['CSE','ECE','EEE','MECH','CIVIL'];
   resultlist=[];
+  result_data=[];
   ngOnInit() {
     this.get_all_reults_list();
+  }
+  arrayOne(n: number): any[] {
+    return Array(n);
   }
 
     // get list of all results
@@ -26,6 +30,10 @@ export class ResultanalyzeComponent implements OnInit {
   }
   analyze(form:NgForm) {
     this.http.post(`${this.coms.apiurl}/do_resultanlyz`,{id:form.value.id}).subscribe((result:any)=>{
+      if(result.Status==true){
+        this.result_data=result.data
+        console.log(this.result_data[0]);
+      }
       this.resulttable=true;
     })
   }
@@ -41,7 +49,9 @@ export class ResultanalyzeComponent implements OnInit {
   public barChartLabels:string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   public barChartType:string = 'bar';
   public barChartLegend:boolean = true;
- 
+ A:{
+   one:'yes';
+ }
   public barChartData:any[] = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Passed'},
     {data: [28, 48, 40, 19, 86, 27, 90], label: 'Failed'}

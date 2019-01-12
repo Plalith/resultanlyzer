@@ -28,117 +28,54 @@
                 <span class="mediumtext">First year Second Seminster Result May 2015 <br>Analysis Report</span>
               </div>
             </div>
-           <div *ngFor="let result of resultarray; let i=index;" class="{{i==0 ? 'resulttablecontent': 'resulttablecontent pagebreak'}}" >
-            <h4 class="mediumtext fotntwt900">&nbsp; Result Of {{result}}</h4>
+           <div *ngFor="let result of result_data; let i=index;" class="{{i==0 ? 'resulttablecontent': 'resulttablecontent pagebreak'}}" >
+            <h4 class="mediumtext fotntwt900">&nbsp; Result Of {{result.title}}</h4>
             <table class="table" style="font-size:11px; border: 1px solid #b1c2aa;">
                 <tr class="mediumtext">
-                    <th>Student Id</th>
-                    <th>MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</th>
-                    <th>DATA STRUCTURES</th>
-                    <th>OBJECT ORIENTED PROGRAMMING THROUGH C++</th>
-                    <th>OBJECT ORIENTED PROGRAMMING THROUGH C++</th>
-                    <th>MATHEMATICAL FOUNDATIONS OF COMLUTER SCIENCE</th>
-                    <th>OBJECT ORIENTED PROGRAMMING LAB</th>
-                    <th>OBJECT ORIENTED PROGRAMMING LAB</th>
-                    <th>Total Marks Secured</th>
-                    <th>Percentage</th>
+                    <th>Roll No</th>
+                    <th *ngFor="let subname of result.data.subwise; let j=index;">{{subname.sub_name}}</th>
+                    <!-- <th *ngFor="let subname of result.data.subwise; let j=index;">{{(subname.sub_name.length>15)? (subname.sub_name | slice:0:15)+'..':(subname.sub_name)}}</th> -->
+                    <th>Total Marks</th>
+                    <th>Status</th>
                 </tr>
-
-                <tr>
-                    <td>13541A0503</td>
-                    <td>12</td>
-                    <td>15</td>
-                    <td>25</td>
-                    <td>53</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>50%</td>
-                </tr>
-                <tr>
-                    <td>13541A0503</td>
-                    <td>12</td>
-                    <td>15</td>
-                    <td>25</td>
-                    <td>53</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>50%</td>
-                </tr>
-                <tr>
-                    <td>13541A0503</td>
-                    <td>12</td>
-                    <td>15</td>
-                    <td>25</td>
-                    <td>53</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>50%</td>
-                </tr>
-                <tr>
-                    <td>13541A0503</td>
-                    <td>12</td>
-                    <td>15</td>
-                    <td>25</td>
-                    <td>53</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>50%</td>
-                </tr>
-                <tr>
-                    <td>13541A0503</td>
-                    <td>12</td>
-                    <td>15</td>
-                    <td>25</td>
-                    <td>53</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>18</td>
-                    <td>50%</td>
+                <tr *ngFor="let student of result.data.allstudents; let k=index;">
+                    <td>{{student.rollno}}</td>
+                    <td *ngIf="result.data.subwise.length>00">{{student.sub0}}</td>
+                    <td *ngIf="result.data.subwise.length>01">{{student.sub1}}</td>
+                    <td *ngIf="result.data.subwise.length>02">{{student.sub2}}</td>
+                    <td *ngIf="result.data.subwise.length>03">{{student.sub3}}</td>
+                    <td *ngIf="result.data.subwise.length>04">{{student.sub4}}</td>
+                    <td *ngIf="result.data.subwise.length>05">{{student.sub5}}</td>
+                    <td *ngIf="result.data.subwise.length>06">{{student.sub6}}</td>
+                    <td *ngIf="result.data.subwise.length>07">{{student.sub7}}</td>
+                    <td *ngIf="result.data.subwise.length>08">{{student.sub8}}</td>
+                    <td *ngIf="result.data.subwise.length>09">{{student.sub9}}</td>
+                    <td *ngIf="result.data.subwise.length>010">{{student.sub10}}</td>
+                    <td *ngIf="result.data.subwise.length>011">{{student.sub11}}</td>
+                    <td *ngIf="result.data.subwise.length>012">{{student.sub12}}</td>
+                    <td *ngIf="result.data.subwise.length>013">{{student.sub13}}</td>
+                    <td *ngIf="result.data.subwise.length>014">{{student.sub14}}</td>
+                    <td *ngIf="result.data.subwise.length>015">{{student.sub15}}</td>
+                    <td>{{student.totalmarks}}</td>
+                    <td><span *ngIf="student.status;">Passed</span> <span *ngIf="!student.status;" style="color:red">Failed</span> </td>
                 </tr>
                 <tr class="mediumtext">
                     <td>Candidates Appeared</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
+                    <td *ngFor="let total of result.data.subwise; let l=index;">{{total.passed+total.failed}}</td>
+                    <td>{{result.data.overal.passed+result.data.overal.failed}}</td>
                     <td></td>
                 </tr>
                 <tr class="mediumtext">
                     <td>Passed Candidates	</td>
-                    <td>80</td>
-                    <td>80</td>
-                    <td>80</td>
-                    <td>80</td>
-                    <td>80</td>
-                    <td>80</td>
-                    <td>80</td>
-                    <td>80</td>
+                    <td *ngFor="let total of result.data.subwise; let l=index;">{{total.passed}}</td>
+                    <td>{{result.data.overal.passed}}</td>
                     <td></td>
                 </tr>
                 <tr class="mediumtext">
                     <td>Pass Percentage	</td>
-                    <td>100%</td>
-                    <td>100%</td>
-                    <td>100%</td>
-                    <td>100%</td>
-                    <td>100%</td>
-                    <td>100%</td>
-                    <td>100%</td>
-                    <td>100%</td>
-                    <td>100%</td>
+                    <td *ngFor="let total of result.data.subwise; let l=index;">{{(((total.passed)/(total.passed+total.failed))*100) | number:'2.1-2'}} %</td>
+                    <td>{{(((result.data.overal.passed)/(result.data.overal.passed+result.data.overal.failed))*100) | number:'2.1-2'}} %</td>
+                    <td></td>
                 </tr>
             </table>
 

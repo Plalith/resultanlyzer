@@ -181,28 +181,86 @@ router.post('/do_resultanlyz',(req,res)=>{
                 resolve(data);
             })
         }
-        // Function for getting indudual branch data 
-        function get_each_branch_data(i) {
-            return result_data.data.filter((data)=>data.rollno.indexOf(`${result_data.batch.substring(2,4)}541A0${i}`)>-1 || data.rollno.indexOf(`${parseInt(result_data.batch.substring(2,4))+1}545A0${i}`)>-1);
+        // For Analysing Result
+        function do_anlyz(index){
+            return new Promise((resolve,reject)=>{
+                console.log('register 0');
+                let branch_data = result_data.data.filter((data)=>data.rollno.indexOf(`${result_data.batch.substring(2,4)}541A0${index}`)>-1 || data.rollno.indexOf(`${parseInt(result_data.batch.substring(2,4))+1}545A0${index}`)>-1);
+                let students;
+                let Subject;
+                let maindata={allstudents:Array,overal:Object,subwise:Array};
+                let overal={passed:0,failed:0}
+                groupdata(branch_data,'rollno').then((result)=>{
+                    students = result
+                    return groupdata(branch_data,"subcode");
+                }).then((result)=>{
+                Subject = result;
+                for (let index = 0; index < Subject.length; index++) {
+                    Subject[index].passed=0;
+                    Subject[index].failed=0;
+                }
+                    return new Promise((resolve,reject)=>{
+                        all_students=[];
+                        subects_data=[];
+                        for(let stu=0; stu<students.length; stu++) {
+                            let single_stu={};
+                            let totalmarks=0;
+                            var stu_allsub=branch_data.filter((data)=>data.rollno==students[stu].value);
+                            var passed=stu_allsub.filter((data)=>data.credits==0);
+                            if(passed.length==0){ overal.passed++; single_stu.status=true;} else { overal.failed++; single_stu.status=false;}
+                            for(let sub=0; sub<Subject.length; sub++){
+                                single_stu.rollno=students[stu].value
+                                new Promise((resolve,reject)=>{resolve(stu_allsub.filter((data)=>data.subcode==Subject[sub].value && data!=null))})
+                                .then((result)=>{
+                                    if(result[0]!=null){
+                                        Subject[sub].sub_name=stu_allsub.filter((data)=>data.subcode==Subject[sub].value)[0].subname
+                                        if(result[0].credits>0) {
+                                            Subject[sub].passed++
+                                            single_stu['sub'+sub]=parseInt(result[0].internals)+parseInt(result[0].externals);
+                                            totalmarks=totalmarks+parseInt(result[0].internals)+parseInt(result[0].externals);
+                                        } else {
+                                            Subject[sub].failed++
+                                            single_stu['sub'+sub]='----';
+                                        }
+                                        single_stu.totalmarks=totalmarks;
+
+                                    }
+                                })
+                            }
+                            all_students.push(single_stu);
+                        }
+                        maindata.allstudents=all_students
+                        maindata.overal=overal
+                        maindata.subwise=Subject
+                        resolve(maindata);
+                    })
+                }).then((result)=>{
+                    resolve(result);
+                }).then(()=>{
+                    console.log("All Promises Resolved");
+                })
+            });
         }
-        var output = result_data.data.filter((data)=>data.rollno.indexOf(`${result_data.batch.substring(2,4)}541A02`)>-1 || data.rollno.indexOf(`${parseInt(result_data.batch.substring(2,4))+1}545A0`)>-1);
-        var result1;
-        var result2;
-        for (let index = 0; index < 6; index++) {
-           groupdata(get_each_branch_data(index),'rollno').then((result)=>{
-               console.log(result);
-            //    Stopped Here getting rollno order wise
-           });
-        }
-        groupdata(output,"rollno").then((data)=>{
-            result1=data;
-            return groupdata(output,"subcode");
-        }).then((Result)=>{
-            result2=Result;
-            res.send({data1:result1,data2:result2});
-            // res.send(output);
-        },(e)=>{
-            res.send(e);
+        // End Of result Analysing
+        var resdata=[];
+        do_anlyz(2).then((result)=>{
+            let data={title:'EEE',data:result}
+            resdata.push(data);
+            return do_anlyz(3);
+        }).then((result)=>{
+            let data={title:'MECH',data:result}
+            resdata.push(data);
+            return do_anlyz(4);
+        }).then((result)=>{
+            let data={title:'ECE',data:result}
+            resdata.push(data);
+            return do_anlyz(5);
+        }).then((result)=>{
+            let data={title:'CSE',data:result}
+            resdata.push(data);
+            res.send({Status:true,data:resdata})
+        }).catch((e)=>{
+            res.send({Status:false, msg:'Somthing Went Wrong'})
         })
     })
 })
