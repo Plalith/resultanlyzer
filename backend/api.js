@@ -165,8 +165,8 @@ router.get('/get_all_reults_list_for_analysis', (req,res)=>{
         res.send(reuslt);
     })
 });
-// analysing result
 
+// analysing result
 router.post('/do_resultanlyz',(req,res)=>{
     result_data.findById(req.body.id).then((result)=>{
         var result_data = result;

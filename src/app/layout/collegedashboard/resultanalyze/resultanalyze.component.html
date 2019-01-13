@@ -78,31 +78,33 @@
                     <td></td>
                 </tr>
             </table>
-
-           </div>
-           <h3 class="mediumtext text-center hidden-print">Graph Representation</h3>
-           <div class="graph" *ngFor="let result of resultarray">
-              <div class="row pagebreak">
-                <h4 class="mediumtext text-center">Result Of {{result}}</h4>
+            <h3 class="mediumtext text-center hidden-print">Graph Representation</h3>
+            <div class="graph">
+              <div class="row">
+                <!-- <h4 class="mediumtext text-center">Result Of {{result.title}}</h4> -->
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <h5 class="mediumtext text-center">Subject Wise Report</h5>
                   <div class="padd10px">
                   <div style="display: block">
                     <canvas baseChart
-                            [datasets]="barChartData"
-                            [labels]="barChartLabels"
+                            [datasets]="barchartdata[i].data"
+                            [labels]="barchartdata[i].subjects"
                             [options]="barChartOptions"
                             [legend]="barChartLegend"
                             [chartType]="barChartType"
                             (chartHover)="chartHovered($event)"
                             (chartClick)="chartClicked($event)"></canvas>
                   </div>
-                  <div class="col-sm-12 text-center">A = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
-                  <div class="col-sm-12 text-center">B = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
-                  <div class="col-sm-12 text-center">C = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
-                  <div class="col-sm-12 text-center">D = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
-                  <div class="col-sm-12 text-center">E = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
-                  <div class="col-sm-12 text-center">F = MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</div>
+                  <div class="text-center">
+                  <div class="col-sm-12" >
+                    <table>
+                      <tr *ngFor='let sub of barchartdata[i].subjects; let n=index;'>
+                        <td align="left">{{sub}} = </td>
+                        <td align="left">{{barchartdata[i].sub_names[n]}}</td>
+                      </tr>
+                    </table>
+                  </div>
+                  </div>
                   </div>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -110,20 +112,60 @@
                   <div class="padd10px">
                   <div style="display: block">
                     <canvas baseChart
-                        [data]="pieChartData"
+                        [data]="pieChartData[i].data"
                         [labels]="pieChartLabels"
                         [chartType]="pieChartType"
                         (chartHover)="chartHovered($event)"
                         (chartClick)="chartClicked($event)">
                     </canvas>
                   </div>
-                  <div class="col-sm-12 text-center">Passed : 70% <br>Failed : 30%</div>
+                  <div class="col-sm-12 text-center"><b>Passed : {{((pieChartData[i].data[0])/(pieChartData[i].data[0]+pieChartData[i].data[1]))*100 | number:'2.1-2'}} % <br>Failed : {{100-(((pieChartData[i].data[0])/(pieChartData[i].data[0]+pieChartData[i].data[1]))*100) | number:'2.1-2'}} % </b></div>
                   </div>
                 </div>
               </div> 
               <br><br> 
               <hr>
             </div>
+           </div>
+           <!-- <h3 class="mediumtext text-center hidden-print">Graph Representation</h3> -->
+           <!-- <div class="graph">
+              <div class="row pagebreak">
+                <h4 class="mediumtext text-center">Result Of {{result.title}}</h4>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                  <h5 class="mediumtext text-center">Subject Wise Report</h5>
+                  <div class="padd10px">
+                  <div style="display: block">
+                    <canvas baseChart
+                            [datasets]="barchartdata[i].data"
+                            [labels]="barchartdata[i].subjects"
+                            [options]="barChartOptions"
+                            [legend]="barChartLegend"
+                            [chartType]="barChartType"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"></canvas>
+                  </div>
+                  <div class="col-sm-12 text-center" *ngFor='let sub of barchartdata[i].subjects; let n=index;'>{{sub}} = {{barchartdata[i].sub_names[n]}}</div>
+                  </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                  <h5 class="mediumtext text-center">Total Branch Report</h5>
+                  <div class="padd10px">
+                  <div style="display: block">
+                    <canvas baseChart
+                        [data]="pieChartData[i].data"
+                        [labels]="pieChartLabels"
+                        [chartType]="pieChartType"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)">
+                    </canvas>
+                  </div>
+                  <div class="col-sm-12 text-center"><b>Passed : {{((pieChartData[i].data[0])/(pieChartData[i].data[0]+pieChartData[i].data[1]))*100 | number:'2.1-2'}} % <br>Failed : {{100-(((pieChartData[i].data[0])/(pieChartData[i].data[0]+pieChartData[i].data[1]))*100) | number:'2.1-2'}} % </b></div>
+                  </div>
+                </div>
+              </div> 
+              <br><br> 
+              <hr>
+            </div> -->
         </div>
     </div>
     

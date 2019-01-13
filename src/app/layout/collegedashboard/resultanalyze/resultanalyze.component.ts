@@ -13,6 +13,7 @@ export class ResultanalyzeComponent implements OnInit {
   constructor(private coms:CommonService,private http:HttpClient) { }
   resulttable=false;
   resultarray=['CSE','ECE','EEE','MECH','CIVIL'];
+  subjects=['A', 'B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L'];
   resultlist=[];
   result_data=[];
   ngOnInit() {
@@ -31,32 +32,39 @@ export class ResultanalyzeComponent implements OnInit {
   analyze(form:NgForm) {
     this.http.post(`${this.coms.apiurl}/do_resultanlyz`,{id:form.value.id}).subscribe((result:any)=>{
       if(result.Status==true){
+        this.barchartdata=[];
+        this.pieChartData=[];
         this.result_data=result.data
         console.log(this.result_data[0]);
+        for (let index = 0; index < result.data.length; index++) {
+          let grapobj = {subjects:[],data:[{data:[],label: 'Passed'},{data:[],label: 'Failed'}],sub_names:[]}
+          for(let sub=0; sub < result.data[index].data.subwise.length; sub++) {
+            grapobj.subjects.push(this.subjects[sub]);
+            grapobj.sub_names.push(result.data[index].data.subwise[sub].sub_name);
+            grapobj.data[0].data.push(result.data[index].data.subwise[sub].passed)
+            grapobj.data[1].data.push(result.data[index].data.subwise[sub].failed)
+          }
+          this.barchartdata.push(grapobj);
+          this.pieChartData.push({data:[result.data[index].data.overal.passed,result.data[index].data.overal.failed]})
+        }
+        console.log(this.barchartdata);
       }
       this.resulttable=true;
     })
   }
   public pieChartLabels:string[] = ['Passed', 'Failed'];
-  public pieChartData:number[] = [80, 30];
+  public pieChartData = [];
   public pieChartType:string = 'pie';
-
-  
   public barChartOptions:any = {
-    scaleShowVerticalLines: false,
+    scaleShowVerticalLines: true,
     responsive: true
   };
-  public barChartLabels:string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+  public barchartdata = [];
   public barChartType:string = 'bar';
   public barChartLegend:boolean = true;
  A:{
    one:'yes';
  }
-  public barChartData:any[] = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Passed'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Failed'}
-  ];
- 
   // events
   public chartClicked(e:any):void {
     console.log(e);
