@@ -7,7 +7,7 @@ export class CommonService {
 
   constructor() { }
   
-  apiurl='https://resultrepo/api/';
+  apiurl='https://resultrepo.com/api/';
   // apiurl='http://35.157.193.93/api/';
   
   logintype:String="Student";
