@@ -4,7 +4,14 @@ const path = require('path');
 const http = require('http');
 const app = express();
 const api = require('./backend/api');
-
+app.use(function(req, res, next) {
+    if((!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
+        res.redirect('https://' + req.get('Host') + req.url);
+        // next();
+    }
+    else
+        next();
+});
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -27,7 +34,7 @@ app.get('*', (req, res) => {
 });
 
 // Set Port
-const port = process.env.PORT || '3000';
+const port = process.env.PORT || '80';
 app.set('port', port);
 
 const server = http.createServer(app);
