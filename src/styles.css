@@ -23,10 +23,19 @@ body {
     .hidden-print {
       display: none !important;
     }
+    .progress-bar {
+        background-color: #1a4567 !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+    }
+    .progress {
+        border: solid 1px #029da8 !important; 
+    }
   }
-
-
-
+  .progress-bar {
+    color: white !important;
+    background-color: #3d1841 !important;
+}
   /* ;loader */
   
 /* BUttons */
@@ -396,10 +405,10 @@ border-radius: 15px;
     cursor: pointer;
     transition: padding 1s;
 }
-.resultlist ul li:hover{
+/* .resultlist ul li:hover{
     padding: 11px;
     font-weight: 900;
-}
+} */
 .result-li-icons {
     text-align: right;
     float: right;
@@ -496,4 +505,16 @@ border-radius: 15px;
     font-weight: 900;
     font-size: 15px;
     color: green;
+}
+.t_c_r {
+    width: 1000px;
+    margin: auto;
+}
+.dngr_msg {
+    color: red;
+    font-size: 20px;
+    font-weight: 900;
+    width: 500px;
+    text-align: center;
+    margin: 60px auto;
 }

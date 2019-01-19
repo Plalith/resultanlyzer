@@ -22,20 +22,24 @@ export class ResultanalyzeComponent implements OnInit {
   arrayOne(n: number): any[] {
     return Array(n);
   }
-
     // get list of all results
   get_all_reults_list(){
     this.http.get(`${this.coms.apiurl}/get_all_reults_list_for_analysis`).subscribe((result:any)=>{
       this.resultlist=result;
     })
   }
+  getpercent(t,c){
+    return (t/c)*100;
+  }
   analyze(form:NgForm) {
     this.http.post(`${this.coms.apiurl}/do_resultanlyz`,{id:form.value.id}).subscribe((result:any)=>{
       if(result.Status==true){
         this.barchartdata=[];
         this.pieChartData=[];
-        this.result_data=result.data
-        console.log(this.result_data[0]);
+        this.c_r=[];
+        this.overal_data=[];
+        this.result_data=result;
+        let c_r = {branches:[],data:[{data:[],label: 'Passed'},{data:[],label: 'Failed'}]}
         for (let index = 0; index < result.data.length; index++) {
           let grapobj = {subjects:[],data:[{data:[],label: 'Passed'},{data:[],label: 'Failed'}],sub_names:[]}
           for(let sub=0; sub < result.data[index].data.subwise.length; sub++) {
@@ -44,14 +48,21 @@ export class ResultanalyzeComponent implements OnInit {
             grapobj.data[0].data.push(result.data[index].data.subwise[sub].passed)
             grapobj.data[1].data.push(result.data[index].data.subwise[sub].failed)
           }
+          c_r.branches.push(result.data[index].title);
+          c_r.data[0].data.push(result.data[index].data.overal.passed);
+          c_r.data[1].data.push(result.data[index].data.overal.failed);
+          this.overal_data.push(result.data[index].data.overal);
+          this.c_r.push(c_r);
           this.barchartdata.push(grapobj);
-          this.pieChartData.push({data:[result.data[index].data.overal.passed,result.data[index].data.overal.failed]})
+          this.pieChartData.push({data:[result.data[index].data.overal.passed,result.data[index].data.overal.failed]});
         }
-        console.log(this.barchartdata);
+        console.log(this.c_r);
       }
       this.resulttable=true;
     })
   }
+  overal_data=[];
+  public c_r=[];
   public pieChartLabels:string[] = ['Passed', 'Failed'];
   public pieChartData = [];
   public pieChartType:string = 'pie';

@@ -7,7 +7,6 @@ const api = require('./backend/api');
 app.use(function(req, res, next) {
     if((!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
         res.redirect('https://resultrepo.com'+ req.url);
-        // next();
     }
     else
         next();

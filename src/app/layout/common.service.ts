@@ -9,6 +9,7 @@ export class CommonService {
   
   apiurl='https://resultrepo.com/api/';
   // apiurl='http://35.157.193.93/api/';
+  // apiurl='http://localhost:3000/api/'
   
   logintype:String="Student";
 

@@ -1,102 +1,106 @@
 <div class="innermaincontent">
-    <div class="row hidden-print">
-        <div class="col-sm-12">
-            <div class="subheadding">
-                <span class="fotntwt700">Result Analysis</span>
-            </div>
-        </div>
+  <div class="row hidden-print">
+    <div class="col-sm-12">
+      <div class="subheadding">
+        <span class="fotntwt700">Result Analysis</span>
+      </div>
     </div>
-    <div class="divcontent">
-      <div class="row hidden-print">
-          
-        <div class="col-sm-12">
-          <div class="searchstudent">
-            <form (ngSubmit)="analyze(f)" #f="ngForm">
-              <label for="">Select Result</label>
-              <select ngModel name='id' class="form-control" required>
-                <option></option>
-                <option *ngFor="let result of resultlist" value={{result._id}}>{{result.Description}}</option>
-              </select><br>
-              <button [disabled]="!f.valid" class="btn btnone" type="Submit">Submit</button>
-            </form>
-          </div>
+  </div>
+  <div class="divcontent">
+    <div class="row hidden-print">
+
+      <div class="col-sm-12">
+        <div class="searchstudent">
+          <form (ngSubmit)="analyze(f)" #f="ngForm">
+            <label for="">Select Result</label>
+            <select ngModel name='id' class="form-control" required>
+              <option></option>
+              <option *ngFor="let result of resultlist" value={{result._id}}>{{result.Description}}</option>
+            </select><br>
+            <button [disabled]="!f.valid" class="btn btnone" type="Submit">Submit</button>
+          </form>
         </div>
       </div>
-        <div class="resulttable" *ngIf="resulttable==true">
-           <div class="row padd10px">
-              <div class="col-sm-12 text-center">
-                <span class="mediumtext">First year Second Seminster Result May 2015 <br>Analysis Report</span>
+    </div>
+    <div class="resulttable" *ngIf="resulttable==true">
+      <div class="row padd10px">
+        <div class="col-sm-12 text-center">
+          <span class="mediumtext">{{result_data.desc}}</span>
+        </div>
+      </div>
+      <div *ngFor="let result of result_data.data; let i=index;" class="{{i==0 ? 'resulttablecontent': 'resulttablecontent pagebreak'}}">
+        <h4 class="mediumtext fotntwt900">&nbsp; Result Of {{result.title}}</h4>
+        <table class="table" style="font-size:11px; border: 1px solid #b1c2aa;">
+          <tr class="mediumtext">
+            <th>Roll No</th>
+            <th *ngFor="let subname of result.data.subwise; let j=index;">{{subname.sub_name}}</th>
+            <!-- <th *ngFor="let subname of result.data.subwise; let j=index;">{{(subname.sub_name.length>15)? (subname.sub_name | slice:0:15)+'..':(subname.sub_name)}}</th> -->
+            <th>Total Marks</th>
+            <th>Status</th>
+          </tr>
+          <tr *ngFor="let student of result.data.allstudents; let k=index;">
+            <td>{{student.rollno}}</td>
+            <td *ngIf="result.data.subwise.length>00">{{student.sub0}}</td>
+            <td *ngIf="result.data.subwise.length>01">{{student.sub1}}</td>
+            <td *ngIf="result.data.subwise.length>02">{{student.sub2}}</td>
+            <td *ngIf="result.data.subwise.length>03">{{student.sub3}}</td>
+            <td *ngIf="result.data.subwise.length>04">{{student.sub4}}</td>
+            <td *ngIf="result.data.subwise.length>05">{{student.sub5}}</td>
+            <td *ngIf="result.data.subwise.length>06">{{student.sub6}}</td>
+            <td *ngIf="result.data.subwise.length>07">{{student.sub7}}</td>
+            <td *ngIf="result.data.subwise.length>08">{{student.sub8}}</td>
+            <td *ngIf="result.data.subwise.length>09">{{student.sub9}}</td>
+            <td *ngIf="result.data.subwise.length>010">{{student.sub10}}</td>
+            <td *ngIf="result.data.subwise.length>011">{{student.sub11}}</td>
+            <td *ngIf="result.data.subwise.length>012">{{student.sub12}}</td>
+            <td *ngIf="result.data.subwise.length>013">{{student.sub13}}</td>
+            <td *ngIf="result.data.subwise.length>014">{{student.sub14}}</td>
+            <td *ngIf="result.data.subwise.length>015">{{student.sub15}}</td>
+            <td>
+              <div *ngIf="student.status==true; else fail">
+                <span *ngIf="student.grade && student.status==true; else marks">{{(student.totalmarks/student.total_credits)
+                  | number:'1.1-1'}}</span><ng-template #marks> {{student.totalmarks}}</ng-template>
               </div>
-            </div>
-           <div *ngFor="let result of result_data; let i=index;" class="{{i==0 ? 'resulttablecontent': 'resulttablecontent pagebreak'}}" >
-            <h4 class="mediumtext fotntwt900">&nbsp; Result Of {{result.title}}</h4>
-            <table class="table" style="font-size:11px; border: 1px solid #b1c2aa;">
-                <tr class="mediumtext">
-                    <th>Roll No</th>
-                    <th *ngFor="let subname of result.data.subwise; let j=index;">{{subname.sub_name}}</th>
-                    <!-- <th *ngFor="let subname of result.data.subwise; let j=index;">{{(subname.sub_name.length>15)? (subname.sub_name | slice:0:15)+'..':(subname.sub_name)}}</th> -->
-                    <th>Total Marks</th>
-                    <th>Status</th>
-                </tr>
-                <tr *ngFor="let student of result.data.allstudents; let k=index;">
-                    <td>{{student.rollno}}</td>
-                    <td *ngIf="result.data.subwise.length>00">{{student.sub0}}</td>
-                    <td *ngIf="result.data.subwise.length>01">{{student.sub1}}</td>
-                    <td *ngIf="result.data.subwise.length>02">{{student.sub2}}</td>
-                    <td *ngIf="result.data.subwise.length>03">{{student.sub3}}</td>
-                    <td *ngIf="result.data.subwise.length>04">{{student.sub4}}</td>
-                    <td *ngIf="result.data.subwise.length>05">{{student.sub5}}</td>
-                    <td *ngIf="result.data.subwise.length>06">{{student.sub6}}</td>
-                    <td *ngIf="result.data.subwise.length>07">{{student.sub7}}</td>
-                    <td *ngIf="result.data.subwise.length>08">{{student.sub8}}</td>
-                    <td *ngIf="result.data.subwise.length>09">{{student.sub9}}</td>
-                    <td *ngIf="result.data.subwise.length>010">{{student.sub10}}</td>
-                    <td *ngIf="result.data.subwise.length>011">{{student.sub11}}</td>
-                    <td *ngIf="result.data.subwise.length>012">{{student.sub12}}</td>
-                    <td *ngIf="result.data.subwise.length>013">{{student.sub13}}</td>
-                    <td *ngIf="result.data.subwise.length>014">{{student.sub14}}</td>
-                    <td *ngIf="result.data.subwise.length>015">{{student.sub15}}</td>
-                    <td>{{student.totalmarks}}</td>
-                    <td><span *ngIf="student.status;">Passed</span> <span *ngIf="!student.status;" style="color:red">Failed</span> </td>
-                </tr>
-                <tr class="mediumtext">
-                    <td>Candidates Appeared</td>
-                    <td *ngFor="let total of result.data.subwise; let l=index;">{{total.passed+total.failed}}</td>
-                    <td>{{result.data.overal.passed+result.data.overal.failed}}</td>
-                    <td></td>
-                </tr>
-                <tr class="mediumtext">
-                    <td>Passed Candidates	</td>
-                    <td *ngFor="let total of result.data.subwise; let l=index;">{{total.passed}}</td>
-                    <td>{{result.data.overal.passed}}</td>
-                    <td></td>
-                </tr>
-                <tr class="mediumtext">
-                    <td>Pass Percentage	</td>
-                    <td *ngFor="let total of result.data.subwise; let l=index;">{{(((total.passed)/(total.passed+total.failed))*100) | number:'2.1-2'}} %</td>
-                    <td>{{(((result.data.overal.passed)/(result.data.overal.passed+result.data.overal.failed))*100) | number:'2.1-2'}} %</td>
-                    <td></td>
-                </tr>
-            </table>
-            <h3 class="mediumtext text-center hidden-print">Graph Representation</h3>
-            <div class="graph">
-              <div class="row">
-                <!-- <h4 class="mediumtext text-center">Result Of {{result.title}}</h4> -->
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <h5 class="mediumtext text-center">Subject Wise Report</h5>
-                  <div class="padd10px">
-                  <div style="display: block">
-                    <canvas baseChart
-                            [datasets]="barchartdata[i].data"
-                            [labels]="barchartdata[i].subjects"
-                            [options]="barChartOptions"
-                            [legend]="barChartLegend"
-                            [chartType]="barChartType"
-                            (chartHover)="chartHovered($event)"
-                            (chartClick)="chartClicked($event)"></canvas>
-                  </div>
-                  <div class="text-center">
-                  <div class="col-sm-12" >
+              <ng-template #fail>---</ng-template>
+            </td>
+            <td><span *ngIf="student.status;">Passed</span> <span *ngIf="!student.status;" style="color:red">Failed</span>
+            </td>
+          </tr>
+          <tr class="mediumtext">
+            <td>Candidates Appeared</td>
+            <td *ngFor="let total of result.data.subwise; let l=index;">{{total.passed+total.failed}}</td>
+            <td>{{result.data.overal.passed+result.data.overal.failed}}</td>
+            <td></td>
+          </tr>
+          <tr class="mediumtext">
+            <td>Passed Candidates </td>
+            <td *ngFor="let total of result.data.subwise; let l=index;">{{total.passed}}</td>
+            <td>{{result.data.overal.passed}}</td>
+            <td></td>
+          </tr>
+          <tr class="mediumtext">
+            <td>Pass Percentage </td>
+            <td *ngFor="let total of result.data.subwise; let l=index;">{{(((total.passed)/(total.passed+total.failed))*100)
+              | number:'2.1-2'}} %</td>
+            <td>{{(((result.data.overal.passed)/(result.data.overal.passed+result.data.overal.failed))*100) | number:'2.1-2'}}
+              %
+            </td>
+            <td></td>
+          </tr>
+        </table>
+        <h3 class="mediumtext text-center hidden-print">Graph Representation</h3>
+        <div class="graph">
+          <div class="row">
+            <!-- <h4 class="mediumtext text-center">Result Of {{result.title}}</h4> -->
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+              <h5 class="mediumtext text-center">Subject Wise Report</h5>
+              <div class="padd10px">
+                <div style="display: block">
+                  <canvas baseChart [datasets]="barchartdata[i].data" [labels]="barchartdata[i].subjects" [options]="barChartOptions" [legend]="barChartLegend"
+                    [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+                </div>
+                <div class="text-center">
+                  <div class="col-sm-12">
                     <table>
                       <tr *ngFor='let sub of barchartdata[i].subjects; let n=index;'>
                         <td align="left">{{sub}} = </td>
@@ -104,68 +108,48 @@
                       </tr>
                     </table>
                   </div>
-                  </div>
-                  </div>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <h5 class="mediumtext text-center">Total Branch Report</h5>
-                  <div class="padd10px">
-                  <div style="display: block">
-                    <canvas baseChart
-                        [data]="pieChartData[i].data"
-                        [labels]="pieChartLabels"
-                        [chartType]="pieChartType"
-                        (chartHover)="chartHovered($event)"
-                        (chartClick)="chartClicked($event)">
-                    </canvas>
-                  </div>
-                  <div class="col-sm-12 text-center"><b>Passed : {{((pieChartData[i].data[0])/(pieChartData[i].data[0]+pieChartData[i].data[1]))*100 | number:'2.1-2'}} % <br>Failed : {{100-(((pieChartData[i].data[0])/(pieChartData[i].data[0]+pieChartData[i].data[1]))*100) | number:'2.1-2'}} % </b></div>
-                  </div>
-                </div>
-              </div> 
-              <br><br> 
-              <hr>
+              </div>
             </div>
-           </div>
-           <!-- <h3 class="mediumtext text-center hidden-print">Graph Representation</h3> -->
-           <!-- <div class="graph">
-              <div class="row pagebreak">
-                <h4 class="mediumtext text-center">Result Of {{result.title}}</h4>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <h5 class="mediumtext text-center">Subject Wise Report</h5>
-                  <div class="padd10px">
-                  <div style="display: block">
-                    <canvas baseChart
-                            [datasets]="barchartdata[i].data"
-                            [labels]="barchartdata[i].subjects"
-                            [options]="barChartOptions"
-                            [legend]="barChartLegend"
-                            [chartType]="barChartType"
-                            (chartHover)="chartHovered($event)"
-                            (chartClick)="chartClicked($event)"></canvas>
-                  </div>
-                  <div class="col-sm-12 text-center" *ngFor='let sub of barchartdata[i].subjects; let n=index;'>{{sub}} = {{barchartdata[i].sub_names[n]}}</div>
-                  </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+              <h5 class="mediumtext text-center">Total Branch Report</h5>
+              <div class="padd10px">
+                <div style="display: block">
+                  <canvas baseChart [data]="pieChartData[i].data" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)">
+                  </canvas>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <h5 class="mediumtext text-center">Total Branch Report</h5>
-                  <div class="padd10px">
-                  <div style="display: block">
-                    <canvas baseChart
-                        [data]="pieChartData[i].data"
-                        [labels]="pieChartLabels"
-                        [chartType]="pieChartType"
-                        (chartHover)="chartHovered($event)"
-                        (chartClick)="chartClicked($event)">
-                    </canvas>
-                  </div>
-                  <div class="col-sm-12 text-center"><b>Passed : {{((pieChartData[i].data[0])/(pieChartData[i].data[0]+pieChartData[i].data[1]))*100 | number:'2.1-2'}} % <br>Failed : {{100-(((pieChartData[i].data[0])/(pieChartData[i].data[0]+pieChartData[i].data[1]))*100) | number:'2.1-2'}} % </b></div>
-                  </div>
-                </div>
-              </div> 
-              <br><br> 
-              <hr>
-            </div> -->
+                <div class="col-sm-12 text-center"><b>Passed : {{((pieChartData[i].data[0])/(pieChartData[i].data[0]+pieChartData[i].data[1]))*100
+                    | number:'2.1-2'}} % <br>Failed : {{100-(((pieChartData[i].data[0])/(pieChartData[i].data[0]+pieChartData[i].data[1]))*100)
+                    | number:'2.1-2'}} % </b></div>
+              </div>
+            </div>
+          </div>
+          <br><br>
+          <hr>
         </div>
+      </div>
+      <div class="graph pagebreak">
+        <div class="row t_c_r">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h5 class="mediumtext text-center">Overal College Performance</h5>
+            <div class="padd10px">
+              <div style="display: block">
+                <canvas baseChart [datasets]="c_r[0].data" [labels]="c_r[0].branches" [options]="barChartOptions" [legend]="barChartLegend"
+                  [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+              </div>
+              <div *ngFor='let branch of c_r[0].branches; let z=index'>
+                <h2>{{branch}}</h2>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                    [style.width.%]="(overal_data[z].passed/(overal_data[z].passed+overal_data[z].failed))*100">{{(overal_data[z].passed/(overal_data[z].passed+overal_data[z].failed))*100 | number:'2.1-2'}} %</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br><br>
+        <hr>
+      </div>
     </div>
-    
+  </div>

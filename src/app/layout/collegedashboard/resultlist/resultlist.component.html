@@ -13,10 +13,10 @@
             <div class="row">
               <div class="col-sm-8">{{result.Description}}</div>
               <div class="col-sm-4 result-li-icons">
-                  <div class="toltip"><i  (click)="get_result_data(result._id);" class="glyphicon glyphicon-eye-open"></i><span class="tooltiptext"> View</span></div>
-                  <div class="toltip"><i class="glyphicon glyphicon-import"></i><span class="tooltiptext">Export To Excel</span></div>
-                  <div class="toltip"><i class="glyphicon glyphicon-equalizer"></i><span class="tooltiptext">Result Analysis</span></div>
-                  <div class="toltip"><i (click)="remove_result_data(result._id);" class="glyphicon glyphicon-trash"></i><span class="tooltiptext">Delete</span></div>
+                  <i  (click)="get_result_data(result._id);" class="glyphicon glyphicon-eye-open"></i>
+                  <i class="glyphicon glyphicon-import"></i>
+                  <i class="glyphicon glyphicon-equalizer"></i>
+                  <i (click)="remove_result_data(result._id);" class="glyphicon glyphicon-trash"></i>
               </div>
             </div>
           </li>
