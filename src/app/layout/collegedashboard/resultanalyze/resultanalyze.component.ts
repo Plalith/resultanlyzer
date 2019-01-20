@@ -56,7 +56,6 @@ export class ResultanalyzeComponent implements OnInit {
           this.barchartdata.push(grapobj);
           this.pieChartData.push({data:[result.data[index].data.overal.passed,result.data[index].data.overal.failed]});
         }
-        console.log(this.c_r);
       }
       this.resulttable=true;
     })

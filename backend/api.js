@@ -1,14 +1,27 @@
 const express = require('express');
 const router = express.Router();
+const app = express();
 const mongoose = require('mongoose');
-const request = require('request');
 var _ = require('lodash');
+var jwt = require('jsonwebtoken');
 mongoose.connect('mongodb://lalith:Lalith123@cluster0-shard-00-00-kpxwj.gcp.mongodb.net:27017,cluster0-shard-00-01-kpxwj.gcp.mongodb.net:27017,cluster0-shard-00-02-kpxwj.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true', { useNewUrlParser: true });
 var users_students = require('./mongo_models/user_students');
 var user_colleges = require('./mongo_models/user_colleges');
 var college_list = require('./mongo_models/college_list');
 var result_data = require('./mongo_models/result_data');
 
+
+
+var setlement= {
+    id:10
+}
+var tokens={}
+
+
+
+var tokens_list = function(){
+    return tokens 
+}
 router.get('/status', (req, res) => {
     result_data.find({ data: { $size: 2 } }).then((result) => {
         res.send(result);
@@ -25,9 +38,24 @@ router.post('/login_college_users', (req, res) => {
     user_colleges.findOne({ 'username': req.body.username }).then((result) => {
         if (result != null) {
             if (req.body.password === result.password) {
+                let user_raw_tok= `hello`;
+                let token_val= jwt.sign(setlement,user_raw_tok);
+                tokens[result.username]=user_raw_tok;
                 res.send({
                     status: true,
-                    data: result
+                    data: {
+                        username:result.username,
+                        payment_status:result.payment.status,
+                        c_name:result.college.name,
+                        reg_id:result.college.reg_id,
+                        le_id:result.college.le_id,
+                        mobile:result.mobile,
+                        email:result.email,
+                        opt_ver:result.opt_ver,
+                        user_type:'college',
+                        logindate:new Date(),
+                        token_val:token_val
+                    }
                 });
             } else {
                 res.send({
@@ -413,5 +441,5 @@ router.post('/do_resultanlyz', (req, res) => {
         }
     })
 })
-
-module.exports = router;
+// exports.tokens = tokens;
+module.exports = {router,tokens};

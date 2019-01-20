@@ -25,12 +25,10 @@ export class LoginComponent implements OnInit, DoCheck{
     if(this.logintype=='Student') {
       this.router.navigateByUrl("/studentdashboard/sdashboard");
     } else if(this.logintype=='College') {
-
-      console.log(f.value);
       this.http.post(`${this.commomservice.apiurl}/login_college_users` ,{username:f.value.username , password:f.value.password}).subscribe((result:any)=>{
         if(result.status===true){
-          localStorage.setItem('collegename', result.data.college.name);
-          localStorage.setItem('username', result.data.username);
+          console.log(result);
+          localStorage.setItem('u_d', JSON.stringify(result.data));
           this.router.navigateByUrl("/collegedashboard/cdashboard");
         } else {
           this.loginerror=result.msg;
@@ -41,7 +39,7 @@ export class LoginComponent implements OnInit, DoCheck{
 
     }
   }
-  signup(){
+  signup() {
     if(this.logintype=='Student') {
       this.router.navigateByUrl("/signupStudent");
     } else if(this.logintype=='College') {

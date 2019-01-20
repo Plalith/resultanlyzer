@@ -10,7 +10,7 @@ export class CollegedashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.collegename=localStorage.getItem('collegename');
+    this.collegename= JSON.parse(localStorage.getItem('u_d')).c_name;
   }
   collegename;
 }
