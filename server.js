@@ -24,7 +24,7 @@ app.use(function(req, res, next) {
   app.use(function(req,res,next){
     console.log(req.header('token_val'));
     // console.log(api.tokens); got api token
-    console.log(req);
+    // console.log(req);
     // res.send({erroe:'yes'});
     next();
 });
