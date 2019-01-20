@@ -21,13 +21,13 @@ app.use(function(req, res, next) {
     }
     next();
   });
-  app.use(function(req,res,next){
-    console.log(req.header('token_val'));
-    // console.log(api.tokens); got api token
-    // console.log(req);
-    // res.send({erroe:'yes'});
-    next();
-});
+//   app.use(function(req,res,next){
+//     console.log(req.header('token_val'));
+//     // console.log(api.tokens); got api token
+//     // console.log(req);
+//     // res.send({erroe:'yes'});
+//     next();
+//     });
 // Parsers
 app.use(bodyParser.json({limit: '10mb', extended: true}))
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
