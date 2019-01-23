@@ -10,18 +10,8 @@ var users_students = mongoose.model('users_students', {
         trim:true
     },
     college:{
-        branch:{
-            type:String,
-            trim:true
-        },
-        course:{
-            type:String,
-            trim:true
-        },
-        batch:{
-            type:Number,
-            trim:true
-        }
+        type:String,
+        trim:true
     },
     mobile:{
         type:String,

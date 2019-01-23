@@ -9,19 +9,35 @@ var users_students = require('./mongo_models/user_students');
 var user_colleges = require('./mongo_models/user_colleges');
 var college_list = require('./mongo_models/college_list');
 var result_data = require('./mongo_models/result_data');
+var students = require('./mongo_models/students');
 
-
-
-var setlement= {
-    id:10
+var setlement = {
+    id: 10
 }
-var tokens={}
+var tokens = {}
 
-
-
-var tokens_list = function(){
-    return tokens 
-}
+// Add student manually 
+router.post('/add_student_man', (req, res) => {
+    new_serises = new students(req.body.student);
+    var student = req.body.student.students
+    students.find({ u_desc: req.body.student.u_desc }).then((result) => {
+        if (result.length === 0) {
+            new_serises.save().then((result) => {
+                res.send({status:true,msg:'Sucessfully Added'});
+            }).catch((e)=>{res.send({status:false,msg:'Unable To Add Data Try After Some Time'})});
+        } else {
+            students.update(
+                { u_desc: req.body.student.u_desc },
+                { $addToSet: { students: { $each: student } } }
+            ).then((pushed) => {
+                res.send({status:true,msg:'Sucessfully Added'});
+            }).catch((e)=>{res.send({status:false,msg:'Unable To Add Data Try After Some Time'})});
+        }
+    }).catch((e)=>{
+        res.send({status:false,msg:'Technical Issue Please Try After Some Time'})
+    });
+})
+// End add student manually
 router.get('/status', (req, res) => {
     result_data.find({ data: { $size: 2 } }).then((result) => {
         res.send(result);
@@ -38,23 +54,23 @@ router.post('/login_college_users', (req, res) => {
     user_colleges.findOne({ 'username': req.body.username }).then((result) => {
         if (result != null) {
             if (req.body.password === result.password) {
-                let user_raw_tok= `hello`;
-                let token_val= jwt.sign(setlement,user_raw_tok);
-                tokens[result.username]=user_raw_tok;
+                let user_raw_tok = `hello`;
+                let token_val = jwt.sign(setlement, user_raw_tok);
+                tokens[result.username] = user_raw_tok;
                 res.send({
                     status: true,
                     data: {
-                        username:result.username,
-                        payment_status:result.payment.status,
-                        c_name:result.college.name,
-                        reg_id:result.college.reg_id,
-                        le_id:result.college.le_id,
-                        mobile:result.mobile,
-                        email:result.email,
-                        opt_ver:result.opt_ver,
-                        user_type:'college',
-                        logindate:new Date(),
-                        token_val:token_val
+                        username: result.username,
+                        payment_status: result.payment.status,
+                        c_name: result.college.name,
+                        reg_id: result.college.reg_id,
+                        le_id: result.college.le_id,
+                        mobile: result.mobile,
+                        email: result.email,
+                        opt_ver: result.opt_ver,
+                        user_type: 'college',
+                        logindate: new Date(),
+                        token_val: token_val
                     }
                 });
             } else {
@@ -207,11 +223,11 @@ router.post('/get_student_result', (req, res) => {
     }).then(async (result) => {
         return new Promise(async (resolve, reject) => {
             let all_sem = ['11', '12', '21', '22', '31', '32', '41', '42'];
-            let all_data = {all_backlogs:0,data:[],stu_id:req.body.stu_id};
+            let all_data = { all_backlogs: 0, data: [], stu_id: req.body.stu_id };
             for (let sem = 0; sem < all_sem.length; sem++) {
                 let fined = result.filter((data) => data.semcode == all_sem[sem]);
                 let joindata = [];
-                let sem_data = { sem: all_sem[sem], data: [] ,backlogs:0};
+                let sem_data = { sem: all_sem[sem], data: [], backlogs: 0 };
                 for (let m = 0; m < await fined.length; m++) {
                     for (let k = 0; k < await fined[m].data.length; k++) {
                         joindata.push(fined[m].data[k]);
@@ -236,10 +252,10 @@ router.post('/get_student_result', (req, res) => {
             }
             resolve(await all_data)
         })
-    }).then((result)=>{
-        res.send({status:true,data:result,msg:`Sucssfully Listsed result of ${req.body.stu_id}`});
-    }).catch((err)=>{
-        res.send({status:false,msg:'Server Issue Please try again'})
+    }).then((result) => {
+        res.send({ status: true, data: result, msg: `Sucssfully Listsed result of ${req.body.stu_id}` });
+    }).catch((err) => {
+        res.send({ status: false, msg: 'Server Issue Please try again' })
     })
 });
 router.post('/get_result_data', (req, res) => {
@@ -263,7 +279,7 @@ router.post('/remove_result_data', (req, res) => {
 
 // list of result has only possible to analyse
 router.get('/get_all_reults_list_for_analysis', (req, res) => {
-    result_data.find({ analysis: true }).select('Description grade').sort({ date: -1 }).then((reuslt) => {
+    result_data.find().select('Description grade').sort({ date: -1 }).then((reuslt) => {
         res.send(reuslt);
     })
 });
@@ -442,4 +458,4 @@ router.post('/do_resultanlyz', (req, res) => {
     })
 })
 // exports.tokens = tokens;
-module.exports = {router,tokens};
+module.exports = { router, tokens };

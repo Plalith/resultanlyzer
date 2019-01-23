@@ -4,21 +4,22 @@ import { Observable } from 'rxjs/observable';
 import 'rxjs/add/operator/do';
 import { SlimLoadingBarService } from "ng2-slim-loading-bar";
 import { Promise } from "es6-promise";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-    constructor(private _loadingBar: SlimLoadingBarService) { }
+    urls_except: any = ['http://localhost/api/login_college_users']
+    constructor(private _loadingBar: SlimLoadingBarService, private router: Router) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-
-        this._loadingBar.start();
-        document.getElementById('loading').style.display = "block";
-        if (localStorage.getItem('u_d') === null) {
-            // Navigate to logout page
+        if (this.urls_except.includes(req.url)) {
+            return next.handle(req);
+        } else if (localStorage.getItem('u_d') === null) {
+            this.router.navigateByUrl('/login');
         } else {
+            this._loadingBar.start();
+            document.getElementById('loading').style.display = "block";
             let request = req.clone({
-                // headers: new HttpHeaders().append('Content-Type', 'application/json'),
-                setHeaders: { token_val: JSON.parse(localStorage.getItem('u_d')).token_val }
+                setHeaders: { token_val: JSON.parse(localStorage.getItem('u_d')).token_val, token_name: JSON.parse(localStorage.getItem('u_d')).username }
             });
             return next.handle(request)
                 .do(
@@ -27,20 +28,23 @@ export class TokenInterceptor implements HttpInterceptor {
                             // stop our loader here
                             this._loadingBar.complete();
                             document.getElementById('loading').style.display = "none";
-
                         }
                     },
                     (error: any) => {
                         if (error instanceof HttpErrorResponse) {
                             if (error.status == 501) {
-                                console.log("this is error")
+                                this.router.navigateByUrl('/login');
                                 this._loadingBar.complete();
                                 document.getElementById('loading').style.display = "none";
-
                             }
-                            console.log("this is error");
-                            this._loadingBar.complete();
-                            document.getElementById('loading').style.display = "none";
+                            if (error.status == 50) {
+                                // this.router.navigateByUrl('/login');
+                                this._loadingBar.complete();
+                                document.getElementById('loading').style.display = "none";
+                            }
+                            // this.router.navigateByUrl('/login');
+                            // this._loadingBar.complete();
+                            // document.getElementById('loading').style.display = "none";
 
                         }
                     }

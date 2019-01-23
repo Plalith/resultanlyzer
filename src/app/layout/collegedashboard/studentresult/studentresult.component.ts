@@ -15,7 +15,7 @@ export class StudentresultComponent implements OnInit {
   }
   resultnotfound:boolean=false;
   checkresult(form:NgForm){
-    this.http.post(`${this.coms.apiurl}/get_student_result`,{clg_uname:localStorage.getItem('username'),stu_id:form.value.id}).subscribe((result:any)=>{
+    this.http.post(`${this.coms.apiurl}/get_student_result`,{clg_uname:JSON.parse(localStorage.getItem('u_d')).username,stu_id:form.value.id}).subscribe((result:any)=>{
       console.log(result);
       if(result.status==true){
         this.resultarray=result.data;
