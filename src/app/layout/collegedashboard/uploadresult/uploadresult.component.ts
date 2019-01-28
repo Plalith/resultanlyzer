@@ -22,7 +22,6 @@ export class UploadresultComponent implements OnInit {
   csvdata;
 
   uploadresult(f:NgForm) {
-    console.log(f.value);
     var popup = document.getElementById('data_val_re');
     this.progress_bar=20;
     popup.style.display='block';
@@ -73,10 +72,9 @@ export class UploadresultComponent implements OnInit {
           semcode:`${f.value.result_year}${f.value.sem}`,
           Description:`Results For ${f.value.result_year}-${f.value.sem} ${f.value.rtype} Examinations ${f.value.month} ${f.value.year}`,
           data:this.csvdata,
-          college:localStorage.getItem('username'),
+          college:JSON.parse(localStorage.getItem('u_d')).username,
           analysis:is_anlyse,
           batch:f.value.batch
-
         }
         this.http.post(`${this.coms.apiurl}/upload_result_data`, {data:result_data}).subscribe((result:any)=>{
           console.log(result);

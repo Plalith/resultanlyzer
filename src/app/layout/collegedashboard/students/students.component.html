@@ -1,0 +1,70 @@
+<div class="innermaincontent" *ngIf="showview">
+  <div class="row hidden-print">
+      <div class="col-sm-12">
+        <div class="subheadding">
+          <span class="fotntwt700">List of Students</span>
+        </div>
+      </div>
+  </div>
+  <div class="divcontent">
+    <div class="resultlist">
+      <ul>
+        <li *ngFor='let result of studentslist'>
+          <div class="row">
+            <div class="col-sm-8">{{result.batch}} Batch {{result.branch}}-{{result.section}}</div>
+            <div class="col-sm-4 result-li-icons">
+                <i  (click)="get_student_data(result._id);" class="glyphicon glyphicon-eye-open"></i>
+                <i class="glyphicon glyphicon-import"></i>
+                <i (click)="remove_student_data(result._id);" class="glyphicon glyphicon-trash"></i>
+            </div>
+          </div>
+        </li>
+        <li *ngIf="studentslist.length==0"class="text-center">
+          <h5>No results Found</h5>
+        </li>
+      </ul>
+    </div>
+</div>
+</div>
+<div class="innermaincontent" *ngIf="!showview">
+  <div class="row hidden-print">
+      <div class="col-sm-2 hidden-print">
+        <h4 (click)="changediv()" style="cursor:pointer"><span class="glyphicon glyphicon-arrow-left"></span><span class="mediumtext"> &emsp;&emsp;Back</span></h4>
+      </div>
+      <div class="col-sm-12">
+        <div class="subheadding">
+          <span class="fotntwt700">View Result</span>
+        </div>
+      </div>
+  </div>
+  <div class="divcontent">
+    <div class="viewresult">
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          <h4 class="mediumtext">{{result_data.batch}} Batch {{result_data.branch}}-{{result_data.section}}</h4>
+        </div>
+        <div class="col-sm-12">
+          <table class="table" style="font-size:11px; border: 1px solid #b1c2aa;"> 
+            <tr class="mediumtext">
+              <th>Roll No</th>
+              <th>Student Name</th>
+              <th>Father Name</th>
+            </tr>
+            <tr *ngFor='let result of result_data.students'>
+              <td>{{result.rollno}}</td>
+              <td>{{result.student_name}}</td>
+              <td>{{result.father_name}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+  

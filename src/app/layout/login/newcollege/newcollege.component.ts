@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { CommonService } from '../../common.service';
 import {Promise} from 'es6-promise'
 import { Router } from '@angular/router';
-NgZone
 
 @Component({
   selector: 'app-newcollege',
@@ -18,6 +17,7 @@ export class NewcollegeComponent implements OnInit {
   user_avil=0;
   college_include=0;
   passwordsmatch=0;
+  clg_ids=[];
   ngOnInit() {
     this.getcollegenames();
   }
@@ -85,7 +85,6 @@ export class NewcollegeComponent implements OnInit {
     } else {
       this.passwordsmatch=1;
     }
-
   }
 
 

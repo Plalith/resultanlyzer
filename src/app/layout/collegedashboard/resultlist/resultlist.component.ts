@@ -30,7 +30,9 @@ export class ResultlistComponent implements OnInit {
   // get list of all results
   get_all_reults_list(){
     this.http.get(`${this.coms.apiurl}/get_all_reults_list`).subscribe((result:any)=>{
-      this.resultlist=result;
+      if(result.status==true){
+        this.resultlist=result.data;
+      }
     })
   }
 
@@ -39,21 +41,23 @@ export class ResultlistComponent implements OnInit {
     console.log(this.showview)
     return new Promise((resolve,reject)=>{
       this.http.post(`${this.coms.apiurl}/get_result_data`,{id:id}).subscribe((result:any)=>{
-        console.log(result);
-        this.result_data=result;
-        console.log(this.result_data);
-        resolve();
+        if(result.status===true){
+          this.result_data=result.data;
+          resolve();
+        } else {
+          reject();
+        }
       });
     }).then((result)=>{
-      console.log('yes');
       this.ngZone.run(()=> this.showview=false);
       console.log(this.showview)
-      
     });
   }
   remove_result_data(id){
-      this.http.post(`${this.coms.apiurl}remove_result_data`,{id:id}).subscribe((result:any)=>{
-        this.resultlist=result;
+      this.http.post(`${this.coms.apiurl}/remove_result_data`,{id:id}).subscribe((result:any)=>{
+        if(result.status===true){
+          this.resultlist=result.data;
+        }
       });
   }
 }

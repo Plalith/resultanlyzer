@@ -22,6 +22,7 @@ var students = mongoose.model('students', {
         trim:true
     },
     students:[{
+        _id : false,
         rollno:{
             type:String,
             trim:true

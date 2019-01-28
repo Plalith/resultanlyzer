@@ -22,20 +22,21 @@ app.use(function (req, res, next) {
     }
     next();
 });
-var url_exclude = ['/api/login_college_users'];
-// app.use(function (req, res, next) {
-//     if (url_exclude.includes(req.url)) {
-//         next();
-//     } else {
-//         jwt.verify(req.header('token_val'), api.tokens[req.header('token_name')], (err, success) => {
-//             if (err) {
-//                 res.sendStatus(202);
-//             } else {
-//                 next();
-//             }
-//         });
-//     }
-// });
+
+var url_exclude = ['/api/login_college_users','/api/get_coleges_names','/api/get_selected_coleges_names','/api/verify_rollno','/api/send_otp'];
+app.use(function (req, res, next) {
+    if (url_exclude.includes(req.url)) {
+        next();
+    } else {
+        jwt.verify(req.header('token_val'), api.tokens[req.header('token_name')], (err, success) => {
+            if (err) {
+                res.sendStatus(202);
+            } else {
+                next();
+            }
+        });
+    }
+});
 // Parsers
 app.use(bodyParser.json({ limit: '10mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))

@@ -25,7 +25,9 @@ export class ResultanalyzeComponent implements OnInit {
     // get list of all results
   get_all_reults_list(){
     this.http.get(`${this.coms.apiurl}/get_all_reults_list_for_analysis`).subscribe((result:any)=>{
-      this.resultlist=result;
+      if(result.status===true){
+        this.resultlist=result.data;
+      }
     })
   }
   getpercent(t,c){

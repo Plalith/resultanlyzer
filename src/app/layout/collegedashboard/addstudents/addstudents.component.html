@@ -8,24 +8,55 @@
   </div>
   <div class="divcontent">
     <div class="addstudents">
-      <form (ngSubmit)="uploadStudentscsv(f)" #f="ngForm" *ngIf="type=='csv'">
+      <!-- Exporting with csv -->
+      <form (ngSubmit)="addstudent_csv(f)" #f="ngForm" *ngIf="type=='csv'">
         <div class="row" style="padding-left:50px;padding-right:50px;">
           <div class="col-sm-4">
-            <label>Roll No</label>
-            <input type="text" ngModel name="rollno" class="form-control" required="">
+            <label>Branch</label>
+            <select ngModel name="branch" class="form-control" required="">
+              <option></option>
+              <option>CSE</option>
+              <option>EEE</option>
+              <option>ECE</option>
+              <option>MECH</option>
+              <option>MBA</option>
+            </select>
           </div>
           <div class="col-sm-4">
-            <label>Student Name</label>
-            <input type="text" ngModel name="sname" class="form-control" required="">
+            <label>Batch</label>
+            <select ngModel name="batch" class="form-control" required="">
+              <option></option>
+              <option>2013</option>
+              <option>2014</option>
+              <option>2015</option>
+              <option>2016</option>
+              <option>2017</option>
+              <option>2018</option>
+              <option>2019</option>
+              <option>2020</option>
+              <option>2021</option>
+              <option>2022</option>
+              <option>2023</option>
+              <option>2024</option>
+              <option>2025</option>
+              <option>2026</option>
+              <option>2027</option>
+            </select>
           </div>
           <div class="col-sm-4">
-            <label>Father Name</label>
-            <input type="text" ngModel name="fname" class="form-control" required="">
+            <label>Section</label>
+            <select ngModel name="section" class="form-control" required="">
+              <option></option>
+              <option>SEC-I</option>
+              <option>SEC-II</option>
+              <option>SEC-III</option>
+              <option>SEC-IV</option>
+            </select>
           </div>
           <div class="col-sm-4"></div>
           <div class="col-sm-4">
             <label style="padding-top:10px; font-weight:600;">Select File[Only CSV(Comma Delimited)]</label>
-            <input type="file" ngModel name="file" class="form-control" required>
+            <input type="file" ngModel name="file" class="form-control" required (change)="csv2Array($event)">
           </div>
         </div>
         <div class="text-center" style="padding:20px;">
@@ -33,6 +64,8 @@
           <h5><a (click)="changetype('manual')" style="cursor:pointer"> Add Students Manually</a> </h5>
         </div>
       </form>
+      <!-- END Exporting with csv  -->
+      <!-- Manually Adding Students -->
       <form (ngSubmit)="uploadStudentman(f)" #f="ngForm" *ngIf="type=='manual'">
         <div class="row" style="padding-left:50px;padding-right:50px;">
           <div class="col-sm-4">
@@ -95,6 +128,9 @@
           <h5><a (click)="changetype('csv')" style="cursor:pointer"> Add Students By Exporting csv File</a> </h5>
         </div>
       </form>
+      <p id="uplode_error" class="error text-center"></p>
+      <p id="uplode_success" class="success text-center"></p>
+      <!-- END Manually Adding Students -->
     </div>
   </div>
 </div>

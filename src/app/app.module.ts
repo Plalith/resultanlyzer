@@ -33,6 +33,7 @@ import { FeedbackreportsComponent } from './layout/collegedashboard/adminfeedbac
 import { InvoiceComponent } from './layout/collegedashboard/invoice/invoice.component';
 import { NewcollegeComponent } from './layout/login/newcollege/newcollege.component';
 import { NewstudentComponent } from './layout/login/newstudent/newstudent.component';
+import { StudentsComponent } from './layout/collegedashboard/students/students.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { NewstudentComponent } from './layout/login/newstudent/newstudent.compon
     FeedbackreportsComponent,
     InvoiceComponent,
     NewcollegeComponent,
-    NewstudentComponent
+    NewstudentComponent,
+    StudentsComponent
   ],
   imports: [
     BrowserModule,

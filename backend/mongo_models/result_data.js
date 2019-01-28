@@ -9,7 +9,9 @@ var result_data = mongoose.model('result_data', {
        type:String,
        trime:true 
     },
-    grade: {},
+    grade: {
+        type:Boolean
+    },
     month: {
         type:String,
         trime:true 

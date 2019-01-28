@@ -1,54 +1,47 @@
 <div class="divcontent">
-<div class="row">
+  <div class="row">
     <div class="borderdiv col-sm-3">
-        <div class="myprofile">
-            <div class="col-sm-12">
-              <h3 class="mediumtext">Quick Links</h3>
-              <div class="profiledetails quicklinks">
-                <ul>
-                  <li><a>Student Result</a></li>
-                  <li><a>College Report</a></li>
-                  <li><a>Branch Report</a></li>
-                  <li><a>Backlog Students List </a></li>
-                  <li><a>Feedback Report</a></li>
-                  <li><a>View Students</a></li>
-                  <li><a>bvc</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-sm-12">
-              <h3 class="mediumtext">Account Details</h3>
-              <div class="profiledetails">
-                <table>
-                  <tr>
-                    <th>Account Activated On </th>
-                    <td>: 12/08/2018</td>
-                  </tr>
-                  <tr>
-                    <th>Account Expries On</th>
-                    <td>: 12/08/2018</td>
-                  </tr>
-                  <tr>
-                    <th>Current Status</th>
-                    <td>: Active</td>
-                  </tr>
-                  <tr>
-                    <th>Click here to renew</th>
-                  </tr>
-                  </table>
-                </div>
-            </div>
-
+      <div class="myprofile">
+        <!-- <div class="col-sm-12">
+          <h3 class="mediumtext">Quick Links</h3>
+          <div class="profiledetails quicklinks">
+            <ul>
+              <li><a [routerLink]='["studentresult"]'>Student Result</a></li>
+              <li><a routerLink="/collegedashboard/resultanalyze">Result Report</a></li>
+              <li><a routerLink="/collegedashboard/feedback">Feedback Report</a></li>
+              <li><a>View Students</a></li>
+              <li><a>bvc</a></li>
+            </ul>
+          </div>
+        </div> -->
+        <div class="col-sm-12">
+          <h3 class="mediumtext">Account Details</h3>
+          <div class="profiledetails">
+            <table>
+              <tr>
+                <th>Account Activated On </th>
+                <td>: 12/08/2018</td>
+              </tr>
+              <tr>
+                <th>Account Expries On</th>
+                <td>: 12/08/2018</td>
+              </tr>
+              <tr>
+                <th>Current Status</th>
+                <td>: Active</td>
+              </tr>
+              <tr>
+                <th> <a>Click here to renew</a> </th>
+              </tr>
+            </table>
+          </div>
         </div>
+
+      </div>
     </div>
-    <div class="col-sm-6">  
+    <div class="col-sm-6">
       <h3>Past Years Pass Percentage</h3>
-      <canvas baseChart
-        [data]="lineChartData"
-        [labels]="lineChartLabels"
-        [options]="lineChartOptions"
-        chartType="line"
-        (chartHover)="chartHovered($event)"
+      <canvas baseChart [data]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" chartType="line" (chartHover)="chartHovered($event)"
         (chartClick)="chartClicked($event)">
       </canvas>
     </div>
@@ -56,14 +49,8 @@
       <h3>Student usage</h3>
       <br>
       <div style="display: block">
-        <canvas baseChart
-                [datasets]="barChartData"
-                [labels]="barChartLabels"
-                [options]="barChartOptions"
-                [legend]="barChartLegend"
-                [chartType]="barChartType"
-                (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)"></canvas>
+        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+          [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
       </div>
       <h3>Support</h3>
       <div class="profiledetails quicklinks">

@@ -8,10 +8,17 @@ import { Router } from "@angular/router";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-    urls_except: any = ['http://localhost/api/login_college_users']
+    urls_except: any = [
+        'http://localhost/api/login_college_users',
+        'http://localhost/api/get_coleges_names',
+        'http://localhost/api/get_selected_coleges_names',
+        'http://localhost/api/verify_rollno',
+        'http://localhost/api/send_otp',
+    ]
     constructor(private _loadingBar: SlimLoadingBarService, private router: Router) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (this.urls_except.includes(req.url)) {
+        console.log(req.url);
+        if (this.urls_except.includes(req.url) || req.url.match(/2factor.in/g)) {
             return next.handle(req);
         } else if (localStorage.getItem('u_d') === null) {
             this.router.navigateByUrl('/login');
@@ -42,10 +49,9 @@ export class TokenInterceptor implements HttpInterceptor {
                                 this._loadingBar.complete();
                                 document.getElementById('loading').style.display = "none";
                             }
-                            // this.router.navigateByUrl('/login');
-                            // this._loadingBar.complete();
-                            // document.getElementById('loading').style.display = "none";
-
+                            this.router.navigateByUrl('/login');
+                            this._loadingBar.complete();
+                            document.getElementById('loading').style.display = "none";
                         }
                     }
                 )

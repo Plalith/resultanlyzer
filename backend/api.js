@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 var _ = require('lodash');
 var jwt = require('jsonwebtoken');
+var request = require('request');
 mongoose.connect('mongodb://lalith:Lalith123@cluster0-shard-00-00-kpxwj.gcp.mongodb.net:27017,cluster0-shard-00-01-kpxwj.gcp.mongodb.net:27017,cluster0-shard-00-02-kpxwj.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true', { useNewUrlParser: true });
 var users_students = require('./mongo_models/user_students');
 var user_colleges = require('./mongo_models/user_colleges');
@@ -15,6 +16,19 @@ var setlement = {
     id: 10
 }
 var tokens = {}
+router.get('/logout', (req, res) => {
+    delete tokens[req.header('token_name')];
+    res.send({ status: true, msg: 'cleared backend token' });
+});
+
+router.post('/send_otp',(req,res1)=>{
+    request(`http://2factor.in/API/V1/b8a8551b-6f8d-11e8-a895-0200cd936042/SMS/+91${req.body.c_no}/AUTOGEN`, { json: true }, (err, res, body) => {
+        if (err) { console.log(err); res1.send({e:err})}
+        console.log(body.url);
+        console.log(body.explanation);
+        res1.send({e:res,data:body});
+    })
+})
 
 // Add student manually 
 router.post('/add_student_man', (req, res) => {
@@ -23,19 +37,22 @@ router.post('/add_student_man', (req, res) => {
     students.find({ u_desc: req.body.student.u_desc }).then((result) => {
         if (result.length === 0) {
             new_serises.save().then((result) => {
-                res.send({status:true,msg:'Sucessfully Added'});
-            }).catch((e)=>{res.send({status:false,msg:'Unable To Add Data Try After Some Time'})});
+                res.send({ status: true, msg: 'Sucessfully Added' });
+            }).catch((e) => { res.send({ status: false, msg: 'Unable To Add Data Try After Some Time' }) });
         } else {
             students.update(
                 { u_desc: req.body.student.u_desc },
                 { $addToSet: { students: { $each: student } } }
             ).then((pushed) => {
-                res.send({status:true,msg:'Sucessfully Added'});
-            }).catch((e)=>{res.send({status:false,msg:'Unable To Add Data Try After Some Time'})});
+                res.send({ status: true, msg: 'Sucessfully Added' });
+            }).catch((e) => { res.send({ status: false, msg: 'Unable To Add Data Try After Some Time' }) });
         }
-    }).catch((e)=>{
-        res.send({status:false,msg:'Technical Issue Please Try After Some Time'})
+    }).catch((e) => {
+        res.send({ status: false, msg: 'Technical Issue Please Try After Some Time' })
     });
+    // students.find().then((re)=>{
+    //     res.send(re);
+    // })
 })
 // End add student manually
 router.get('/status', (req, res) => {
@@ -49,7 +66,12 @@ router.get('/get_college_users', (req, res) => {
         res.send(result);
     });
 });
-
+// verify student roll no
+// router.post('/verify_rollno', (req,res)=>{
+//     user_colleges.findById(req.body.signup_data.collegename).then((result)=>{
+//         res.send({1:req.body.signup_data,2:result});
+//     })
+// });
 router.post('/login_college_users', (req, res) => {
     user_colleges.findOne({ 'username': req.body.username }).then((result) => {
         if (result != null) {
@@ -102,11 +124,14 @@ router.get('/get_coleges_names', (req, res) => {
     college_list.find().select('Collge_Name').sort({ 'Collge_Name': 1 }).then((result) => {
         res.send(result);
     });
-    // college_list.remove((result)=>{
-    //     res.send('all collections removed');
-    // })
 });
-
+router.get('/get_selected_coleges_names', (req, res) => {
+    user_colleges.find().select('college.name username college.reg_id college.le_id').sort({ 'college.name': 1 }).then((result) => {
+        res.send({status:true,data:result});
+    }).catch((e)=>{
+        res.send({status:false,data:e});
+    })
+});
 // For checking college username
 router.post('/get_c_user', (req, res) => {
     user_colleges.findOne({ username: req.body.username }).then((result) => {
@@ -162,27 +187,78 @@ router.post('/insert_user_student', (req, res) => {
 
 // API for uploading result data
 router.post('/upload_result_data', (req, res) => {
-    result_data.find({ college: req.body.data.college, Description: req.body.data.Description, grade: req.body.data.grade }).then((result) => {
+    result_data.find({ college: req.header('token_name'), Description: req.body.data.Description, grade: req.body.data.grade }).then((result) => {
         if (result.length == 0) {
             data = new result_data(req.body.data);
             data.save().then((reuslt) => {
                 res.send({ msg: 'Data Successfully Uploaded', status: true });
             }, (e) => {
-                res.send({ msg: 'Server Bussy', status: false });
+                res.send({ msg: 'Server Bussy 1', status: false });
             })
         } else {
             res.send({ msg: 'This Result Already Exist', status: false });
         }
     }, (e) => {
-        res.send({ msg: 'Server Bussy', status: false });
-    })
+        res.send({ msg: 'Server Bussy 2', status: false });
+    }).catch((e)=>{
+        res.send({ msg: 'Server Bussy 3', status: false });
+    });
 });
 // list of all results
 router.get('/get_all_reults_list', (req, res) => {
-    result_data.find().select('Description grade college').sort({ date: -1 }).then((reuslt) => {
-        res.send(reuslt);
+    result_data.find({college:req.header('token_name')}).select('Description grade college').sort({ date: -1 }).then((reuslt) => {
+        res.send({ status: true, data: reuslt });
+    }).catch((e) => {
+        res.send({ status: false, data: e, msg: 'Unable to get results data' });
+    });
+});
+// get result data
+router.post('/get_result_data', (req, res) => {
+    result_data.findById(req.body.id).sort({ date: -1 }).then((result) => {
+        var output = result.data.filter((dataa) => dataa.rollno.length >= 10)
+        result.data = output;
+        res.send({status:true,data:result});
+    }, (e) => {
+        res.send({ status: false, data: e })
     })
 });
+// remove result
+router.post('/remove_result_data', (req, res) => {
+    result_data.findOneAndDelete({ '_id': req.body.id }).then((main_result) => {
+        result_data.find().select('Description grade').sort({ date: -1 }).then((reuslt) => {
+            res.send({ status: true, data: reuslt });
+        })
+    }, (e) => {
+        res.send({ status: false, data: e })
+    })
+});
+// List of all students
+router.get('/get_all_students_list', (req, res) => {
+    students.find().select('batch branch section').sort({ date: -1 }).then((reuslt) => {
+        res.send({ status: true, data: reuslt });
+    }).catch((e) => {
+        res.send({ status: false, data: e, msg: 'Unable to get students data' });
+    })
+});
+// get list of students
+router.post('/get_student_data', (req, res) => {
+    students.findById({ '_id': req.body.id }).then((Result) => {
+        res.send({ status: true, data: Result });
+    }).catch((e) => {
+        res.send({ status: false, data: e, msg: 'Unable to send data' });
+    })
+});
+// remove student
+router.post('/remove_student_data', (req, res) => {
+    students.findOneAndDelete({ '_id': req.body.id }).then((main_result) => {
+        students.find().select('batch branch section').sort({ date: -1 }).then((reuslt) => {
+            res.send({ status: true, data: reuslt });
+        })
+    }, (e) => {
+        res.send({ status: false, data: e })
+    })
+});
+// Single Student Result
 router.post('/get_student_result', (req, res) => {
     // Function For grouping
     function groupdata(pm1, pm2) {
@@ -196,7 +272,7 @@ router.post('/get_student_result', (req, res) => {
         })
     }
     result_data.aggregate([
-        { "$match": { "college": `${req.body.clg_uname}` } },
+        { "$match": { "college": `${req.header('token_name')}` } },
         {
             $project: {
                 data: {
@@ -258,30 +334,16 @@ router.post('/get_student_result', (req, res) => {
         res.send({ status: false, msg: 'Server Issue Please try again' })
     })
 });
-router.post('/get_result_data', (req, res) => {
-    result_data.findById(req.body.id).sort({ date: -1 }).then((result) => {
-        var output = result.data.filter((dataa) => dataa.rollno.length >= 10)
-        result.data = output;
-        res.send(result);
-    }, (e) => {
-        res.send({ status: false, data: e })
-    })
-})
-router.post('/remove_result_data', (req, res) => {
-    result_data.findOneAndDelete({ '_id': req.body.id }).then((main_result) => {
-        result_data.find().select('Description grade').sort({ date: -1 }).then((reuslt) => {
-            res.send(reuslt);
-        })
-    }, (e) => {
-        res.send({ status: false, data: e })
-    })
-})
+// Single Student result end
 
 // list of result has only possible to analyse
 router.get('/get_all_reults_list_for_analysis', (req, res) => {
-    result_data.find().select('Description grade').sort({ date: -1 }).then((reuslt) => {
-        res.send(reuslt);
-    })
+    console.log('hit');
+    result_data.find({ analysis: true,college:req.header('token_name') }).select('Description grade college').sort({ date: -1 }).then((reuslt) => {
+        res.send({status:true,data:reuslt});
+    },(e)=>{
+        res.send({status:false,data:e,msg:'Unable to get list'});
+    }).catch((e)=>res.send({status:false,data:e,msg:'Unable to get list'}))
 });
 
 // analysing result
