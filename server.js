@@ -22,8 +22,12 @@ app.use(function (req, res, next) {
     }
     next();
 });
-
-var url_exclude = ['/api/login_college_users','/api/get_coleges_names','/api/get_selected_coleges_names','/api/verify_rollno','/api/send_otp'];
+// Angular DIST output folder
+app.use(express.static(path.join(__dirname, 'dist/result')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/result/index.html'));
+});
+var url_exclude = ['/','/api/login_college_users','/api/get_coleges_names','/api/get_selected_coleges_names','/api/verify_rollno','/api/send_otp'];
 app.use(function (req, res, next) {
     if (url_exclude.includes(req.url)) {
         next();
@@ -41,16 +45,13 @@ app.use(function (req, res, next) {
 app.use(bodyParser.json({ limit: '10mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))
 
-// Angular DIST output folder
-app.use(express.static(path.join(__dirname, 'dist/result')));
+
 
 // API location
 app.use('/api', api.router);
 
 // Send all other requests to the Angular app
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/result/index.html'));
-});
+
 
 // Set Port
 const port = process.env.PORT || '80';
