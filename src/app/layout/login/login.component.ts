@@ -23,7 +23,17 @@ export class LoginComponent implements OnInit, DoCheck{
   }  
   login(f:NgForm){
     if(this.logintype=='Student') {
-      this.router.navigateByUrl("/studentdashboard/sdashboard");
+      this.http.post(`${this.commomservice.apiurl}/login_student` ,{username:f.value.username , password:f.value.password}).subscribe((result:any)=>{
+        if(result.status===true){
+          console.log(result);
+          localStorage.setItem('u_d', JSON.stringify(result.data));
+          this.router.navigateByUrl("/studentdashboard/sdashboard");
+        } else {
+          this.loginerror=result.msg;
+        }
+      },(e)=>{
+        this.router.navigateByUrl("/login");
+      });
     } else if(this.logintype=='College') {
       this.http.post(`${this.commomservice.apiurl}/login_college_users` ,{username:f.value.username , password:f.value.password}).subscribe((result:any)=>{
         if(result.status===true){
@@ -35,8 +45,7 @@ export class LoginComponent implements OnInit, DoCheck{
         }
       },(e)=>{
         this.router.navigateByUrl("/login");
-      })
-
+      });
     }
   }
   signup() {

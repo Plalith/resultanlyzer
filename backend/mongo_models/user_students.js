@@ -28,6 +28,13 @@ var users_students = mongoose.model('users_students', {
     password:{
         type:String,
         trim:true
+    },
+    payment:{
+        type:String,
+        trim:true
+    },
+    payment_date:{
+        type:Date
     }
 }); 
 

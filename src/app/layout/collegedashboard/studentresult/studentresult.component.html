@@ -22,21 +22,22 @@
         </div>
         <div class="resulttable" *ngIf="resulttable">
             <div class="row padd10px">
-                <div class="col-sm-4">
-                    <span class="mediumtext">Roll No &nbsp;&nbsp;:&nbsp;&nbsp;{{resultarray.stu_id}}</span>
+                <div class="col-sm-12 result_info">
+                    <img class="student_image" src="https://resultanlyz.com/studentsphotos/l6nritnp_ssiet/13541A0503.jpg" alt="">
+                    <div class="detail_res">
+                        <span class="mediumtext">Roll No &nbsp;&nbsp;:&nbsp;&nbsp;{{resultarray.stu_id}}</span><br><br>
+                        <span class="mediumtext">Total Backlogs &nbsp;&nbsp;:&nbsp;&nbsp;{{resultarray.all_backlogs}} </span><br><br>
+                        <span class="mediumtext">Percentage Till&nbsp;&nbsp;:&nbsp;&nbsp;{{resultarray.stu_id}}%</span><br><br>
+                    </div>
                 </div>
                 <div class="col-sm-4">
-                    <!-- <span class="mediumtext">Backlogs &nbsp;&nbsp;:&nbsp;&nbsp; 5</span> -->
-                </div>
-                <div class="col-sm-4">
-                    <span class="mediumtext">Total Backlogs &nbsp;&nbsp;:&nbsp;&nbsp;{{resultarray.all_backlogs}} </span>
+
                 </div>
             </div>
-            <hr>
             <div class="resulttablecontent" *ngFor="let result of resultarray.data">
                 <div *ngIf="result.data.length>0">
-                    <h4 class="mediumtext fotntwt900">&nbsp;Semister {{result.sem}}</h4>
-                    <table class="table">
+                    <h4 class="mediumtext fotntwt900 bgclr_light">&nbsp;Semister {{result.sem}} <b class="backlogs_count">Backlogs:{{result.backlogs}}</b></h4>
+                    <table class="table outline_bdr">
                         <tr>
                             <th>Subject Code</th>
                             <th>Subject Name</th>
@@ -56,11 +57,10 @@
                             <td>{{sub.count}}</td>
                         </tr>
                     </table>
-                    <hr>
                 </div>
             </div>
             <div class="dngr_msg" *ngIf='resultnotfound'>
-                Result Not Found 
+                Result Not Found
             </div>
         </div>
     </div>

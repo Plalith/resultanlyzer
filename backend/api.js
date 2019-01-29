@@ -16,20 +16,157 @@ var setlement = {
     id: 10
 }
 var tokens = {}
-router.get('/logout', (req, res) => {
-    delete tokens[req.header('token_name')];
-    res.send({ status: true, msg: 'cleared backend token' });
-});
-
-router.post('/send_otp',(req,res1)=>{
-    request(`http://2factor.in/API/V1/b8a8551b-6f8d-11e8-a895-0200cd936042/SMS/+91${req.body.c_no}/AUTOGEN`, { json: true }, (err, res, body) => {
-        if (err) { console.log(err); res1.send({e:err})}
-        console.log(body.url);
-        console.log(body.explanation);
-        res1.send({e:res,data:body});
+//******************Student_User API *********************************************/
+// Login College users
+router.post('/login_student', (req, res) => {
+    users_students.findOne({ id: req.body.username }).then((result) => {
+        if (result != null) {
+            if (req.body.password === result.password) {
+                let user_raw_tok = `hello`;
+                let token_val = jwt.sign(setlement, user_raw_tok);
+                tokens[result.id] = user_raw_tok;
+                res.send({
+                    status: true,
+                    data: {
+                        username: result.id,
+                        payment_status: result.payment,
+                        c_name: result.college,
+                        mobile: result.mobile,
+                        email: result.email,
+                        user_type: 'student',
+                        logindate: new Date(),
+                        token_val: token_val,
+                        s_name: result.Name
+                    }
+                });
+            } else {
+                res.send({
+                    status: false,
+                    msg: 'Wrong Password'
+                })
+            }
+        } else {
+            res.send({
+                status: false,
+                msg: 'User Not Found'
+            })
+        }
+    }, (e) => {
+        res.send({
+            status: false,
+            msg: 'Please Try Again'
+        })
     })
-})
+});
+// Student Signup
+router.post('/insert_user_student', (req, res) => {
+    console.log(req.body.student)
+    user = new users_students(req.body.student);
+    user.save().then((result) => {
+        res.send({ status: true, data: result });
+    }).catch((e) => {
+        res.send({ status: false, data: e, msg: 'not able to add student' });
+    });
+});
+// User student checking for duplication
+router.post('/checkduplicaton', (req, res) => {
+    users_students.find({ id: req.body.student.username }).then((result1) => {
+        if (result1.length === 0) {
+            users_students.find({ mobile: req.body.student.contactno }).then((result2) => {
+                if (result2.length === 0) {
+                    res.send({ status: true, data: result1, msg: 'No Records Found You can Call otp API' });
+                } else {
+                    res.send({ status: false, data: result2, msg: 'Mobile Number Already Exist! Please Use Another Mobile Number.' });
+                }
+            });
+        } else {
+            res.send({ status: false, data: result1, msg: 'User Already Exist' });
+        }
+    }).catch((e) => {
+        res.send({ status: false, data: result1, msg: 'Unable Send Data Please Try After Some time' });
+    })
+});
+// Get Student Result
+router.get('/get_my_result', (req, res) => {
+    // Function For grouping
+    function groupdata(pm1, pm2) {
+        return new Promise((resolve, reject) => {
+            var data = _.chain(pm1).groupBy(pm2).map(function (v, i) {
+                return {
+                    value: i
+                }
+            }).value()
+            resolve(data);
+        })
+    }
+    console.log(parseInt(req.header('token_c_name').substring(0,2)))
+    result_data.aggregate([
+        { "$match": { "college": `${req.header('token_c_name')}` } },
+        {
+            $project: {
+                data: {
+                    $filter: {
+                        input: "$data",
+                        as: "student",
+                        cond: {
+                            "$or": [
+                                { "$eq": ["$$student.rollno", `${req.header('token_name')}`] },
+                            ]
+                        }
+                    },
+                },
+                semcode: 1,
+            }
+        }
+    ]).then((result) => {
+        return new Promise(async (resolve, reject) => {
+            let stu_data = [];
+            stu_data.push(result);
+            var filtered = stu_data[0].filter((data) => data.data.length > 0)
+            resolve(await filtered);
+        });
+    }).then(async (result) => {
+        return new Promise(async (resolve, reject) => {
+            let all_sem = ['11', '12', '21', '22', '31', '32', '41', '42'];
+            let all_data = { all_backlogs: 0, data: [], stu_id: req.body.stu_id };
+            for (let sem = 0; sem < all_sem.length; sem++) {
+                let fined = result.filter((data) => data.semcode == all_sem[sem]);
+                let joindata = [];
+                let sem_data = { sem: all_sem[sem], data: [], backlogs: 0 };
+                for (let m = 0; m < await fined.length; m++) {
+                    for (let k = 0; k < await fined[m].data.length; k++) {
+                        joindata.push(fined[m].data[k]);
+                    }
+                }
+                groupdata(await joindata, 'subcode').then(async (subjects) => {
+                    for (let e_s = 0; e_s < subjects.length; e_s++) {
+                        let each_sub = {};
+                        let sub = joindata.filter((data) => data.subcode == subjects[e_s].value);
+                        if (sub.filter((data) => data.credits > 0).length > 0) {
+                            each_sub = sub.filter((data) => data.credits > 0)[0]
+                        } else {
+                            sem_data.backlogs++;
+                            all_data.all_backlogs++;
+                            each_sub = sub[0];
+                        }
+                        each_sub.count = sub.length;
+                        sem_data.data.push(each_sub)
+                    }
+                    all_data.data.push(await sem_data);
+                })
+            }
+            resolve(await all_data)
+        })
+    }).then((result) => {
+        res.send({ status: true, data: result, msg: `Sucssfully Listsed result of ${req.body.stu_id}` });
+    }).catch((err) => {
+        res.send({ status: false, msg: 'Server Issue Please try again' })
+    })
+});
+//******************Student_User END *********************************************/
 
+
+// ***************** COllege User API Starts ******************************/
 // Add student manually 
 router.post('/add_student_man', (req, res) => {
     new_serises = new students(req.body.student);
@@ -54,24 +191,7 @@ router.post('/add_student_man', (req, res) => {
     //     res.send(re);
     // })
 })
-// End add student manually
-router.get('/status', (req, res) => {
-    result_data.find({ data: { $size: 2 } }).then((result) => {
-        res.send(result);
-    })
-})
-
-router.get('/get_college_users', (req, res) => {
-    user_colleges.find().then((result) => {
-        res.send(result);
-    });
-});
-// verify student roll no
-// router.post('/verify_rollno', (req,res)=>{
-//     user_colleges.findById(req.body.signup_data.collegename).then((result)=>{
-//         res.send({1:req.body.signup_data,2:result});
-//     })
-// });
+// Login College User
 router.post('/login_college_users', (req, res) => {
     user_colleges.findOne({ 'username': req.body.username }).then((result) => {
         if (result != null) {
@@ -115,21 +235,18 @@ router.post('/login_college_users', (req, res) => {
     })
 });
 
-router.get('/get_students', (req, res) => {
-    user_colleges.find().then((result) => {
-        res.send(result);
-    })
-});
+// Get College names for signup
 router.get('/get_coleges_names', (req, res) => {
     college_list.find().select('Collge_Name').sort({ 'Collge_Name': 1 }).then((result) => {
         res.send(result);
     });
 });
+// Get Colleges For student signup
 router.get('/get_selected_coleges_names', (req, res) => {
     user_colleges.find().select('college.name username college.reg_id college.le_id').sort({ 'college.name': 1 }).then((result) => {
-        res.send({status:true,data:result});
-    }).catch((e)=>{
-        res.send({status:false,data:e});
+        res.send({ status: true, data: result });
+    }).catch((e) => {
+        res.send({ status: false, data: e });
     })
 });
 // For checking college username
@@ -144,8 +261,7 @@ router.post('/get_c_name', (req, res) => {
         res.send(result);
     });
 });
-
-// API for signup
+// API for Colege signup
 router.post('/insert_user_college', (req, res) => {
     // assigning dataonject to mongoose model
     user = new user_colleges(req.body);
@@ -165,26 +281,6 @@ router.post('/insert_user_college', (req, res) => {
         });
     });
 });
-
-router.post('/insert_user_student', (req, res) => {
-    user = new users_students({
-        id: '13541A0503',
-        Name: 'Lalith Kumar',
-        college: {
-            branch: 'CSE',
-            course: 'B-Tech',
-            batch: 2013
-        },
-        mobile: '9704620705',
-        address: 'Vissannapeta, 9-45,krishna Dt',
-        email: 'lalith889@gmail.com',
-        password: 'Lalith@123'
-    });
-    user.save().then((result) => {
-        res.send({ Status: 'DOne' });
-    });
-});
-
 // API for uploading result data
 router.post('/upload_result_data', (req, res) => {
     result_data.find({ college: req.header('token_name'), Description: req.body.data.Description, grade: req.body.data.grade }).then((result) => {
@@ -200,13 +296,13 @@ router.post('/upload_result_data', (req, res) => {
         }
     }, (e) => {
         res.send({ msg: 'Server Bussy 2', status: false });
-    }).catch((e)=>{
+    }).catch((e) => {
         res.send({ msg: 'Server Bussy 3', status: false });
     });
 });
 // list of all results
 router.get('/get_all_reults_list', (req, res) => {
-    result_data.find({college:req.header('token_name')}).select('Description grade college').sort({ date: -1 }).then((reuslt) => {
+    result_data.find({ college: req.header('token_name') }).select('Description grade college').sort({ date: -1 }).then((reuslt) => {
         res.send({ status: true, data: reuslt });
     }).catch((e) => {
         res.send({ status: false, data: e, msg: 'Unable to get results data' });
@@ -217,7 +313,7 @@ router.post('/get_result_data', (req, res) => {
     result_data.findById(req.body.id).sort({ date: -1 }).then((result) => {
         var output = result.data.filter((dataa) => dataa.rollno.length >= 10)
         result.data = output;
-        res.send({status:true,data:result});
+        res.send({ status: true, data: result });
     }, (e) => {
         res.send({ status: false, data: e })
     })
@@ -313,15 +409,27 @@ router.post('/get_student_result', (req, res) => {
                     for (let e_s = 0; e_s < subjects.length; e_s++) {
                         let each_sub = {};
                         let sub = joindata.filter((data) => data.subcode == subjects[e_s].value);
-                        if (sub.filter((data) => data.credits > 0).length > 0) {
-                            each_sub = sub.filter((data) => data.credits > 0)[0]
-                        } else {
-                            sem_data.backlogs++;
-                            all_data.all_backlogs++;
-                            each_sub = sub[0];
+                        if(Object.keys(sub[0]).length==5){
+                            if (sub.filter((data) => data.credits > 0).length > 0) {
+                                each_sub = sub.filter((data) => data.credits > 0)[0]
+                            } else {
+                                sem_data.backlogs++;
+                                all_data.all_backlogs++;
+                                each_sub = sub[0];
+                            }
+                            each_sub.count = sub.length;
+                            sem_data.data.push(each_sub);
+                        } else if(Object.keys(sub[0]).length==6){
+                            if (sub.filter((data) => data.credits > 0).length > 0) {
+                                each_sub = sub.filter((data) => data.credits > 0)[0]
+                            } else {
+                                sem_data.backlogs++;
+                                all_data.all_backlogs++;
+                                each_sub = sub[0];
+                            }
+                            each_sub.count = sub.length;
+                            sem_data.data.push(each_sub);
                         }
-                        each_sub.count = sub.length;
-                        sem_data.data.push(each_sub)
                     }
                     all_data.data.push(await sem_data);
                 })
@@ -334,18 +442,15 @@ router.post('/get_student_result', (req, res) => {
         res.send({ status: false, msg: 'Server Issue Please try again' })
     })
 });
-// Single Student result end
-
 // list of result has only possible to analyse
 router.get('/get_all_reults_list_for_analysis', (req, res) => {
     console.log('hit');
-    result_data.find({ analysis: true,college:req.header('token_name') }).select('Description grade college').sort({ date: -1 }).then((reuslt) => {
-        res.send({status:true,data:reuslt});
-    },(e)=>{
-        res.send({status:false,data:e,msg:'Unable to get list'});
-    }).catch((e)=>res.send({status:false,data:e,msg:'Unable to get list'}))
+    result_data.find({ analysis: true, college: req.header('token_name') }).select('Description grade college').sort({ date: -1 }).then((reuslt) => {
+        res.send({ status: true, data: reuslt });
+    }, (e) => {
+        res.send({ status: false, data: e, msg: 'Unable to get list' });
+    }).catch((e) => res.send({ status: false, data: e, msg: 'Unable to get list' }))
 });
-
 // analysing result
 router.post('/do_resultanlyz', (req, res) => {
     result_data.findById(req.body.id).then((result) => {
@@ -519,5 +624,14 @@ router.post('/do_resultanlyz', (req, res) => {
         }
     })
 })
-// exports.tokens = tokens;
+// ***************** COllege User API END ******************************/
+
+// ****************** Common *******************************************/
+// Logout
+router.get('/logout', (req, res) => {
+    delete tokens[req.header('token_name')];
+    res.send({ status: true, msg: 'cleared backend token' });
+});
+// ****************** Common *******************************************/
 module.exports = { router, tokens };
+

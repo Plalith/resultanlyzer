@@ -7,77 +7,47 @@
         </div>
     </div>
     <div class="divcontent">
-        <div class="resulttable">
-           <div class="row padd10px">
-              <div class="col-sm-4">
-                <span class="mediumtext">Roll No &nbsp;&nbsp;:&nbsp;&nbsp;17P41S0523</span>
-              </div>
-              <div class="col-sm-4">
-                <span class="mediumtext">Backlogs &nbsp;&nbsp;:&nbsp;&nbsp; 5</span>
-              </div>
-              <div class="col-sm-4">
-                <span class="mediumtext">Percentage(Till) &nbsp;&nbsp;:&nbsp;&nbsp; 68%</span>
-              </div>
-           </div>
-           <hr>
-           <div class="resulttablecontent" *ngFor="let result of resultarray">
-            <h4 class="mediumtext fotntwt900">&nbsp;Semister 1</h4>
-            <table class="table">
-                <tr>
-                    <th>Subject Code</th>
-                    <th>Subject Name</th>
-                    <th>Subject Internals</th>
-                    <th>Subject Externals</th>
-                    <th>Credits</th>
-                    <th>Attempts</th>
-                </tr>
-                <tr>
-                    <td>RT21034</td>
-                    <td>MANAGERIAL ECONOMICS & FINANCIAL ANALYSIS</td>
-                    <td>15</td>
-                    <td>25</td>
-                    <td>3</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>RT21034</td>
-                    <td>DATA STRUCTURES</td>
-                    <td>15</td>
-                    <td>25</td>
-                    <td>3</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>RT21034</td>
-                    <td>OBJECT ORIENTED PROGRAMMING THROUGH C++</td>
-                    <td>15</td>
-                    <td>25</td>
-                    <td>3</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>RT21034</td>
-                    <td>MATHEMATICAL FOUNDATIONS OF COMLUTER SCIENCE</td>
-                    <td>15</td>
-                    <td>25</td>
-                    <td>3</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>RT21034</td>
-                    <td>OBJECT ORIENTED PROGRAMMING LAB</td>
-                    <td>15</td>
-                    <td>25</td>
-                    <td>3</td>
-                    <td>1</td>
-                </tr>
-                <tr class="fotntwt700">
-                    <td>Overal Semister Report</td>
-                    <td>Percentage : 52%</td>
-                    <td>Backlogs : 2</td>
-                </tr>
-            </table>
+        <div class="resulttable" *ngIf="resulttable">
+            <div class="row padd10px">
+                <div class="col-sm-4">
+                    <span class="mediumtext">Roll No &nbsp;&nbsp;:&nbsp;&nbsp;{{student.username}}</span>
+                </div>
+                <div class="col-sm-4">
+                    <!-- <span class="mediumtext">Backlogs &nbsp;&nbsp;:&nbsp;&nbsp; 5</span> -->
+                </div>
+                <div class="col-sm-4">
+                    <span class="mediumtext">Total Backlogs &nbsp;&nbsp;:&nbsp;&nbsp;{{resultarray.all_backlogs}} </span>
+                </div>
+            </div>
             <hr>
-           </div>
+            <div class="resulttablecontent" *ngFor="let result of resultarray.data">
+                <div *ngIf="result.data.length>0">
+                    <h4 class="mediumtext fotntwt900">&nbsp;Semister {{result.sem}}</h4>
+                    <table class="table">
+                        <tr>
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
+                            <th *ngIf="result.data[0].internals!==undefined">Subject Internals</th>
+                            <th *ngIf="result.data[0].externals!==undefined">Subject Externals</th>
+                            <th *ngIf="result.data[0].grade!==undefined">Subject Grade</th>
+                            <th>Credits</th>
+                            <th>Attempts</th>
+                        </tr>
+                        <tr *ngFor="let sub of result.data">
+                            <td>{{sub.subcode}}</td>
+                            <td>{{sub.subname}}</td>
+                            <td *ngIf="result.data[0].internals!==undefined">{{sub.internals}}</td>
+                            <td *ngIf="result.data[0].externals!==undefined">{{sub.externals}}</td>
+                            <td *ngIf="result.data[0].grade!==undefined">{{sub.grade}}</td>
+                            <td>{{sub.credits}}</td>
+                            <td>{{sub.count}}</td>
+                        </tr>
+                    </table>
+                    <hr>
+                </div>
+            </div>
+            <div class="dngr_msg" *ngIf='resultnotfound'>
+                Result Not Found
+            </div>
         </div>
     </div>

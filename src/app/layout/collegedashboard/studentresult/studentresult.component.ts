@@ -10,10 +10,11 @@ import { HttpClient } from '@angular/common/http';
 export class StudentresultComponent implements OnInit {
   resultarray:Array<any>=[];
   resulttable=false;
+  resultnotfound:boolean=false;
   constructor(private coms:CommonService,private http:HttpClient) { }
   ngOnInit() {
   }
-  resultnotfound:boolean=false;
+  
   checkresult(form:NgForm){
     this.http.post(`${this.coms.apiurl}/get_student_result`,{clg_uname:JSON.parse(localStorage.getItem('u_d')).username,stu_id:form.value.id}).subscribe((result:any)=>{
       console.log(result);
@@ -35,6 +36,6 @@ export class StudentresultComponent implements OnInit {
     },(e)=>{
       this.resulttable=false;
       console.log('server error');
-    })
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone,HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonService } from '../../common.service';
@@ -18,6 +18,8 @@ export class NewstudentComponent implements OnInit {
   studentdata;
   otp_screen=false;
   otp_id='';
+  otpvalid=0;
+  error_msg='Please Try After Somtime';
   ngOnInit() {
     this.getcollegenames();
   }
@@ -38,18 +40,81 @@ export class NewstudentComponent implements OnInit {
   }
   signup(f:NgForm){
     this.studentdata=f.value;
-    this.http.post(`https://2factor.in/API/V1/b8a8551b-6f8d-11e8-a895-0200cd936042/SMS/+91${f.value.contactno}/AUTOGEN`,{c_no:f.value.contactno}).subscribe((res:any)=>{
-      console.log(res);
-      if(res.Status==='Success') {
-        this.otp_screen=false;
-        this.otp_id=res.Details;
+    this.open_subscreen('confirm_details');
+
+  }
+  checkduplicaton(){
+    this.http.post(`${this.coms.apiurl}/checkduplicaton`,{student:this.studentdata}).subscribe((result: any) => {
+      if (result.status === true) {
+        this.close_subscreen();
+        this.send_otp();
+      } else {
+        this.error_msg=result.msg;
+        this.close_subscreen();
+        this.open_subscreen('error');
       }
-    },(e)=>{console.log(e)})
-    console.log(f.value);
+    },(e)=>{
+      this.close_subscreen();
+        this.open_subscreen('error');
+    });
+  }
+  send_otp(){
+    this.http.get(`https://2factor.in/API/V1/b8a8551b-6f8d-11e8-a895-0200cd936042/SMS/+91${this.studentdata.contactno}/AUTOGEN`).subscribe((res:any)=>{
+      if(res.Status==='Success') {
+        this.otp_screen=true;
+        this.otp_id=res.Details;
+        this.close_subscreen();
+      }
+    });
   }
   validate_otp(f:NgForm){
-    this.http.post(`https://2factor.in/API/V1/b8a8551b-6f8d-11e8-a895-0200cd936042/SMS/VERIFY/${this.otp_id}/${f.value.otp}`,{}).subscribe((res)=>{
+    this.http.get(`https://2factor.in/API/V1/b8a8551b-6f8d-11e8-a895-0200cd936042/SMS/VERIFY/${this.otp_id}/${f.value.otp}`).subscribe((res:any)=>{
       console.log(res);
-    })
+      if(res.Status=='Success'){
+        let student1={
+          id:this.studentdata.username,
+          Name:this.studentdata.s_name,
+          college:this.studentdata.collegename,
+          mobile:this.studentdata.contactno,
+          address:this.studentdata.address,
+          email:this.studentdata.email,
+          password:this.studentdata.password2,
+          payment:'Not_Done',
+          payment_date:new Date()
+        }
+        this.http.post(`${this.coms.apiurl}/insert_user_student`,{student:student1}).subscribe((res:any)=>{
+          if(res.status==true){
+            this.open_subscreen('signup');
+            setTimeout(() => {
+            this.router.navigateByUrl('/login');
+            }, 2000);
+          }
+        });
+        console.log(student1);
+      } else {
+        this.otpvalid=1;
+      }
+    },(e)=>{
+      this.otpvalid=1;
+    });
   }
+      // Sub Screens
+      subscreen_close = document.getElementById('dummy');
+      // to open sub screen
+      open_subscreen(id) {
+          this.subscreen_close = document.getElementById(id);
+          document.getElementById(id).classList.toggle('show');
+      }
+      // to close sub screen
+      close_subscreen() {
+          this.subscreen_close.classList.toggle('show');
+          this.subscreen_close = document.getElementById('dummy');
+      }
+      // to close if click on any where out side
+      @HostListener('click', ['$event']) clicked($event) {
+          if ($event.target == this.subscreen_close) {
+              this.close_subscreen();
+          }
+      }
+      // Sub Scren initilization end
 }

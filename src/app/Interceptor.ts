@@ -10,24 +10,42 @@ import { Router } from "@angular/router";
 export class TokenInterceptor implements HttpInterceptor {
     urls_except: any = [
         'http://localhost/api/login_college_users',
+        'http://localhost/api/login_student',
         'http://localhost/api/get_coleges_names',
         'http://localhost/api/get_selected_coleges_names',
         'http://localhost/api/verify_rollno',
         'http://localhost/api/send_otp',
+        'http://localhost/api/insert_user_student',
+        'http://localhost/api/checkduplicaton',
     ]
     constructor(private _loadingBar: SlimLoadingBarService, private router: Router) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log(req.url);
         if (this.urls_except.includes(req.url) || req.url.match(/2factor.in/g)) {
-            return next.handle(req);
+            let request = req.clone({
+                setHeaders: {  }
+            });
+            return next.handle(request)
         } else if (localStorage.getItem('u_d') === null) {
             this.router.navigateByUrl('/login');
         } else {
             this._loadingBar.start();
             document.getElementById('loading').style.display = "block";
-            let request = req.clone({
-                setHeaders: { token_val: JSON.parse(localStorage.getItem('u_d')).token_val, token_name: JSON.parse(localStorage.getItem('u_d')).username }
-            });
+            if(JSON.parse(localStorage.getItem('u_d')).user_type==='college'){
+                var request = req.clone({
+                    setHeaders: { token_val: JSON.parse(localStorage.getItem('u_d')).token_val,
+                    token_name: JSON.parse(localStorage.getItem('u_d')).username }
+                });
+            } else if(JSON.parse(localStorage.getItem('u_d')).user_type==='student') {
+                var request = req.clone({
+                    setHeaders: { token_val: JSON.parse(localStorage.getItem('u_d')).token_val,
+                    token_name: JSON.parse(localStorage.getItem('u_d')).username,
+                    token_c_name:JSON.parse(localStorage.getItem('u_d')).c_name }
+                });
+            } else {
+                var request = req.clone({
+                    setHeaders: {  }
+                });
+            }
             return next.handle(request)
                 .do(
                     (event: any) => {

@@ -1,4 +1,105 @@
 /* You can add global styles to this file, and also import other style files */
+
+  /* Sub Screen */
+  .sub_screen {
+    display: none;
+    position: fixed; /* Stay in place */
+    z-index: 999999999999; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.show {
+    display: block;
+}
+.sub_screen .sub_screen_content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+}
+.sub_screen .sub_screen_content.lrg_h{
+    width: 340px;
+    height: 515px;
+}
+.sub_screen .sub_screen_content.sml_h{
+    width: 320px;
+    height: 250px;
+}
+.sub_screen .sub_screen_content.medium_wd_he{
+    width: 400px;
+    height: 300px;
+}
+.sub_screen_content .ssc_titel{
+    font-size: 16px;
+    font-family: mont semibold;
+}
+.sub_screen_content .ssc_sub_titel{
+    font-size: 13px;
+    font-family: mont semibold;
+    padding-top:5px
+}
+.sub_screen_content .sub_screen_footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 40px;
+    text-align: right;
+    right: 10px;
+} 
+/* Modal one */
+.sub_screen_content .confirm {
+    margin: 31px 0px;
+    width: 100%;
+}
+.sub_screen_content .confirm table {
+    padding: 5px 10px;
+}
+.sub_screen_content .confirm table tr th,td{
+    padding: 5px 10px;
+}
+.info_msg {
+    font-size: 12px;
+    color: #3d1841;
+}
+.student_image{
+    width: 123px;
+    height: 163px;
+}
+.backlogs_count {
+    float: right;
+    color: red;
+    font-size: 16px;
+    right: 38px;
+    position: relative;
+}
+.bgclr_light{
+    background-color: #EEF0F2;
+    padding: 10px;
+    margin-bottom: 0px !important;
+    border: solid 1px #EEF0F2;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.outline_bdr{
+    border: solid 1px #EEF0F2;
+}
+.result_info{
+    display: flex;
+}
+.detail_res {
+    margin: 0px 0px 0px 15px;
+}
+/*  */
 @font-face {
     font-family: mont light;
     src: url(./assets/fonts/MONTSERRAT/Montserrat-Light.otf);
@@ -235,6 +336,7 @@ border-radius: 15px;
     margin: 25px auto;
 }
 .signup_div {
+    min-height:300px;
    padding: 0px 25px 25px 25px;
 }
 

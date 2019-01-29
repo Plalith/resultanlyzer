@@ -10,7 +10,7 @@ export class SdashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    
+    this.student=JSON.parse(localStorage.getItem('u_d'));
   }
-  Name='Suny';
+  student;
 }
