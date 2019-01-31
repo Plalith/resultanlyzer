@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit, DoCheck{
   
   change_login_type(id,removeid,logintype){
     this.logintype=logintype;
-    document.getElementById(removeid).className='col-sm-6 login-type';
-    document.getElementById(id).className='col-sm-6 login-type active';
+    document.getElementById(removeid).className='col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 login-type';
+    document.getElementById(id).className='col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 login-type active';
   }  
   login(f:NgForm){
     if(this.logintype=='Student') {
@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit, DoCheck{
     } else if(this.logintype=='College') {
       this.http.post(`${this.commomservice.apiurl}/login_college_users` ,{username:f.value.username , password:f.value.password}).subscribe((result:any)=>{
         if(result.status===true){
-          console.log(result);
           localStorage.setItem('u_d', JSON.stringify(result.data));
           this.router.navigateByUrl("/collegedashboard/cdashboard");
         } else {

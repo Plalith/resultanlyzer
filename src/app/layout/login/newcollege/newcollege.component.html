@@ -4,7 +4,7 @@
       <div class="small_subhead">
         <h3 class="fotntwt700">Sign Up</h3>
       </div>
-      <form (ngSubmit)="signup(f)" #f="ngForm">
+      <form (ngSubmit)="confirm_deatails(f)" #f="ngForm"  *ngIf='!otp_div'>
           <label>Select College</label>
           <select name="collegename" class="form-control" required ngModel (change)='include_college($event)'>
               <option></option>
@@ -12,7 +12,7 @@
           </select>
           <span *ngIf='college_include==1' style="color:red;display: inherit;"> &emsp;  Already Exist, Please Selcet Another College</span>
           <label for="username">Username</label>
-          <input id='check_uname' ngModel name="username" class="form-control" minlength=5 valid=false (keyup)='user_avalibility($event)' required>
+          <input id='check_uname' ngModel name="username" class="form-control" minlength=5 valid=false (change)='user_avalibility($event)' required>
           <span *ngIf='user_avil==1' style="color:red;display: inherit;">Username not Avalible</span>
           <label for="password">Password</label>
           <input id='p1' type="password" ngModel name="password1" class="form-control"  required>
@@ -32,13 +32,45 @@
           <label for="name">Exam-cell Incharge Name</label>
           <input type="text" ngModel name="ecname" class="form-control"  required>
           <br>
-          <input type="checkbox" ngModel name='acceptnce' required> &nbsp;<label> <a href="terms.php" target="_blank">Accept terms and conditions</a></label>
-          <br>
-          <!-- <button *ngIf="user_avil==1 || college_include==1 || passwordsmatch==1" type="submit" disabled class="btn btn-success">Submit</button>
-          <button *ngIf="user_avil==0 && college_include==0" type="submit" [disabled]='!f.valid' class="btn btn-success">Submit</button> -->
-          <button  type="submit"> submit</button>
+          <!-- <input type="checkbox" ngModel name='acceptnce' required> &nbsp;<label> <a href="terms.php" target="_blank">Accept terms and conditions</a></label> -->
+          <!-- <br> -->
+          <button *ngIf="user_avil==1 || college_include==1 || passwordsmatch==1" type="submit" disabled class="btn btn-success">Submit</button>
+          <button *ngIf="user_avil==0 && college_include==0 && passwordsmatch==0" type="submit" [disabled]='!f.valid' class="btn btn-success">Submit</button>
+          <!-- <button  type="submit"> submit</button> -->
         <div class="marbt25"></div>
+      </form>
+      <form (ngSubmit)="verifyotp(f1)" #f1="ngForm" *ngIf='otp_div'>
+        <label for="">Enter OTP</label>
+        <input type="text" name="otp" ngModel class="form-control" placeholder='OTP Sent to your mobile which entered by you in previous step' required><br>
+        <span *ngIf='otpvalid==1' style="color:red;display: inherit;">OTP Not Matched , Please Enter Valid OTP</span>
+        <button type="submit" [disabled]='!f1.valid' class="btn btn-success">Verify</button>
       </form>
     </div>
   </div>
 </div>
+<div class="sub_screen" id="confirm_details">
+    <div class="sub_screen_content sml_h">
+      <div class="head">
+        <div class="ssc_titel">Confirm Data</div>
+      </div>
+      <div class="body">
+        <div class="confirm">
+          <table>
+            <tr>
+              <td>Regular ID</td>
+              <th>{{college_Data?.regid}}</th>
+            </tr>
+            <tr>
+              <td>Lateral Entry Id</td>
+              <th>{{college_Data?.leid}}</th>
+            </tr>
+          </table>
+          <span class="info_msg"> ** After signup <b>Reg-ID , LE-Id </b> cannot be modify.</span>
+        </div>
+      </div>
+      <div class="sub_screen_footer">
+        <button class="btn btn-danger" (click)='close_subscreen()'>Edit</button>&nbsp;
+        <button class="btn btn-success" (click)='sendotp()'>Confirm</button>
+      </div>
+    </div>
+  </div>

@@ -36,10 +36,9 @@
           <option></option>
           <option [value]=[option.username] *ngFor='let option of colleges'>{{option.college.name}}</option>
         </select>
-
-        <br>
+        <!-- <br>
         <input type="checkbox" ngModel name='acceptnce' required> &nbsp;<label> <a href="terms.php" target="_blank">Accept
-            terms and conditions</a></label>
+            terms and conditions</a></label> -->
         <br>
         <button *ngIf="passwordsmatch==1" type="submit" disabled class="btn btn-success">Submitt</button>
         <button *ngIf="passwordsmatch==0" type="submit" [disabled]='!f.valid' class="btn btn-success">Submit</button>

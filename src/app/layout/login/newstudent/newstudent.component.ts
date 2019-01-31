@@ -98,23 +98,23 @@ export class NewstudentComponent implements OnInit {
       this.otpvalid=1;
     });
   }
-      // Sub Screens
-      subscreen_close = document.getElementById('dummy');
-      // to open sub screen
-      open_subscreen(id) {
-          this.subscreen_close = document.getElementById(id);
-          document.getElementById(id).classList.toggle('show');
-      }
-      // to close sub screen
-      close_subscreen() {
-          this.subscreen_close.classList.toggle('show');
-          this.subscreen_close = document.getElementById('dummy');
-      }
-      // to close if click on any where out side
-      @HostListener('click', ['$event']) clicked($event) {
-          if ($event.target == this.subscreen_close) {
-              this.close_subscreen();
-          }
-      }
+  // Sub Screens
+  subscreen_close = document.getElementById('dummy');
+  // to open sub screen
+  open_subscreen(id) {
+    this.subscreen_close = document.getElementById(id);
+    document.getElementById(id).classList.toggle('show');
+  }
+  // to close sub screen
+  close_subscreen() {
+    this.subscreen_close.classList.toggle('show');
+    this.subscreen_close = document.getElementById('dummy');
+  }
+  // to close if click on any where out side
+  @HostListener('click', ['$event']) clicked($event) {
+    if ($event.target == this.subscreen_close) {
+      this.close_subscreen();
+    }
+  }
       // Sub Scren initilization end
 }

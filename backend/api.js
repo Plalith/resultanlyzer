@@ -68,6 +68,17 @@ router.post('/insert_user_student', (req, res) => {
         res.send({ status: false, data: e, msg: 'not able to add student' });
     });
 });
+// change password for student user
+router.post('/stu_cng_psd', (req, res) => {
+    users_students.updateOne(
+        { college: req.header('token_c_name'), id: req.header('token_name') },
+        { $set: { password: req.body.new_password } })
+        .then((result) => {
+            res.send({ status: true, msg: 'Password Updated' });
+        }).catch(() => {
+            res.send({ status: false, msg: 'Unable to update password' });
+        })
+});
 // User student checking for duplication
 router.post('/checkduplicaton', (req, res) => {
     users_students.find({ id: req.body.student.username }).then((result1) => {
@@ -99,7 +110,6 @@ router.get('/get_my_result', (req, res) => {
             resolve(data);
         })
     }
-    console.log(parseInt(req.header('token_c_name').substring(0,2)))
     result_data.aggregate([
         { "$match": { "college": `${req.header('token_c_name')}` } },
         {
@@ -127,12 +137,13 @@ router.get('/get_my_result', (req, res) => {
         });
     }).then(async (result) => {
         return new Promise(async (resolve, reject) => {
+            var pointsobj = { O: 10, S: 9, A: 8, B: 7, C: 6, D: 5, F: 4, ABSENT: 0 }
             let all_sem = ['11', '12', '21', '22', '31', '32', '41', '42'];
-            let all_data = { all_backlogs: 0, data: [], stu_id: req.body.stu_id };
+            let all_data = { all_backlogs: 0, data: [], stu_id: `${req.header('token_name')}` };
             for (let sem = 0; sem < all_sem.length; sem++) {
                 let fined = result.filter((data) => data.semcode == all_sem[sem]);
                 let joindata = [];
-                let sem_data = { sem: all_sem[sem], data: [], backlogs: 0 };
+                let sem_data = { sem: all_sem[sem], data: [], backlogs: 0, total_credits: 0, o_c_w_f: 0 };
                 for (let m = 0; m < await fined.length; m++) {
                     for (let k = 0; k < await fined[m].data.length; k++) {
                         joindata.push(fined[m].data[k]);
@@ -142,15 +153,34 @@ router.get('/get_my_result', (req, res) => {
                     for (let e_s = 0; e_s < subjects.length; e_s++) {
                         let each_sub = {};
                         let sub = joindata.filter((data) => data.subcode == subjects[e_s].value);
-                        if (sub.filter((data) => data.credits > 0).length > 0) {
-                            each_sub = sub.filter((data) => data.credits > 0)[0]
-                        } else {
-                            sem_data.backlogs++;
-                            all_data.all_backlogs++;
-                            each_sub = sub[0];
+                        if (Object.keys(sub[0]).length == 5) {
+                            // if grade
+                            if (sub.filter((data) => data.credits > 0).length > 0) {
+                                each_sub = sub.filter((data) => data.credits > 0)[0];
+                                sem_data.total_credits = sem_data.total_credits + parseInt(each_sub.credits);
+                                sem_data.o_c_w_f = sem_data.o_c_w_f + ((pointsobj[each_sub.grade] * (parseInt(each_sub.credits))));
+                            } else {
+                                sem_data.backlogs++;
+                                all_data.all_backlogs++;
+                                each_sub = sub[0];
+                            }
+                            each_sub.count = sub.length;
+                            sem_data.data.push(each_sub);
+                        } else if (Object.keys(sub[0]).length == 6) {
+                            // if marks
+                            sem_data.total_credits = false;
+                            if (sub.filter((data) => data.credits > 0).length > 0) {
+                                each_sub = sub.filter((data) => data.credits > 0)[0];
+                                sem_data.o_c_w_f = sem_data.o_c_w_f + (parseInt(sub[0].externals) + parseInt(sub[0].internals));
+                            } else {
+                                sem_data.o_c_w_f = sem_data.o_c_w_f + (parseInt(sub[0].externals) + parseInt(sub[0].internals));
+                                sem_data.backlogs++;
+                                all_data.all_backlogs++;
+                                each_sub = sub[0];
+                            }
+                            each_sub.count = sub.length;
+                            sem_data.data.push(each_sub);
                         }
-                        each_sub.count = sub.length;
-                        sem_data.data.push(each_sub)
                     }
                     all_data.data.push(await sem_data);
                 })
@@ -158,7 +188,7 @@ router.get('/get_my_result', (req, res) => {
             resolve(await all_data)
         })
     }).then((result) => {
-        res.send({ status: true, data: result, msg: `Sucssfully Listsed result of ${req.body.stu_id}` });
+        res.send({ status: true, data: result, msg: `Sucssfully Listsed result of ${req.header('token_name')}` });
     }).catch((err) => {
         res.send({ status: false, msg: 'Server Issue Please try again' })
     })
@@ -191,6 +221,17 @@ router.post('/add_student_man', (req, res) => {
     //     res.send(re);
     // })
 })
+// change password for COlege user
+router.post('/clg_cng_psd', (req, res) => {
+    user_colleges.updateOne(
+        { username: req.header('token_name') },
+        { $set: { password: req.body.new_password } })
+        .then((result) => {
+            res.send({ status: true, msg: 'Password Updated' });
+        }).catch(() => {
+            res.send({ status: false, msg: 'Unable to update password' });
+        })
+});
 // Login College User
 router.post('/login_college_users', (req, res) => {
     user_colleges.findOne({ 'username': req.body.username }).then((result) => {
@@ -205,6 +246,7 @@ router.post('/login_college_users', (req, res) => {
                         username: result.username,
                         payment_status: result.payment.status,
                         c_name: result.college.name,
+                        e_c_incharge:result.college.examcell_incharge,
                         reg_id: result.college.reg_id,
                         le_id: result.college.le_id,
                         mobile: result.mobile,
@@ -232,7 +274,7 @@ router.post('/login_college_users', (req, res) => {
             status: false,
             msg: 'Please Try Again'
         })
-    })
+    });
 });
 
 // Get College names for signup
@@ -267,12 +309,46 @@ router.post('/insert_user_college', (req, res) => {
     user = new user_colleges(req.body);
     // Saving data in mongo database with mongoose model
     user.save().then((result) => {
-        res.send({
-            Status: true,
-            msg: 'Successfully Signup',
-            data: {
-
+        user_colleges.findOne({ 'username': req.body.username }).then((result) => {
+            if (result != null) {
+                if (req.body.password === result.password) {
+                    let user_raw_tok = `hello`;
+                    let token_val = jwt.sign(setlement, user_raw_tok);
+                    tokens[result.username] = user_raw_tok;
+                    res.send({
+                        status: true,
+                        data: {
+                            username: result.username,
+                            payment_status: result.payment.status,
+                            c_name: result.college.name,
+                            e_c_incharge:result.college.examcell_incharge,
+                            reg_id: result.college.reg_id,
+                            le_id: result.college.le_id,
+                            mobile: result.mobile,
+                            email: result.email,
+                            opt_ver: result.opt_ver,
+                            user_type: 'college',
+                            logindate: new Date(),
+                            token_val: token_val
+                        }
+                    });
+                } else {
+                    res.send({
+                        status: false,
+                        msg: 'Wrong Password'
+                    })
+                }
+            } else {
+                res.send({
+                    status: false,
+                    msg: 'User Not Found'
+                })
             }
+        }, (e) => {
+            res.send({
+                status: false,
+                msg: 'Please Try Again'
+            })
         });
     }).catch((e) => {
         res.send({
@@ -394,12 +470,13 @@ router.post('/get_student_result', (req, res) => {
         });
     }).then(async (result) => {
         return new Promise(async (resolve, reject) => {
+            var pointsobj = { O: 10, S: 9, A: 8, B: 7, C: 6, D: 5, F: 4, ABSENT: 0, absent: 0 }
             let all_sem = ['11', '12', '21', '22', '31', '32', '41', '42'];
             let all_data = { all_backlogs: 0, data: [], stu_id: req.body.stu_id };
             for (let sem = 0; sem < all_sem.length; sem++) {
                 let fined = result.filter((data) => data.semcode == all_sem[sem]);
                 let joindata = [];
-                let sem_data = { sem: all_sem[sem], data: [], backlogs: 0 };
+                let sem_data = { sem: all_sem[sem], data: [], backlogs: 0, total_credits: 0, o_c_w_f: 0 };
                 for (let m = 0; m < await fined.length; m++) {
                     for (let k = 0; k < await fined[m].data.length; k++) {
                         joindata.push(fined[m].data[k]);
@@ -409,9 +486,12 @@ router.post('/get_student_result', (req, res) => {
                     for (let e_s = 0; e_s < subjects.length; e_s++) {
                         let each_sub = {};
                         let sub = joindata.filter((data) => data.subcode == subjects[e_s].value);
-                        if(Object.keys(sub[0]).length==5){
+                        if (Object.keys(sub[0]).length == 5) {
+                            // if grade
                             if (sub.filter((data) => data.credits > 0).length > 0) {
-                                each_sub = sub.filter((data) => data.credits > 0)[0]
+                                each_sub = sub.filter((data) => data.credits > 0)[0];
+                                sem_data.total_credits = sem_data.total_credits + parseInt(each_sub.credits);
+                                sem_data.o_c_w_f = sem_data.o_c_w_f + (pointsobj[each_sub.grade] * (parseInt(each_sub.credits)));
                             } else {
                                 sem_data.backlogs++;
                                 all_data.all_backlogs++;
@@ -419,10 +499,14 @@ router.post('/get_student_result', (req, res) => {
                             }
                             each_sub.count = sub.length;
                             sem_data.data.push(each_sub);
-                        } else if(Object.keys(sub[0]).length==6){
+                        } else if (Object.keys(sub[0]).length == 6) {
+                            // if marks
+                            sem_data.total_credits = false;
                             if (sub.filter((data) => data.credits > 0).length > 0) {
-                                each_sub = sub.filter((data) => data.credits > 0)[0]
+                                each_sub = sub.filter((data) => data.credits > 0)[0];
+                                sem_data.o_c_w_f = sem_data.o_c_w_f + (parseInt(sub[0].externals) + parseInt(sub[0].internals));
                             } else {
+                                sem_data.o_c_w_f = sem_data.o_c_w_f + (parseInt(sub[0].externals) + parseInt(sub[0].internals));
                                 sem_data.backlogs++;
                                 all_data.all_backlogs++;
                                 each_sub = sub[0];

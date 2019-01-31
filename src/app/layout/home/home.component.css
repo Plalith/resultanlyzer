@@ -1,0 +1,32 @@
+.home {
+    background-color: white;
+}
+.banner_div{
+    height: 700px;
+    padding: 10px;
+    background-image: url(/assets/images/banners/1.jpg);
+    background-size: cover;
+}
+.banner_div .container{
+    padding-top:50px;
+}
+.display-1 {
+    font-size: 6rem;
+    font-weight: 300;
+    line-height: 1.2;
+}
+.display-4 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+}
+.box_text{
+    font-weight: 900;
+}
+.container-fluid.section {
+background-color: #3d1841;
+color:white;
+}
+.border_price.col-sm-4{
+    border: solid 1px white;
+}

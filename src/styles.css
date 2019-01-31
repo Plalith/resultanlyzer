@@ -79,7 +79,15 @@
     float: right;
     color: red;
     font-size: 16px;
-    right: 38px;
+    /* right: 38px; */
+    position: relative;
+}
+.percent_st_Res {
+    float: right;
+    color: green;
+    font-size: 16px;
+    /* right: 38px;
+    left: 28px; */
     position: relative;
 }
 .bgclr_light{
@@ -264,6 +272,7 @@ border-radius: 15px;
 .main-container {
     margin:10px;
 }
+
 .min25 {
     width:25%;
 }
@@ -272,6 +281,14 @@ border-radius: 15px;
 }
 .min50 {
     width:50%;
+}
+@media screen and (max-width: 1000px) {
+    .min25 {
+        width:90%;
+    }   
+    .min50 {
+        width:90%;
+    }
 }
 .small_subhead {
     padding:10px 0px 0px 0px;
@@ -285,14 +302,16 @@ border-radius: 15px;
     background-color:#EEF0F2;
     max-height: 130px;
 }
-.header .header_content {
+/* .header .header_content {
     padding:15px;
-}
+} */
 .header .header_content .logo img {
     width: 200px;
+    padding-top: 10px;
+    cursor: pointer;
 }
 .header_right .buttons_div {
-    padding: 25px 75px;
+    padding: 10px 75px;
 }
 .header_right .buttons_div .button_group {
     display: inline;
@@ -362,6 +381,9 @@ border-radius: 15px;
     margin-top:13px;
     margin-bottom:16px;
 }
+.student_menuoptions{
+    overflow: auto;
+}
 .student_menuoptions ul {
     display: -webkit-inline-box;
     list-style-type:none;
@@ -415,11 +437,11 @@ border-radius: 15px;
     padding: 10px 0px 10px 0px;
     /* border: 1px solid #b1c2aa; */
 }
-.resulttablecontent {
-    margin: 15px 0px 15px 0px;
-}
+
 .resulttablecontent {
     font-size: 15px;
+    margin: 15px 0px 15px 0px;
+    overflow: auto;
 }
 .resulttablecontent table {
     width: 100%;
@@ -435,6 +457,9 @@ border-radius: 15px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+.viewresult{
+    overflow: auto;
 }
 .discription img {
     width: 500px;
@@ -457,8 +482,16 @@ border-radius: 15px;
     color: green;
 
 }
+.editprofile{
+    overflow: auto;
+}
 .editprofile table tr th{
     padding: 10px 40px;
+}
+@media screen and (max-width: 1000px) {
+    .editprofile table tr th{
+        padding: 10px 10px;
+    }
 }
 .slowfoc {
     /* display: none; */

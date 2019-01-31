@@ -29,30 +29,33 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))
 // Angular DIST output folder
 app.use(express.static(path.join(__dirname, 'dist/result')));
 var url_exclude = [
-    '/api/login_college_users',
-    '/api/login_student',
-    '/api/get_coleges_names',
-    '/api/get_selected_coleges_names',
-    '/api/verify_rollno',
-    '/api/send_otp',
-    '/api/insert_user_student',
-    '/api/checkduplicaton'
+    '/api_connect/login_college_users',
+    '/api_connect/login_student',
+    '/api_connect/get_coleges_names',
+    '/api_connect/get_selected_coleges_names',
+    '/api_connect/verify_rollno',
+    '/api_connect/send_otp',
+    '/api_connect/insert_user_student',
+    '/api_connect/checkduplicaton',
+    '/api_connect/get_c_name',
+    '/api_connect/get_c_user',
+    '/api_connect/insert_user_college',
 ];
-// app.use(function (req, res, next) {
-//     if (url_exclude.includes(req.url)) {
-//         next();
-//     } else {
-//         jwt.verify(req.header('token_val'), api.tokens[req.header('token_name')], (err, success) => {
-//             if (err) {
-//                 res.sendStatus(202);
-//             } else {
-//                 next();
-//             }
-//         });
-//     }
-// });
+app.use(function (req, res, next) {
+    if (url_exclude.includes(req.url) || !req.url.match(/api_connect/g)) {
+        next();
+    } else {
+        jwt.verify(req.header('token_val'), api.tokens[req.header('token_name')], (err, success) => {
+            if (err) {
+                res.sendStatus(202);
+            } else {
+                next();
+            }
+        });
+    }
+});
 // API location
-app.use('/api', api.router);
+app.use('/api_connect', api.router);
 
 // Send all other requests to the Angular app
 app.get('*', (req, res) => {

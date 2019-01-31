@@ -23,34 +23,38 @@ import { InvoiceComponent } from './layout/collegedashboard/invoice/invoice.comp
 import { NewcollegeComponent } from './layout/login/newcollege/newcollege.component';
 import { NewstudentComponent } from './layout/login/newstudent/newstudent.component';
 import { StudentsComponent } from './layout/collegedashboard/students/students.component';
+import { RoutcheckGuard } from './routcheck.guard';
+import { EditclgprofileComponent } from './layout/collegedashboard/editclgprofile/editclgprofile.component';
 
 const routes: Routes = [
+    { path: '', component: HomeComponent},
     { path: 'index', component: HomeComponent},
     { path: 'login', component: LoginComponent},
     { path:'signupcollege', component:NewcollegeComponent},
     { path:'signupStudent', component:NewstudentComponent},
-    { path: 'studentdashboard', component: StudentdashboardComponent , children: 
+    { path: 'studentdashboard', component: StudentdashboardComponent, canActivate: [RoutcheckGuard], children: 
         [
-            {path: 'sdashboard', component:SdashboardComponent},
-            {path: 'checkresult', component:CheckresultComponent},
-            {path: 'backlogs', component:BacklogsComponent},
-            {path: 'feedback', component:FeedbackComponent},
-            {path: 'shoppingzone', component:ShoppingzoneComponent},
-            {path: 'editprofile', component:EditprofileComponent},
+            {path: 'sdashboard', component:SdashboardComponent, canActivate: [RoutcheckGuard]},
+            {path: 'checkresult', component:CheckresultComponent, canActivate: [RoutcheckGuard]},
+            {path: 'backlogs', component:BacklogsComponent, canActivate: [RoutcheckGuard]},
+            {path: 'feedback', component:FeedbackComponent, canActivate: [RoutcheckGuard]},
+            {path: 'shoppingzone', component:ShoppingzoneComponent, canActivate: [RoutcheckGuard]},
+            {path: 'editprofile', component:EditprofileComponent, canActivate: [RoutcheckGuard]},
         ]
     },
-    { path: 'collegedashboard', component: CollegedashboardComponent , children:
+    { path: 'collegedashboard', component: CollegedashboardComponent ,canActivate: [RoutcheckGuard], children:
         [
-            {path: 'cdashboard', component:CdashboardComponent},
-            {path: 'studentresult', component:StudentresultComponent},
-            {path: 'resultanalyze', component:ResultanalyzeComponent},
-            {path: 'uploadresult', component:UploadresultComponent},
-            {path: 'resultlist', component:ResultlistComponent, children:[ {path: 'viewresult', component:ViewresultlComponent}]},
-            {path: 'addstudents', component:AddstudentsComponent},
-            {path:'students', component:StudentsComponent},
-            {path: 'feedback', component:AdminfeedbackComponent},
-            {path: 'fdreports', component:FeedbackreportsComponent},
-            {path: 'invoice', component:InvoiceComponent},
+            {path: 'cdashboard', component:CdashboardComponent, canActivate: [RoutcheckGuard]},
+            {path: 'studentresult', component:StudentresultComponent, canActivate: [RoutcheckGuard]},
+            {path: 'resultanalyze', component:ResultanalyzeComponent, canActivate: [RoutcheckGuard]},
+            {path: 'uploadresult', component:UploadresultComponent, canActivate: [RoutcheckGuard]},
+            {path: 'resultlist', component:ResultlistComponent, canActivate: [RoutcheckGuard]},
+            {path: 'addstudents', component:AddstudentsComponent, canActivate: [RoutcheckGuard]},
+            {path:'students', component:StudentsComponent, canActivate: [RoutcheckGuard]},
+            {path: 'feedback', component:AdminfeedbackComponent, canActivate: [RoutcheckGuard]},
+            {path: 'fdreports', component:FeedbackreportsComponent, canActivate: [RoutcheckGuard]},
+            {path: 'invoice', component:InvoiceComponent, canActivate: [RoutcheckGuard]},
+            {path: 'editprofile', component:EditclgprofileComponent, canActivate: [RoutcheckGuard]},
         ]
     }
     // { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
@@ -62,6 +66,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
+    providers: [RoutcheckGuard]
 })
 export class AppRoutingModule {}

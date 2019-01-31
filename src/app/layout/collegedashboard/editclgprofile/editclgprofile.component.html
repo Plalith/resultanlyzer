@@ -14,13 +14,14 @@
         <div class="col-sm-12">
           <table>
             <tr>
-              <th>Name</th>
-              <th>{{student.s_name}}</th>
+              <th>Collge Id</th>
+              <th>{{college.username}}</th>
             </tr>
             <tr>
-              <th>Student Id</th>
-              <th>{{student.username}}</th>
+              <th>Exam Cell Incharge </th>
+              <th>{{college.e_c_incharge}}</th>
             </tr>
+
             <tr>
               <th>Password</th>
               <th>**********</th>
@@ -28,7 +29,7 @@
             </tr>
             <tr>
               <th>Mobile Number</th>
-              <th> {{student.mobile}} </th>
+              <th> {{college.mobile}} </th>
               <!-- <th><a (click)="changedivfn('mobile')" class="btn btntwo">Edit</a></th> -->
             </tr>
           </table>
@@ -51,6 +52,7 @@
         <p id="mismatch" style="color:red"></p>
         <button class="btn btnone" type="submit" [disabled]='!f1.valid'>Change</button>&nbsp;&emsp;
         <button class="btn btntwo" (click)='close_subscreen()'>Cancel</button>
+
       </form>
     </div>
     <div class="sub_screen_footer">

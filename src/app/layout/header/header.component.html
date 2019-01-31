@@ -3,17 +3,14 @@
     <div class="row">
       <div class="col-sm-3">
         <div class="logo text-center">
-          <img src="assets/images/logo.jpg" alt="">
+          <img [routerLink]="['/']" src="assets/images/logo_resultrepo.JPG" alt="">
         </div>
       </div>
       <div class="col-sm-9 hidden-print">
         <div class="header_right">
           <div class="buttons_div text-right">
             <div class="button_group">
-              <a [routerLink]="['/login']" class="btn header_buttons" (click)="student_login();">Student Login </a>
-            </div>
-            <div class="button_group">
-              <a routerLink="/login" class="btn header_buttons" (click)="college_login();">College Area </a>
+              <a [routerLink]="['/login']" class="btn header_buttons" (click)="student_login();">Sign-in/up</a>
             </div>
           </div>
         </div>

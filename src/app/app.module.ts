@@ -34,6 +34,7 @@ import { InvoiceComponent } from './layout/collegedashboard/invoice/invoice.comp
 import { NewcollegeComponent } from './layout/login/newcollege/newcollege.component';
 import { NewstudentComponent } from './layout/login/newstudent/newstudent.component';
 import { StudentsComponent } from './layout/collegedashboard/students/students.component';
+import { EditclgprofileComponent } from './layout/collegedashboard/editclgprofile/editclgprofile.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { StudentsComponent } from './layout/collegedashboard/students/students.c
     InvoiceComponent,
     NewcollegeComponent,
     NewstudentComponent,
-    StudentsComponent
+    StudentsComponent,
+    EditclgprofileComponent
   ],
   imports: [
     BrowserModule,

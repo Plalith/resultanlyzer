@@ -4,3 +4,7 @@ a:visited {
 a:hover {
     color: #3d1841;
 }
+.logo img:focus{
+    outline: none;
+    border: none;
+}
