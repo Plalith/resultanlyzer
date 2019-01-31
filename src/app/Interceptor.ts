@@ -8,32 +8,32 @@ import { Router } from "@angular/router";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-    urls_except: any = [
-        'http://localhost/api_connect/login_college_users',
-        'http://localhost/api_connect/login_student',
-        'http://localhost/api_connect/get_coleges_names',
-        'http://localhost/api_connect/get_selected_coleges_names',
-        'http://localhost/api_connect/verify_rollno',
-        'http://localhost/api_connect/send_otp',
-        'http://localhost/api_connect/insert_user_student',
-        'http://localhost/api_connect/checkduplicaton',
-        'http://localhost/api_connect/get_c_name',
-        'http://localhost/api_connect/get_c_user',
-        'http://localhost/api_connect/insert_user_college',
-    ]
     // urls_except: any = [
-    //     'https://resultrepo.com/api_connect/login_college_users',
-    //     'https://resultrepo.com/api_connect/login_student',
-    //     'https://resultrepo.com/api_connect/get_coleges_names',
-    //     'https://resultrepo.com/api_connect/get_selected_coleges_names',
-    //     'https://resultrepo.com/api_connect/verify_rollno',
-    //     'https://resultrepo.com/api_connect/send_otp',
-    //     'https://resultrepo.com/api_connect/insert_user_student',
-    //     'https://resultrepo.com/api_connect/checkduplicaton',
-    //     'https://resultrepo.com/api_connect/get_c_name',
-    //     'https://resultrepo.com/api_connect/get_c_user',
-    //     'https://resultrepo.com/api_connect/insert_user_college',
+    //     'http://localhost/api_connect/login_college_users',
+    //     'http://localhost/api_connect/login_student',
+    //     'http://localhost/api_connect/get_coleges_names',
+    //     'http://localhost/api_connect/get_selected_coleges_names',
+    //     'http://localhost/api_connect/verify_rollno',
+    //     'http://localhost/api_connect/send_otp',
+    //     'http://localhost/api_connect/insert_user_student',
+    //     'http://localhost/api_connect/checkduplicaton',
+    //     'http://localhost/api_connect/get_c_name',
+    //     'http://localhost/api_connect/get_c_user',
+    //     'http://localhost/api_connect/insert_user_college',
     // ]
+    urls_except: any = [
+        'https://resultrepo.com/api_connect/login_college_users',
+        'https://resultrepo.com/api_connect/login_student',
+        'https://resultrepo.com/api_connect/get_coleges_names',
+        'https://resultrepo.com/api_connect/get_selected_coleges_names',
+        'https://resultrepo.com/api_connect/verify_rollno',
+        'https://resultrepo.com/api_connect/send_otp',
+        'https://resultrepo.com/api_connect/insert_user_student',
+        'https://resultrepo.com/api_connect/checkduplicaton',
+        'https://resultrepo.com/api_connect/get_c_name',
+        'https://resultrepo.com/api_connect/get_c_user',
+        'https://resultrepo.com/api_connect/insert_user_college',
+    ];
     constructor(private _loadingBar: SlimLoadingBarService, private router: Router) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (this.urls_except.includes(req.url) || req.url.match(/2factor.in/g)) {
